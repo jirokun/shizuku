@@ -1,0 +1,64 @@
+html, body {
+  width: 100%;
+  height: 100%;
+}
+#root {
+  width: 100%;
+  height: 100%;
+}
+.jpipes {
+  zoom: 0.5;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .svg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .html-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    .jpipes-input {
+      position: relative;
+      width: 500px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      .header {
+        background-color: #ccf;
+        padding: 5px;
+      }
+      .body {
+        padding: 5px;
+      }
+      .port-input {
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        background-color: green;
+        position: absolute;
+        top: -10px;
+        left: 50%;
+      }
+      .port-output {
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        background-color: blue;
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+      }
+    }
+  }
+}
