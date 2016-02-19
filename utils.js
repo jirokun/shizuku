@@ -1,5 +1,7 @@
 import InputListFileItem from './runtime/components/InputListFileItem'
 import TranslateDcfSyscd from './runtime/components/TranslateDcfSyscd'
+import FilterDcfItem from './runtime/components/FilterDcfItem'
+import MergeItem from './runtime/components/MergeItem'
 
 export function flatten(ary) {
   return ary.reduce((p, c) => {
@@ -15,6 +17,8 @@ export function findItemConstructor(name) {
   let items = {
     InputListFileItem,
     TranslateDcfSyscd,
+    FilterDcfItem,
+    MergeItem,
   };
   if (items[name]) {
     return items[name];

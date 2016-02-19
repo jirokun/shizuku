@@ -9,10 +9,13 @@ export default class Connection extends Component {
     const connection = findConnection(state, connectionId);
     const sd = findData(state, connection.sourceId);
     const dd = findData(state, connection.destinationId);
-    const path = `M${sd.x + sd.width / 2},${sd.y + sd.height} L${dd.x + dd.width / 2},${dd.y}`;
+    const startPos = { x: sd.x + sd.width / 2, y: sd.y + sd.height };
+    const endPos = { x: dd.x + dd.width / 2, y: dd.y };
+    const margin = 50;// Math.abs(endPos.y - startPos.y) / 1.1;
+    const path = `M${startPos.x},${startPos.y} C${startPos.x},${startPos.y + margin} ${endPos.x},${endPos.y - margin} ${endPos.x},${endPos.y}`;
 
     return (
-      <path d={path} fill="none" stroke="blue"/>
+      <path d={path} fill="none" stroke="#ccc" strokeWidth="5" markerEnd="url(#markerArrow)"/>
     );
   }
 }

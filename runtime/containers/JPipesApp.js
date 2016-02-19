@@ -25,10 +25,22 @@ class JPipesApp extends Component {
   }
   render() {
     const { state, actions } = this.props;
+    const height = state.data.reduce((val, data) => {
+      return Math.max(data.y + data.height, val);
+    }, 0);
+    const width = state.data.reduce((val, data) => {
+      return Math.max(data.x + data.width, val);
+    }, 0);
+    const layerStyle = { width: width + 'px', height: height + 'px' };
     return (
       <div className="jpipes">
         <div className="svg-layer">
-          <svg>
+          <svg style={layerStyle}>
+            <defs>
+              <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="#000000" />
+              </marker>
+            </defs>
             {this.renderConnections()}
           </svg>
         </div>

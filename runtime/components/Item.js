@@ -3,10 +3,13 @@ import Draggable from 'react-draggable'
 import { findData } from '../../utils'
 
 export default class Item extends Component {
+  componentDidMount() {
+    this.forceUpdate();
+  }
   onDrag(e) {
     const { dataId, actions } = this.props;
     const r = this.refs.root.getBoundingClientRect();
-    actions.moveItem(dataId, r.left, r.top, r.width, r.height);
+    actions.moveItem(dataId, window.scrollX + r.left, window.scrollY + r.top, r.width, r.height);
   }
   render() {
     const { dataId, title, children, state } = this.props;
@@ -21,7 +24,7 @@ export default class Item extends Component {
     };
     return (
       <Draggable handle=".header" onDrag={this.onDrag.bind(this)} start={pos}>
-        <div ref="root" className="jpipes-input" style={rootStyle}>
+        <div ref="root" className="jpipes-dialog jpipes-input" style={rootStyle}>
           <div className="header">{title}</div>
           <div className="body">
             {children}
