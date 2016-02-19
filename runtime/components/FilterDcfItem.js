@@ -30,14 +30,12 @@ export default class FilterDcfItem extends Component {
                 </td>
                 <td>
                   <div>
-                    対象の第n診療科
-                    <select size="5" multiple>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                    </select>
+                    対象<br/>
+                    <label><input type="checkbox"/> 第1診療科</label><br/>
+                    <label><input type="checkbox"/> 第2診療科</label><br/>
+                    <label><input type="checkbox"/> 第3診療科</label><br/>
+                    <label><input type="checkbox"/> 第4診療科</label><br/>
+                    <label><input type="checkbox"/> 第5診療科</label><br/>
                   </div>
                   <div>
                     診療科コード

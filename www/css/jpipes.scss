@@ -23,12 +23,13 @@ html, body {
       position: absolute;
       .body {
         padding: 5px;
+        z-index: 1;
       }
       .port-input {
         width: 16px;
         height: 16px;
         border-radius: 10px;
-        background-color: green;
+        background-color: #ccf;
         position: absolute;
         top: -10px;
         left: 50%;
@@ -37,7 +38,8 @@ html, body {
         width: 16px;
         height: 16px;
         border-radius: 10px;
-        background-color: blue;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
         position: absolute;
         bottom: -10px;
         left: 50%;
