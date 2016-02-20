@@ -25,15 +25,26 @@ html, body {
         padding: 5px;
         z-index: 1;
       }
+      .top-port-container {
+        position: absolute;
+        top: -10px;
+        width: 100%;
+        text-align: center;
+      }
+      .bottom-port-container {
+        position: absolute;
+        bottom: -10px;
+        width: 100%;
+        text-align: center;
+      }
       .port-input {
         width: 16px;
         height: 16px;
         border-radius: 10px;
         background-color: #ccf;
         border: 1px solid #888;
-        position: absolute;
-        top: -10px;
-        left: 50%;
+        margin: 0 20px;
+        display: inline-block;
       }
       .port-output {
         width: 16px;
@@ -41,9 +52,8 @@ html, body {
         border-radius: 10px;
         background-color: #f5f5f5;
         border: 1px solid #888;
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
+        margin: 0 20px;
+        display: inline-block;
       }
     }
     .jpipes-input {
