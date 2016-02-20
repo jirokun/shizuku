@@ -15,7 +15,7 @@ export default class Connection extends Component {
     const path = `M${startPos.x},${startPos.y} C${startPos.x},${startPos.y + margin} ${endPos.x},${endPos.y - margin} ${endPos.x},${endPos.y}`;
 
     return (
-      <path d={path} fill="none" stroke="#ccc" strokeWidth="5" markerEnd="url(#markerArrow)"/>
+      <path d={path} fill="none" stroke="#ccc" strokeWidth="5"/>
     );
   }
 }

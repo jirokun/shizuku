@@ -36,11 +36,6 @@ class JPipesApp extends Component {
       <div className="jpipes">
         <div className="svg-layer">
           <svg style={layerStyle}>
-            <defs>
-              <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
-                <path d="M2,2 L2,11 L10,6 L2,2" fill="#000000" />
-              </marker>
-            </defs>
             {this.renderConnections()}
           </svg>
         </div>
