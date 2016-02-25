@@ -3,44 +3,28 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Draggable from 'react-draggable'
 import { } from '../actions'
-import { findItemConstructor } from '../../utils'
-import Item from '../components/Item'
-import InputListFileItem from '../components/InputListFileItem'
-import Connection from '../components/Connection'
+import { findComponentConstructor } from '../../utils'
 import * as EnqueteActions from '../actions'
 
 class JPipesApp extends Component {
-  renderItems() {
-    const { state, actions } = this.props;
-    return state.data.map((data) => {
-      const constructor = findItemConstructor(data.itemId);
-      return React.createElement(constructor, {dataId: data.id, actions, state});
-    });
+  componentDidMount() {
   }
-  renderConnections() {
-    const { state } = this.props;
-    return state.connections.map((con) => {
-      return <Connection connectionId={con.id} state={state} />;
+  renderJPipeComponents() {
+    const { state, actions } = this.props;
+    return state.data.map((c) => {
+      return React.createElement(findComponentConstructor(c.type), {
+        dataId: c.id,
+        state,
+        actions
+      });
     });
   }
   render() {
     const { state, actions } = this.props;
-    const height = state.data.reduce((val, data) => {
-      return Math.max(data.y + data.height, val);
-    }, 0);
-    const width = state.data.reduce((val, data) => {
-      return Math.max(data.x + data.width, val);
-    }, 0);
-    const layerStyle = { width: width + 'px', height: height + 'px' };
     return (
       <div className="jpipes">
-        <div className="svg-layer">
-          <svg style={layerStyle}>
-            {this.renderConnections()}
-          </svg>
-        </div>
-        <div className="html-layer">
-          {this.renderItems()}
+        <div ref="jsplumbContainer" className="jsplumb-container">
+          { this.renderJPipeComponents() }
         </div>
       </div>
     )

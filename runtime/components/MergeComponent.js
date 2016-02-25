@@ -1,21 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import Draggable from 'react-draggable'
-import Item from './Item'
+import JPipeComponent from './JPipeComponent'
 
-export default class InputListFileItem extends Component {
+export default class MergeComponent extends Component {
   render() {
     const { dataId, state, actions } = this.props;
     return (
-      <Item dataId={dataId} actions={actions} state={state} title="リストファイル入力">
+      <JPipeComponent dataId={dataId} actions={actions} state={state} title="結合" inputNum="5">
         <form className="form-horizontal">
           <div className="form-group">
-            <label className="col-sm-2 control-label">ファイル</label>
-            <div className="col-sm-10">
-              <input type="file" className="form-control"/>
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="col-sm-2 control-label">ファイル</label>
+            <label className="col-sm-2 control-label">対象のカラム</label>
             <div className="col-sm-10">
               <select className="form-control">
                 <option value="dcf">DCF医師コード</option>
@@ -24,7 +18,7 @@ export default class InputListFileItem extends Component {
             </div>
           </div>
         </form>
-      </Item>
+      </JPipeComponent>
     );
   }
 }

@@ -1,7 +1,7 @@
-import InputListFileItem from './runtime/components/InputListFileItem'
-import TranslateDcfSyscd from './runtime/components/TranslateDcfSyscd'
-import FilterDcfItem from './runtime/components/FilterDcfItem'
-import MergeItem from './runtime/components/MergeItem'
+import CsvInputComponent from './runtime/components/CsvInputComponent.js'
+import DcfFilterComponent from './runtime/components/DcfFilterComponent.js'
+import MergeComponent from './runtime/components/MergeComponent.js'
+import TranslateDcfSyscdComponent from './runtime/components/TranslateDcfSyscdComponent.js'
 
 export function flatten(ary) {
   return ary.reduce((p, c) => {
@@ -13,12 +13,12 @@ export function flatten(ary) {
  *
  * まず最初にitemsを探し、その後windowを探す
  */
-export function findItemConstructor(name) {
+export function findComponentConstructor(name) {
   let items = {
-    InputListFileItem,
-    TranslateDcfSyscd,
-    FilterDcfItem,
-    MergeItem,
+    CsvInputComponent,
+    DcfFilterComponent,
+    MergeComponent,
+    TranslateDcfSyscdComponent,
   };
   if (items[name]) {
     return items[name];

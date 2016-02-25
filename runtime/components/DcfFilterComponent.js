@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import Draggable from 'react-draggable'
-import Item from './Item'
+import JPipeComponent from './JPipeComponent'
 
-export default class FilterDcfItem extends Component {
+export default class DcfFilterComponent extends Component {
   render() {
     const { dataId, state, actions } = this.props;
     return (
-      <Item dataId={dataId} actions={actions} state={state} title="DCF医師のフィルタ">
+      <JPipeComponent dataId={dataId} actions={actions} state={state} title="DCF医師のフィルタ" type="DcfFilterComponent">
         <div>
           条件は全てand条件です。
           <table className="table table-bordered table-condensed">
@@ -46,7 +45,7 @@ export default class FilterDcfItem extends Component {
             </tbody>
           </table>
         </div>
-      </Item>
+      </JPipeComponent>
     );
   }
 }
