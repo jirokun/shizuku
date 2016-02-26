@@ -6,21 +6,21 @@ html, body {
   width: 100%;
   height: 100%;
 }
-.jpipes {
+.shizuku {
   width: 100%;
   height: 100%;
   position: relative;
 
-  .jpipes-component {
+  .shizuku-component {
     position: absolute;
     background: #fff;
     border: 1px solid #888;
     border-radius: 5px;
-    .jpipes-header {
+    .shizuku-header {
       padding: 5px;
       border-bottom: 1px solid #888;
     }
-    .jpipes-body {
+    .shizuku-body {
       padding: 5px;
     }
   }

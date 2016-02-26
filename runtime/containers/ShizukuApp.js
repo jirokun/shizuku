@@ -6,10 +6,10 @@ import { } from '../actions'
 import { findComponentConstructor } from '../../utils'
 import * as EnqueteActions from '../actions'
 
-class JPipesApp extends Component {
+class ShizukuApp extends Component {
   componentDidMount() {
   }
-  renderJPipeComponents() {
+  renderShizukuComponents() {
     const { state, actions } = this.props;
     return state.data.map((c) => {
       return React.createElement(findComponentConstructor(c.type), {
@@ -22,16 +22,16 @@ class JPipesApp extends Component {
   render() {
     const { state, actions } = this.props;
     return (
-      <div className="jpipes">
+      <div className="shizuku">
         <div ref="jsplumbContainer" className="jsplumb-container">
-          { this.renderJPipeComponents() }
+          { this.renderShizukuComponents() }
         </div>
       </div>
     )
   }
 }
 
-JPipesApp.propTypes = {
+ShizukuApp.propTypes = {
   state: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 }
@@ -49,4 +49,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   select,
   mapDispatchToProps
-)(JPipesApp)
+)(ShizukuApp)

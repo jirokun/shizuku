@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { findComponentConstructor, findData } from '../../utils'
 
-export default class JPipeComponent extends Component {
+export default class ShizukuComponent extends Component {
   componentDidMount() {
     const inputNum = parseInt(this.props.inputNum, 10);
     const outputNum = parseInt(this.props.outputNum, 10);
@@ -36,9 +36,9 @@ export default class JPipeComponent extends Component {
       top: data.y + 'px'
     };
     return (
-      <div ref="root" className="jpipes-component" style={rootStyle}>
-        <div className="jpipes-header">{title}</div>
-        <div className="jpipes-body">
+      <div ref="root" className="shizuku-component" style={rootStyle}>
+        <div className="shizuku-header">{title}</div>
+        <div className="shizuku-body">
           {children}
         </div>
       </div>
@@ -46,7 +46,7 @@ export default class JPipeComponent extends Component {
   }
 }
 
-JPipeComponent.defaultProps = {
+ShizukuComponent.defaultProps = {
   inputNum: 1,
   outputNum: 1,
 };

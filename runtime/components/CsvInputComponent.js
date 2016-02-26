@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import JPipeComponent from './JPipeComponent'
+import ShizukuComponent from './ShizukuComponent'
 
 export default class CsvInputComponent extends Component {
   render() {
     const { dataId, state, actions } = this.props;
     return (
-      <JPipeComponent dataId={dataId} actions={actions} state={state} title="ファイル入力" type="CsvInputComponent">
+      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="ファイル入力" type="CsvInputComponent">
         <form className="form-horizontal">
           <div className="form-group">
             <label className="col-sm-2 control-label">ファイル</label>
@@ -23,7 +23,7 @@ export default class CsvInputComponent extends Component {
             </div>
           </div>
         </form>
-      </JPipeComponent>
+      </ShizukuComponent>
     );
   }
 }

@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import Draggable from 'react-draggable'
-import JPipeComponent from './JPipeComponent'
+import ShizukuComponent from './ShizukuComponent'
 
 export default class MergeComponent extends Component {
   render() {
     const { dataId, state, actions } = this.props;
     return (
-      <JPipeComponent dataId={dataId} actions={actions} state={state} title="結合" inputNum="5">
+      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="結合" inputNum="5">
         <form className="form-horizontal">
           <div className="form-group">
             <label className="col-sm-2 control-label">対象のカラム</label>
@@ -18,7 +18,7 @@ export default class MergeComponent extends Component {
             </div>
           </div>
         </form>
-      </JPipeComponent>
+      </ShizukuComponent>
     );
   }
 }

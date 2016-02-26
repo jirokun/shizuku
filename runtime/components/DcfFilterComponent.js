@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import JPipeComponent from './JPipeComponent'
+import ShizukuComponent from './ShizukuComponent'
 
 export default class DcfFilterComponent extends Component {
   render() {
     const { dataId, state, actions } = this.props;
     return (
-      <JPipeComponent dataId={dataId} actions={actions} state={state} title="DCF医師のフィルタ" type="DcfFilterComponent">
+      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="DCF医師のフィルタ" type="DcfFilterComponent">
         <div>
           条件は全てand条件です。
           <table className="table table-bordered table-condensed">
@@ -45,7 +45,7 @@ export default class DcfFilterComponent extends Component {
             </tbody>
           </table>
         </div>
-      </JPipeComponent>
+      </ShizukuComponent>
     );
   }
 }

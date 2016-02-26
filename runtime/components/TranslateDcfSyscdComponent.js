@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import JPipeComponent from './JPipeComponent'
+import ShizukuComponent from './ShizukuComponent'
 
 export default class TranslateDcfSyscdComponent extends Component {
   render() {
     const { dataId, state, actions } = this.props;
     return (
-      <JPipeComponent dataId={dataId} actions={actions} state={state} title="DCFコードをシステムコードに変換"/>
+      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="DCFコードをシステムコードに変換"/>
     );
   }
 }
