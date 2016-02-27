@@ -5,8 +5,9 @@ import ShizukuComponent from './ShizukuComponent'
 export default class MergeComponent extends Component {
   render() {
     const { dataId, state, actions } = this.props;
+    console.log();
     return (
-      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="結合" inputNum="5">
+      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="結合" inputNum="5" type={this.constructor.name}>
         <table className="table-form">
           <tbody>
             <tr>

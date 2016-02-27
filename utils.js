@@ -1,7 +1,4 @@
-import CsvInputComponent from './runtime/components/CsvInputComponent.js'
-import DcfFilterComponent from './runtime/components/DcfFilterComponent.js'
-import MergeComponent from './runtime/components/MergeComponent.js'
-import TranslateDcfSyscdComponent from './runtime/components/TranslateDcfSyscdComponent.js'
+import ComponentList from './runtime/components/ComponentList'
 
 export function flatten(ary) {
   return ary.reduce((p, c) => {
@@ -14,14 +11,9 @@ export function flatten(ary) {
  * まず最初にitemsを探し、その後windowを探す
  */
 export function findComponentConstructor(name) {
-  let items = {
-    CsvInputComponent,
-    DcfFilterComponent,
-    MergeComponent,
-    TranslateDcfSyscdComponent,
-  };
-  if (items[name]) {
-    return items[name];
+  const component = ComponentList.find((c) => c.name === name);
+  if (component) {
+    return component;
   } else if (typeof window !== 'undefined' && window[name]) {
     return window[name];
   }

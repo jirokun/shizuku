@@ -5,7 +5,7 @@ export default class CsvInputComponent extends Component {
   render() {
     const { dataId, state, actions } = this.props;
     return (
-      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="ファイル入力" type="CsvInputComponent">
+      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="ファイル入力" type={this.constructor.name}>
         <table className="table-form">
           <tbody>
             <tr>
