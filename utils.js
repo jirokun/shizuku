@@ -20,12 +20,28 @@ export function findComponentConstructor(name) {
   throw 'Item is not defined: ' + name;
 }
 
+/** jsPlumbからstateのconnectionを作成する */
+export function createConnectionState(jp) {
+  return jp.getAllConnections().map((c) => {
+    const te = c.endpoints.find((ep) => ep.getParameter('type') === 'input');
+    const se = c.endpoints.find((ep) => ep.getParameter('type') === 'output');
+    return {
+      sourceId: se.elementId,
+      sourceEndpointId: se.getParameter('endpointId'),
+      targetId: te.elementId,
+      targetEndpointId: te.getParameter('endpointId'),
+    };
+  });
+}
+
 export function findData(state, dataId) {
   return state.data.find((def) => def.id === dataId);
 }
+
 export function findConnection(state, connectionId) {
   return state.connections.find((def) => def.id === connectionId);
 }
+
 /** オブジェクトをcloneする */
 export function cloneObj(obj) {
   return JSON.parse(JSON.stringify(obj));

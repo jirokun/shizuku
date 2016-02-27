@@ -1,6 +1,6 @@
 import * as Constants from '../constants'
 import { MOVE_ITEM } from '../constants'
-import { cloneObj, findData } from '../utils'
+import { cloneObj, findData, createConnectionState } from '../utils'
 import uuid from 'node-uuid'
 
 
@@ -10,6 +10,7 @@ function findDataIndex(state, dataId) {
 function removeComponent(state, dataId) {
   const targetIndex = findDataIndex(state, dataId);
   state.data.splice(targetIndex, 1);
+  state.connections = createConnectionState(jp);
   return state;
 }
 export default function reducer(state, action) {

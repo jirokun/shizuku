@@ -11,26 +11,28 @@ export default class ShizukuComponent extends Component {
     jp.draggable(this.refs.root);
     const horizontal = false; // アンカーの配置
 
+    const endpointOps = {
+      isSource: true,
+      isTarget: true,
+      endpoint: ['Dot', { radius: 6 }],
+      maxconnections: 1,
+    };
+
     for (let i = 0; i < inputNum; i++) {
-      jp.addEndpoint(this.refs.root, {
-        isSource: true,
-        isTarget: true,
-        endpoint: ['Dot', { radius: 6 }],
+      const ep = jp.addEndpoint(this.refs.root, endpointOps, {
         anchor: this.inputAnchorPosition(horizontal, i, inputNum),
-        //connector: [ "Flowchart", { stub: [40, 60], cornerRadius: 5, alwaysRespectStubs: true } ],
-        maxconnections: 1,
       });
+      ep.setParameter('endpointId', 'input-' + i);
+      ep.setParameter('type', 'input');
     }
 
     for (let i = 0; i < outputNum; i++) {
-      jp.addEndpoint(this.refs.root, {
-        isSource: true,
-        isTarget: true,
-        endpoint: ['Dot', { radius: 6 }],
+      const ep = jp.addEndpoint(this.refs.root, endpointOps, {
         anchor: this.outputAnchorPosition(horizontal, i, outputNum),
-        //connector: [ "Flowchart", { stub: [40, 60], cornerRadius: 5, alwaysRespectStubs: true } ],
         maxConnections: 10,
       });
+      ep.setParameter('endpointId', 'output-' + i);
+      ep.setParameter('type', 'output');
     }
   }
 
@@ -61,6 +63,7 @@ export default class ShizukuComponent extends Component {
 
   destroy() {
     const { dataId, actions } = this.props;
+    jp.getEndpoints(this.refs.root).forEach((ep) => ep.detachAll());
     actions.removeComponent(dataId);
   }
 
