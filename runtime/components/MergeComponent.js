@@ -7,7 +7,7 @@ export default class MergeComponent extends Component {
     const { dataId, state, actions } = this.props;
     console.log();
     return (
-      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="結合" inputNum="5" type={this.constructor.name}>
+      <ShizukuComponent {...this.props} title="結合" inputNum="5" type={this.constructor.name}>
         <table className="table-form">
           <tbody>
             <tr>
@@ -25,3 +25,4 @@ export default class MergeComponent extends Component {
     );
   }
 }
+MergeComponent.defaultProps = { inputNum: 5, outputNum: 1 };

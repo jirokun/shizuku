@@ -6,6 +6,7 @@ export default class ShizukuComponent extends Component {
     super(prop);
   }
   componentDidMount() {
+    /*
     const inputNum = parseInt(this.props.inputNum, 10);
     const outputNum = parseInt(this.props.outputNum, 10);
     jp.draggable(this.refs.root);
@@ -34,9 +35,11 @@ export default class ShizukuComponent extends Component {
       ep.setParameter('endpointId', 'output-' + i);
       ep.setParameter('type', 'output');
     }
+    */
   }
 
   componentWillUnmount() {
+    /*
     const endpoints = jp.getEndpoints(this.refs.root);
     if (!endpoints) {
       return;
@@ -44,21 +47,7 @@ export default class ShizukuComponent extends Component {
     endpoints.forEach(e => {
       jp.deleteEndpoint(e);
     });
-  }
-
-  inputAnchorPosition(horizontal, i, inputNum) {
-    if (horizontal) {
-      return [(i + 1) / (inputNum + 1), 0, 0, -1];
-    } else {
-      return [0, (i + 1) / (inputNum + 1), -1, 0];
-    }
-  }
-  outputAnchorPosition(horizontal, i, outputNum) {
-    if (horizontal) {
-      return [(i + 1) / (outputNum + 1), 1, 0, 1];
-    } else {
-      return [1, (i + 1) / (outputNum + 1), 1, 0];
-    }
+    */
   }
 
   destroy() {
@@ -68,15 +57,9 @@ export default class ShizukuComponent extends Component {
   }
 
   render() {
-    const { dataId, title, children, state, type } = this.props;
-    const data = findData(state, dataId);
-    const rootStyle = {};
-    if (data) {
-      rootStyle.left = data.x + 'px';
-      rootStyle.top = data.y + 'px';
-    }
+    const { id, type, title, children } = this.props;
     return (
-      <div ref="root" className="shizuku-component" style={rootStyle} id={dataId} data-type={type}>
+      <div ref="root" className="shizuku-component">
         <div className="shizuku-header">
         {title}
         <button type="button" className="close" onClick={this.destroy.bind(this)}><span>&times;</span></button>

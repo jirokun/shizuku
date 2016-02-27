@@ -5,7 +5,7 @@ export default class DcfFilterComponent extends Component {
   render() {
     const { dataId, state, actions } = this.props;
     return (
-      <ShizukuComponent dataId={dataId} actions={actions} state={state} title="DCF医師のフィルタ" type={this.constructor.name}>
+      <ShizukuComponent {...this.props} title="DCF医師のフィルタ" type={this.constructor.name}>
         <div>
           条件は全てand条件です。
           <table className="table table-bordered table-condensed">
@@ -49,3 +49,4 @@ export default class DcfFilterComponent extends Component {
     );
   }
 }
+DcfFilterComponent.defaultProps = { inputNum: 1, outputNum: 1 };
