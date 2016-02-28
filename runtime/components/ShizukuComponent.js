@@ -52,5 +52,6 @@ export default class ShizukuComponent {
 
   render() {
     this.el.appendChild(this.buildComponent());
+    this.el.dataset.type = this.constructor.name;
   }
 }

@@ -1,6 +1,5 @@
-import React, { Component, PropTypes } from 'react'
-import { render } from 'react-dom'
-import { findComponentConstructor } from '../utils'
+import { findComponentConstructor, isString } from '../utils'
+import uuid from 'node-uuid'
 
 export default class Shizuku {
   constructor(el) {
@@ -14,6 +13,8 @@ export default class Shizuku {
   }
 
   load(state) {
+    this.jp.reset();
+    this.el.innerHTML = '';
     state.data.forEach((c) => this.addComponent(c));
     // コネクションをはる
     state.connections.forEach((c) => {
@@ -28,16 +29,28 @@ export default class Shizuku {
     });
   }
 
+  /**
+   * コンポーネントを追加する
+   *
+   * @param c string | object stringの場合はtype, objectの場合はid, x, y, type
+   */
   addComponent(c) {
     const container = document.createElement('div');
-    container.id = c.id;
+    if (isString(c)) {
+      container.id = uuid.v1();
+      container.style.left = '0px';
+      container.style.top = '0px';
+    } else {
+      container.id = c.id;
+      container.style.left = c.x + 'px';
+      container.style.top = c.y + 'px';
+    }
+    const type = c.type || c;
     container.className = 'shizuku-component-container';
-    container.style.left = c.x + 'px';
-    container.style.top = c.y + 'px';
     this.el.appendChild(container);
-    const constructor = findComponentConstructor(c.type);
-    // レンダリング
+    const constructor = findComponentConstructor(type);
     const component = new constructor(container);
+    // レンダリング
     component.render();
     this.initJsPlumb(container, 1, 1);
   }
@@ -87,5 +100,36 @@ export default class Shizuku {
     } else {
       return [1, (i + 1) / (outputNum + 1), 1, 0];
     }
+  }
+
+  /** jsPlumbからstateのconnectionを作成する */
+  getConnectionsDef() {
+    return this.jp.getAllConnections().map((c) => {
+      const te = c.endpoints.find((ep) => ep.getParameter('type') === 'input');
+      const se = c.endpoints.find((ep) => ep.getParameter('type') === 'output');
+      return {
+        sourceId: se.elementId,
+        sourceEndpointId: se.getParameter('endpointId'),
+        targetId: te.elementId,
+        targetEndpointId: te.getParameter('endpointId'),
+      };
+    });
+  }
+
+  getDataDef() {
+    const shizukuComponents = this.el.querySelectorAll('.shizuku-component-container');
+    return Array.prototype.map.call(shizukuComponents, function (el) {
+      const rect = el.getBoundingClientRect();
+      const type = el.dataset.type;
+      return { id: el.id, x: parseInt(rect.left), y: parseInt(rect.top), type };
+    });
+  }
+
+  /** 定義されている情報をdumpする */
+  toJSON() {
+    return {
+      connections: this.getConnectionsDef(),
+      data: this.getDataDef()
+    };
   }
 }
