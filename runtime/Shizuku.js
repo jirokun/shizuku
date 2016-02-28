@@ -3,42 +3,50 @@ import uuid from 'node-uuid'
 
 export default class Shizuku {
   constructor(el) {
-    this.el = el;
-    this.jp = jsPlumb.getInstance(this.el);
-    this.initializeEvents();
+    this._el = el;
+    this._jp = jsPlumb.getInstance(this._el);
+    this._initializeEvents();
+    this._componentMap = new Map();
   }
 
-  initializeEvents() {
-    $(this.el).on('click', '.shizuku-component .close', (e) => this.removeComponent($(e.target).parents('.shizuku-component-container')));
-    $(document).on('mousewheel', (e) => {
-      if (e.originalEvent.deltaY < 0) {
-        this.setZoom(this.getZoom() * 1.05);
-      } else {
-        this.setZoom(this.getZoom() * 0.95);
-      }
-    });
+  _initializeEvents() {
+    $(this._el).on('click', '.shizuku-component .close', (e) => this.removeComponent($(e.target).parents('.shizuku-component-container')[0]));
+    $(document).on('mousewheel', (e) => this.setZoom(this.getZoom() * (e.originalEvent.deltaY < 0 ? 1.05 : 0.95)));
+  }
+
+  debug() {
+    const values = this._componentMap.values();
+    for (const component of values) {
+      const fields = component.getOutputFields();
+      console.log(component._el, fields);
+    }
+  }
+
+  /** elementにひもつくComponentを取得する */
+  getComponent(el) {
+    return this._componentMap.get(el);
   }
 
   getZoom() {
-    return this.jp.getZoom();
+    return this._jp.getZoom();
   }
 
   setZoom(zoom) {
-    $(this.el).css('transform', `scale(${zoom})`);
-    this.jp.setZoom(zoom);
+    this._el.style.transform = `scale(${zoom})`;
+    this._jp.setZoom(zoom);
   }
 
   load(state) {
-    this.jp.reset();
-    this.el.innerHTML = '';
+    this._jp.reset();
+    this._el.innerHTML = '';
     state.data.forEach((c) => this.addComponent(c));
     // コネクションをはる
     state.connections.forEach((c) => {
-      const sourceEndpoints = this.jp.getEndpoints(c.sourceId);
+      const sourceEndpoints = this._jp.getEndpoints(c.sourceId);
       const sep = sourceEndpoints.find((e) => e.getParameter('endpointId') === c.sourceEndpointId);
-      const targetEndpoints = this.jp.getEndpoints(c.targetId);
+      const targetEndpoints = this._jp.getEndpoints(c.targetId);
       const tep = targetEndpoints.find((e) => e.getParameter('endpointId') === c.targetEndpointId);
-      this.jp.connect({
+      this._jp.connect({
         source: sep,
         target: tep
       });
@@ -63,20 +71,26 @@ export default class Shizuku {
     }
     const type = c.type || c;
     container.className = 'shizuku-component-container';
-    this.el.appendChild(container);
+    this._el.appendChild(container);
     const constructor = findComponentConstructor(type);
-    const component = new constructor(container);
+    const component = new constructor(container, this);
     // レンダリング
     component.render();
+    this._componentMap.set(container, component);
     this.initJsPlumb(container, component.getInputNum(), component.getOutputNum());
   }
 
   removeComponent(el) {
-    this.jp.remove(el);
+    this._jp.remove(el);
+    this._componentMap.delete(el);
+  }
+
+  getJsPlumb() {
+    return this._jp;
   }
 
   initJsPlumb(container, inputNum, outputNum) {
-    const draggable = this.jp.draggable(container);
+    const draggable = this._jp.draggable(container);
     const horizontal = false; // アンカーの配置
     const endpointOps = {
       isSource: true,
@@ -86,14 +100,14 @@ export default class Shizuku {
     };
 
     for (let i = 0; i < inputNum; i++) {
-      const ep = this.jp.addEndpoint(container, endpointOps, {
+      const ep = this._jp.addEndpoint(container, endpointOps, {
         anchor: this.inputAnchorPosition(horizontal, i, inputNum),
       });
       ep.setParameter('endpointId', 'input-' + i);
       ep.setParameter('type', 'input');
     }
     for (let i = 0; i < outputNum; i++) {
-      const ep = this.jp.addEndpoint(container, endpointOps, {
+      const ep = this._jp.addEndpoint(container, endpointOps, {
         anchor: this.outputAnchorPosition(horizontal, i, outputNum),
         maxConnections: 10,
       });
@@ -120,7 +134,7 @@ export default class Shizuku {
 
   /** jsPlumbからstateのconnectionを作成する */
   getConnectionsDef() {
-    return this.jp.getAllConnections().map((c) => {
+    return this._jp.getAllConnections().map((c) => {
       const te = c.endpoints.find((ep) => ep.getParameter('type') === 'input');
       const se = c.endpoints.find((ep) => ep.getParameter('type') === 'output');
       return {
@@ -133,8 +147,8 @@ export default class Shizuku {
   }
 
   getDataDef() {
-    const shizukuComponents = this.el.querySelectorAll('.shizuku-component-container');
-    return Array.prototype.map.call(shizukuComponents, function (el) {
+    const shizukucomponentMap = this._el.querySelectorAll('.shizuku-component-container');
+    return Array.prototype.map.call(shizukucomponentMap, function (el) {
       const rect = el.getBoundingClientRect();
       const type = el.dataset.type;
       return { id: el.id, x: parseInt(rect.left), y: parseInt(rect.top), type };

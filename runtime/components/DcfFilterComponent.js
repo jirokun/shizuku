@@ -1,9 +1,7 @@
 import ShizukuComponent from './ShizukuComponent'
 
 export default class DcfFilterComponent extends ShizukuComponent {
-  constructor(el) {
-    super(el);
-  }
+  constructor(...args) { super(...args); }
 
   buildTitle() {
     return "医師のフィルタ";
@@ -50,5 +48,10 @@ export default class DcfFilterComponent extends ShizukuComponent {
           </tbody>
         </table>
       </div>`;
+  }
+
+  getOutputFields() {
+    const source = this.getSourceComponents()[0];
+    return source.getOutputFields();
   }
 }

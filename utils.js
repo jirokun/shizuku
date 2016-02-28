@@ -47,3 +47,8 @@ export function findConnection(state, connectionId) {
 export function cloneObj(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
+
+/** Connectionに紐付いている2つのendpointのうち、source(output)となるendpointを返す */
+export function findSourceEndpoint(connection) {
+  return connection.endpoints.find((ep) => ep.getParameter('type') === 'output');
+}

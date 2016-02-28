@@ -1,12 +1,13 @@
-import { isElement, findComponentConstructor, findData } from '../../utils'
+import { findSourceEndpoint, flatten, isElement, findComponentConstructor, findData } from '../../utils'
 
 /**
  * Componentは必ずShizukuComponentを継承して作ること
  */
 export default class ShizukuComponent {
   /** コンストラクタ. 描画するElementをとる */
-  constructor(el) {
-    this.el = el;
+  constructor(el, shizuku) {
+    this._el = el;
+    this._shizuku = shizuku;
   }
 
   /** renderが呼ばれたあとに実行される */
@@ -64,9 +65,21 @@ export default class ShizukuComponent {
     return shizukuComponentEl;
   }
 
+  getSourceElements() {
+    const jp = this._shizuku.getJsPlumb();
+    const inputEndpoints = jp.getEndpoints(this._el).filter((ep) => ep.getParameter('type') === 'input');
+    const connections = flatten(inputEndpoints.map((ep) => ep.connections));
+    const sourceEndpoints = connections.map((con) => findSourceEndpoint(con));
+    return sourceEndpoints.map((ep) => ep.element);
+  }
+
+  getSourceComponents() {
+    return this.getSourceElements().map((el) => this._shizuku.getComponent(el));
+  }
+
   render() {
-    this.el.appendChild(this.buildComponent());
-    this.el.dataset.type = this.constructor.name;
+    this._el.appendChild(this.buildComponent());
+    this._el.dataset.type = this.constructor.name;
     this.onRendered();
   }
 }

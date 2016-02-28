@@ -12,6 +12,11 @@ export default class ShizukuMenu {
     $(this.el).on('click', '.file-dropdown', this.createSaveLink.bind(this));
     $(this.el).on('change', '.load-file', this.onFileSelected.bind(this));
     $(this.el).on('click', '.add-component', this.onClickAddComponent.bind(this));
+    $(this.el).on('click', '.debug', this.debug.bind(this));
+  }
+
+  debug() {
+    this.shizuku.debug();
   }
 
   createSaveLink() {
@@ -66,6 +71,7 @@ export default class ShizukuMenu {
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Add </span><span class="caret"></span></a>
                 <ul class="add-component-list dropdown-menu inverse-dropdown"></ul>
               </li>
+              <li><a class="debug" href="#">Debug</a></li>
             </ul>
           </div>
         </div>
