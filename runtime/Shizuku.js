@@ -10,6 +10,22 @@ export default class Shizuku {
 
   initializeEvents() {
     $(this.el).on('click', '.shizuku-component .close', (e) => this.removeComponent($(e.target).parents('.shizuku-component-container')));
+    $(document).on('mousewheel', (e) => {
+      if (e.originalEvent.deltaY < 0) {
+        this.setZoom(this.getZoom() * 1.05);
+      } else {
+        this.setZoom(this.getZoom() * 0.95);
+      }
+    });
+  }
+
+  getZoom() {
+    return this.jp.getZoom();
+  }
+
+  setZoom(zoom) {
+    $(this.el).css('transform', `scale(${zoom})`);
+    this.jp.setZoom(zoom);
   }
 
   load(state) {
@@ -60,7 +76,7 @@ export default class Shizuku {
   }
 
   initJsPlumb(container, inputNum, outputNum) {
-    this.jp.draggable(container);
+    const draggable = this.jp.draggable(container);
     const horizontal = false; // アンカーの配置
     const endpointOps = {
       isSource: true,
