@@ -6,7 +6,13 @@ export default class Shizuku {
   constructor(el) {
     this.el = el;
     this.jp = jsPlumb.getInstance(this.el);
+    this.initializeEvents();
   }
+
+  initializeEvents() {
+    $(this.el).on('click', '.shizuku-component .close', (e) => this.removeComponent($(e.target).parents('.shizuku-component-container')));
+  }
+
   load(state) {
     state.data.forEach((c) => this.addComponent(c));
     // コネクションをはる
@@ -21,6 +27,7 @@ export default class Shizuku {
       });
     });
   }
+
   addComponent(c) {
     const container = document.createElement('div');
     container.id = c.id;
@@ -30,11 +37,13 @@ export default class Shizuku {
     this.el.appendChild(container);
     const constructor = findComponentConstructor(c.type);
     // レンダリング
-    const el = render(React.createElement(constructor, { ...c, shizuku: this }), container);
-    const { inputNum, outputNum } = el.props;
-    this.initJsPlumb(container, inputNum, outputNum);
+    const component = new constructor(container);
+    component.render();
+    this.initJsPlumb(container, 1, 1);
   }
-  removeComponent(c) {
+
+  removeComponent(el) {
+    this.jp.remove(el);
   }
 
   initJsPlumb(container, inputNum, outputNum) {

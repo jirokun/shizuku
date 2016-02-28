@@ -34,6 +34,17 @@ export function createConnectionState(jp) {
   });
 }
 
+export function isElement(obj) {
+  try {
+    return obj instanceof HTMLElement;
+  }
+  catch(e){
+    return (typeof obj==="object") &&
+      (obj.nodeType===1) && (typeof obj.style === "object") &&
+      (typeof obj.ownerDocument ==="object");
+  }
+}
+
 export function findData(state, dataId) {
   return state.data.find((def) => def.id === dataId);
 }

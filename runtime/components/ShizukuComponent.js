@@ -1,78 +1,56 @@
 import React, { Component, PropTypes } from 'react'
-import { findComponentConstructor, findData } from '../../utils'
+import { isElement, findComponentConstructor, findData } from '../../utils'
 
-export default class ShizukuComponent extends Component {
-  constructor(prop) {
-    super(prop);
+/**
+ * Componentは必ずShizukuComponentを継承して作ること
+ */
+export default class ShizukuComponent {
+  /** コンストラクタ. 描画するElementをとる */
+  constructor(el) {
+    this.el = el;
   }
-  componentDidMount() {
-    /*
-    const inputNum = parseInt(this.props.inputNum, 10);
-    const outputNum = parseInt(this.props.outputNum, 10);
-    jp.draggable(this.refs.root);
-    const horizontal = false; // アンカーの配置
-
-    const endpointOps = {
-      isSource: true,
-      isTarget: true,
-      endpoint: ['Dot', { radius: 6 }],
-      maxconnections: 1,
-    };
-
-    for (let i = 0; i < inputNum; i++) {
-      const ep = jp.addEndpoint(this.refs.root, endpointOps, {
-        anchor: this.inputAnchorPosition(horizontal, i, inputNum),
-      });
-      ep.setParameter('endpointId', 'input-' + i);
-      ep.setParameter('type', 'input');
-    }
-
-    for (let i = 0; i < outputNum; i++) {
-      const ep = jp.addEndpoint(this.refs.root, endpointOps, {
-        anchor: this.outputAnchorPosition(horizontal, i, outputNum),
-        maxConnections: 10,
-      });
-      ep.setParameter('endpointId', 'output-' + i);
-      ep.setParameter('type', 'output');
-    }
-    */
+  /** titleを生成して返す。stringまたはElementを返す。子クラスでオーバーライドすることが前提 */
+  buildTitle() {
+    return "";
   }
 
-  componentWillUnmount() {
-    /*
-    const endpoints = jp.getEndpoints(this.refs.root);
-    if (!endpoints) {
-      return;
-    }
-    endpoints.forEach(e => {
-      jp.deleteEndpoint(e);
-    });
-    */
+  /** bodyを生成して返す。stringまたはElementを返す。子クラスでオーバーライドすることが前提 */
+  buildBody() {
+    return "";
   }
 
-  destroy() {
-    const { dataId, actions } = this.props;
-    jp.getEndpoints(this.refs.root).forEach((ep) => ep.detachAll());
-    actions.removeComponent(dataId);
+  /** componentのHTMLを生成して返す。Elementを返す */
+  buildComponent() {
+    const shizukuComponentEl = document.createElement('div');
+    shizukuComponentEl.className = 'shizuku-component';
+    shizukuComponentEl.innerHTML = `
+      <div class="shizuku-header">
+        <button type="button" class="close"><span>&times;</span></button>
+      </div>
+      <div class="shizuku-body"></div>`;
+    const shizukuHeader = shizukuComponentEl.querySelector('.shizuku-header');
+    const shizukuBody = shizukuComponentEl.querySelector('.shizuku-body');
+    const title = this.buildTitle();
+    if (isElement(title)) {
+      shizukuHeader.insertBefore(title, shizukuHeader.firstChild);
+    } else if (typeof title === 'string') {
+      const titleEl = document.createElement('span');
+      titleEl.innerHTML = title;
+      shizukuHeader.insertBefore(titleEl, shizukuHeader.firstChild);
+    }
+
+    const body = this.buildBody();
+    if (isElement(body)) {
+      shizukuBody.insertBefore(body, shizukuBody.firstChild);
+    } else if (typeof title === 'string') {
+      const bodyEl = document.createElement('span');
+      bodyEl.innerHTML = body;
+      shizukuBody.insertBefore(bodyEl, shizukuBody.firstChild);
+    }
+    return shizukuComponentEl;
   }
 
   render() {
-    const { id, type, title, children } = this.props;
-    return (
-      <div ref="root" className="shizuku-component">
-        <div className="shizuku-header">
-        {title}
-        <button type="button" className="close" onClick={this.destroy.bind(this)}><span>&times;</span></button>
-        </div>
-        <div className="shizuku-body">
-          {children}
-        </div>
-      </div>
-    );
+    this.el.appendChild(this.buildComponent());
   }
 }
-
-ShizukuComponent.defaultProps = {
-  inputNum: 1,
-  outputNum: 1,
-};
