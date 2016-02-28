@@ -9,7 +9,7 @@ export default class MergeComponent extends ShizukuComponent {
   }
 
   buildBody() {
-    return `<i class="fa fa-compress"></i>`;
+    return `<div class="icon-only"><i class="fa fa-compress"></i></div>`;
   }
 
   getInputNum() {
