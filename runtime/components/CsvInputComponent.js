@@ -27,4 +27,8 @@ export default class CsvInputComponent extends ShizukuComponent {
         </tbody>
       </table>`;
   }
+
+  getInputNum() {
+    return 0;
+  }
 }

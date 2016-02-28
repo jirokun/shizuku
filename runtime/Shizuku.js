@@ -52,7 +52,7 @@ export default class Shizuku {
     const component = new constructor(container);
     // レンダリング
     component.render();
-    this.initJsPlumb(container, 1, 1);
+    this.initJsPlumb(container, component.getInputNum(), component.getOutputNum());
   }
 
   removeComponent(el) {

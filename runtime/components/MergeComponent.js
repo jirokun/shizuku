@@ -23,4 +23,8 @@ export default class MergeComponent extends ShizukuComponent {
         </tbody>
       </table>`;
   }
+
+  getInputNum() {
+    return 5;
+  }
 }

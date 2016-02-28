@@ -18,6 +18,16 @@ export default class ShizukuComponent {
     return "";
   }
 
+  /** inputのportの数を返す */
+  getInputNum() {
+    return 1;
+  }
+
+  /** outputのportの数を返す */
+  getOutputNum() {
+    return 1;
+  }
+
   /** componentのHTMLを生成して返す。Elementを返す */
   buildComponent() {
     const shizukuComponentEl = document.createElement('div');
