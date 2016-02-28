@@ -1,4 +1,5 @@
 import { createDownloadDataURI, findComponentConstructor } from '../utils'
+import ComponentList from './components/ComponentList'
 
 export default class ShizukuMenu {
   constructor(el, shizuku) {
@@ -39,7 +40,6 @@ export default class ShizukuMenu {
     reader.readAsText(file, 'UTF-8');
   }
 
-
   buildMenu() {
     return `
       <nav class="shizuku-menu navbar navbar-inverse">
@@ -47,12 +47,9 @@ export default class ShizukuMenu {
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
               <span class="sr-only"> Toggle navigation</span>
-              <span class="icon-bar">
-              </span>
-              <span class="icon-bar">
-              </span>
-              <span class="icon-bar">
-              </span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand">SHIZUKU - 雫 -</a>
           </div>
@@ -67,12 +64,7 @@ export default class ShizukuMenu {
               </li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Add </span><span class="caret"></span></a>
-                <ul class="dropdown-menu inverse-dropdown">
-                  <li><a href="#" class="add-component" data-type="CsvInputComponent">CsvInputComponent</a></li>
-                  <li><a href="#" class="add-component" data-type="DcfFilterComponent">DcfFilterComponent</a></li>
-                  <li><a href="#" class="add-component" data-type="MergeComponent">MergeComponent</a></li>
-                  <li><a href="#" class="add-component" data-type="TranslateDcfSyscdComponent">TranslateDcfSyscdComponent</a></li>
-                </ul>
+                <ul class="add-component-list dropdown-menu inverse-dropdown"></ul>
               </li>
             </ul>
           </div>
@@ -82,6 +74,10 @@ export default class ShizukuMenu {
 
   render() {
     this.el.innerHTML = this.buildMenu();
+    var addMenu = this.el.querySelector('.add-component-list');
+    ComponentList.forEach((c) => {
+      $(`<li><a href="#" class="add-component" data-type="${c.name}">${c.name}</a></li>`).appendTo(addMenu);
+    });
     this.saveEl = this.el.querySelector('.save-link');
   }
 }

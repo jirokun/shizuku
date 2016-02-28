@@ -8,6 +8,11 @@ export default class ShizukuComponent {
   constructor(el) {
     this.el = el;
   }
+
+  /** renderが呼ばれたあとに実行される */
+  onRendered() {
+  }
+
   /** titleを生成して返す。stringまたはElementを返す。子クラスでオーバーライドすることが前提 */
   buildTitle() {
     return "";
@@ -62,5 +67,6 @@ export default class ShizukuComponent {
   render() {
     this.el.appendChild(this.buildComponent());
     this.el.dataset.type = this.constructor.name;
+    this.onRendered();
   }
 }

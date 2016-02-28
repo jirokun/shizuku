@@ -42,7 +42,7 @@ export default class DcfFilterComponent extends ShizukuComponent {
                   <label><input type="checkbox"/> 第5診療科</label><br/>
                 </div>
                 <div>
-                  診療科コード
+                  診療科コード<br/>
                   <input type="text"/>
                 </div>
               </td>

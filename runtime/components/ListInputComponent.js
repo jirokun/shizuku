@@ -1,6 +1,6 @@
 import ShizukuComponent from './ShizukuComponent'
 
-export default class CsvInputComponent extends ShizukuComponent {
+export default class ListInputComponent extends ShizukuComponent {
   constructor(el) {
     super(el);
   }
@@ -12,8 +12,17 @@ export default class CsvInputComponent extends ShizukuComponent {
       <table class="table-form">
         <tbody>
           <tr>
-            <th>ファイル</th>
-            <td><input class="file" type="file"/></td>
+            <th>対象のMR</th>
+            <td><input type="text"/></td>
+          </tr>
+          <tr>
+            <th>入力するリスト</th>
+            <td>
+              <select class="">
+                <option value="all">全員</option>
+                <option value="only_20">20歳代のみ</option>
+              </select>
+            </td>
           </tr>
           <tr>
             <th>入力タイプ</th>
@@ -26,6 +35,9 @@ export default class CsvInputComponent extends ShizukuComponent {
           </tr>
         </tbody>
       </table>`;
+  }
+
+  onRendered() {
   }
 
   getInputNum() {
