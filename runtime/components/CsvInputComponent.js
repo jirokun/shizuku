@@ -31,7 +31,7 @@ export default class CsvInputComponent extends ShizukuComponent {
     return 0;
   }
 
-  getOutputFields() {
+  getOriginalOutputFields() {
     return [
       { label: '医師コード', field: 'dcf_dr_cd' },
       { label: '姓', field: 'sei' },

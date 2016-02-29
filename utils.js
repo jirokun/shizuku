@@ -1,4 +1,5 @@
 import ComponentList from './runtime/components/ComponentList'
+import uuid from 'node-uuid'
 
 export function flatten(ary) {
   return ary.reduce((p, c) => {
@@ -51,4 +52,13 @@ export function cloneObj(obj) {
 /** Connectionに紐付いている2つのendpointのうち、source(output)となるendpointを返す */
 export function findSourceEndpoint(connection) {
   return connection.endpoints.find((ep) => ep.getParameter('type') === 'output');
+}
+
+/** Connectionに紐付いている2つのendpointのうち、target(input)となるendpointを返す */
+export function findTargetEndpoint(connection) {
+  return connection.endpoints.find((ep) => ep.getParameter('type') === 'input');
+}
+
+export function generateId() {
+  return 'szk' + uuid.v1().replace(/-/g, '');
 }

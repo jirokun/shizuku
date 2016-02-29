@@ -1,5 +1,4 @@
-import { findComponentConstructor, isString } from '../utils'
-import uuid from 'node-uuid'
+import { findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from '../utils'
 
 export default class Shizuku {
   constructor(el) {
@@ -9,16 +8,34 @@ export default class Shizuku {
     this._componentMap = new Map();
   }
 
+  /************* Events ***************/
+  onConnect(info, originalEvent) {
+    const tep = findTargetEndpoint(info.connection);
+    const component = this.getComponent(tep.element);
+    this._jp.batch(() => component.refresh());
+  }
+
+  onDisConnect(info, originalEvent) {
+    const tep = findTargetEndpoint(info.connection);
+    const component = this.getComponent(tep.element);
+    this._jp.batch(() => component.refresh());
+  }
+
   _initializeEvents() {
     $(this._el).on('click', '.shizuku-component .close', (e) => this.removeComponent($(e.target).parents('.shizuku-component-container')[0]));
     $(document).on('mousewheel', (e) => this.setZoom(this.getZoom() * (e.originalEvent.deltaY < 0 ? 1.05 : 0.95)));
+    this._initializeJsPlumbEvents();
+  }
+
+  _initializeJsPlumbEvents() {
+    this._jp.bind('connection', this.onConnect.bind(this));
+    this._jp.bind('connectionDetached', this.onDisConnect.bind(this));
   }
 
   debug() {
     const values = this._componentMap.values();
     for (const component of values) {
-      const fields = component.getOutputFields();
-      console.log(component._el, fields);
+      component.getValue();
     }
   }
 
@@ -38,17 +55,26 @@ export default class Shizuku {
 
   load(state) {
     this._jp.reset();
+    this._initializeJsPlumbEvents();
     this._el.innerHTML = '';
-    state.data.forEach((c) => this.addComponent(c));
-    // コネクションをはる
-    state.connections.forEach((c) => {
-      const sourceEndpoints = this._jp.getEndpoints(c.sourceId);
-      const sep = sourceEndpoints.find((e) => e.getParameter('endpointId') === c.sourceEndpointId);
-      const targetEndpoints = this._jp.getEndpoints(c.targetId);
-      const tep = targetEndpoints.find((e) => e.getParameter('endpointId') === c.targetEndpointId);
-      this._jp.connect({
-        source: sep,
-        target: tep
+    this._jp.batch(() => {
+      state.data.forEach((c) => this.addComponent(c));
+      // コネクションをはる
+      state.connections.forEach((c) => {
+        const sourceEndpoints = this._jp.getEndpoints(c.sourceId);
+        const sep = sourceEndpoints.find((e) => e.getParameter('endpointId') === c.sourceEndpointId);
+        const targetEndpoints = this._jp.getEndpoints(c.targetId);
+        const tep = targetEndpoints.find((e) => e.getParameter('endpointId') === c.targetEndpointId);
+        this._jp.connect({
+          source: sep,
+          target: tep
+        });
+      });
+      // form内容をロード
+      state.data.forEach((c) => {
+        const el = document.getElementById(c.id);
+        const component = this.getComponent(el);
+        component.setValue(c.value);
       });
     });
   }
@@ -61,9 +87,9 @@ export default class Shizuku {
   addComponent(c) {
     const container = document.createElement('div');
     if (isString(c)) {
-      container.id = uuid.v1();
-      container.style.left = '0px';
-      container.style.top = '0px';
+      container.id = generateId();
+      container.style.left = '100px';
+      container.style.top = '100px';
     } else {
       container.id = c.id;
       container.style.left = c.x + 'px';
@@ -106,6 +132,7 @@ export default class Shizuku {
       ep.setParameter('endpointId', 'input-' + i);
       ep.setParameter('type', 'input');
     }
+
     for (let i = 0; i < outputNum; i++) {
       const ep = this._jp.addEndpoint(container, endpointOps, {
         anchor: this.outputAnchorPosition(horizontal, i, outputNum),
@@ -135,8 +162,8 @@ export default class Shizuku {
   /** jsPlumbからstateのconnectionを作成する */
   getConnectionsDef() {
     return this._jp.getAllConnections().map((c) => {
-      const te = c.endpoints.find((ep) => ep.getParameter('type') === 'input');
-      const se = c.endpoints.find((ep) => ep.getParameter('type') === 'output');
+      const te = findTargetEndpoint(c);
+      const se = findSourceEndpoint(c);
       return {
         sourceId: se.elementId,
         sourceEndpointId: se.getParameter('endpointId'),
@@ -148,10 +175,12 @@ export default class Shizuku {
 
   getDataDef() {
     const shizukucomponentMap = this._el.querySelectorAll('.shizuku-component-container');
-    return Array.prototype.map.call(shizukucomponentMap, function (el) {
+    return Array.prototype.map.call(shizukucomponentMap, (el) => {
       const rect = el.getBoundingClientRect();
       const type = el.dataset.type;
-      return { id: el.id, x: parseInt(rect.left), y: parseInt(rect.top), type };
+      const component = this.getComponent(el);
+      const value = component.getValue();
+      return { id: el.id, x: parseInt(rect.left), y: parseInt(rect.top), type, value };
     });
   }
 

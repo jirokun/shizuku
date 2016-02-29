@@ -4,7 +4,7 @@ export default class ListInputComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }
 
   buildTitle() {
-    return "CSVファイル入力";
+    return "リスト入力";
   }
 
   buildBody() {
@@ -13,21 +13,21 @@ export default class ListInputComponent extends ShizukuComponent {
         <tbody>
           <tr>
             <th>対象のMR</th>
-            <td><input type="text"/></td>
+            <td><input class="target-mr" type="text"/></td>
           </tr>
           <tr>
             <th>入力するリスト</th>
             <td>
-              <select class="">
-                <option value="all">全員</option>
-                <option value="only_20">20歳代のみ</option>
+              <select class="list-id">
+                <option value="LBC_1123287_DCF_20123">LBC_1123287_DCF_20123</option>
+                <option value="LBC_3213727_DCF_31928">LBC_3213727_DCF_31928</option>
               </select>
             </td>
           </tr>
           <tr>
-            <th>入力タイプ</th>
+            <th>リストのタイプ</th>
             <td>
-              <select class="">
+              <select class="list-type">
                 <option value="dcf">医師コード</option>
                 <option value="system_cd">システムコード</option>
               </select>
@@ -44,7 +44,7 @@ export default class ListInputComponent extends ShizukuComponent {
     return 0;
   }
 
-  getOutputFields() {
+  getOriginalOutputFields() {
     return [
       { label: '医師コード', field: 'dcf_dr_cd' },
       { label: '姓', field: 'sei' },
@@ -59,5 +59,21 @@ export default class ListInputComponent extends ShizukuComponent {
       { label: '最小病床数', field: 'dcf_min_bed_facility' },
       { label: '最終ログイン日時', field: 'last_login_date' },
     ];
+  }
+
+  getValue() {
+    const $el = $(this._el);
+    return {
+      "targetMr": $el.find('.target-mr').val(),
+      "listId": $el.find('.list-id').val(),
+      "listType": $el.find('.list-type').val(),
+    };
+  }
+
+  setValue(value) {
+    const $el = $(this._el);
+    $el.find('.target-mr').val(value.targetMr),
+    $el.find('.list-id').val(value.listId),
+    $el.find('.list-type').val(value.listType)
   }
 }

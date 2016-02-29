@@ -8,6 +8,7 @@ export default class ShizukuComponent {
   constructor(el, shizuku) {
     this._el = el;
     this._shizuku = shizuku;
+    this.initialized = false;
   }
 
   /** renderが呼ばれたあとに実行される */
@@ -77,9 +78,39 @@ export default class ShizukuComponent {
     return this.getSourceElements().map((el) => this._shizuku.getComponent(el));
   }
 
+  getOriginalOutputFields() {
+    return [];
+  }
+
+  getOutputFields() {
+    return this.getOriginalOutputFields();
+  }
+
+  /** formの内容を返す */
+  getValue() {
+    return {};
+  }
+
+  /** formの内容を復元する */
+  setValue(value) {
+  }
+
+  /** 再描画する */
+  refresh() {
+    this._el.innerHTML = '';
+    this.render();
+  }
+
+  /** SQLを作成する */
+  buildSQL() {
+    const fields = this.getOutputFields().map((f) => f.field).join('\n, ');
+    let sql = `select ${fields} from`;
+  }
+
   render() {
     this._el.appendChild(this.buildComponent());
     this._el.dataset.type = this.constructor.name;
+    this.initialized = true;
     this.onRendered();
   }
 }

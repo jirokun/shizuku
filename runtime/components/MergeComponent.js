@@ -41,4 +41,5 @@ export default class MergeComponent extends ShizukuComponent {
     }
     return outputFields;
   }
+
 }

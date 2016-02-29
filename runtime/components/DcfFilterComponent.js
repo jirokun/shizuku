@@ -8,6 +8,7 @@ export default class DcfFilterComponent extends ShizukuComponent {
   }
 
   buildBody() {
+    const fields = this.getOutputFields();
     return `
       <div>
         条件は全てand条件です。
@@ -15,7 +16,8 @@ export default class DcfFilterComponent extends ShizukuComponent {
           <thead>
             <tr>
               <th></th>
-              <th>条件</th>
+              <th>フィールド</th>
+              <th>比較種別</th>
               <th>値</th>
             </tr>
           </thead>
@@ -23,26 +25,24 @@ export default class DcfFilterComponent extends ShizukuComponent {
             <tr>
               <td><button type="button" class="btn btn-mini btn-danger">削除</button></td>
               <td>
-                <select>
-                  <option>診療科</option>
-                  <option>年齢</option>
-                  <option>病床数</option>
-                  <option>役職</option>
+                <select class="condition-field">
+                  ${fields.map((f) => `<option value="${f.field}">${f.label}</option>`)}
                 </select>
               </td>
               <td>
-                <div>
-                  対象<br/>
-                  <label><input type="checkbox"/> 第1診療科</label><br/>
-                  <label><input type="checkbox"/> 第2診療科</label><br/>
-                  <label><input type="checkbox"/> 第3診療科</label><br/>
-                  <label><input type="checkbox"/> 第4診療科</label><br/>
-                  <label><input type="checkbox"/> 第5診療科</label><br/>
-                </div>
-                <div>
-                  診療科コード<br/>
-                  <input type="text"/>
-                </div>
+                <select class="condition-type">
+                  <option value="=">=</option>
+                  <option value="!=">!=</option>
+                  <option value="<">&lt;</option>
+                  <option value=">">&gt;</option>
+                  <option value="<=">&lt;=</option>
+                  <option value=">=">&gt;=</option>
+                  <option value="contains">含む</option>
+                  <option value="begin_with">前方一致</option>
+                </select>
+              </td>
+              <td>
+                <input class="condition-value" type="text"/>
               </td>
             </tr>
           </tbody>
@@ -51,7 +51,33 @@ export default class DcfFilterComponent extends ShizukuComponent {
   }
 
   getOutputFields() {
+    // initializedされる前はsourceComponentsなどを取得できない
+    if (!this.initialized) {
+      return [];
+    }
     const source = this.getSourceComponents()[0];
-    return source.getOutputFields();
+    if (source) {
+      return source.getOutputFields();
+    }
+    return [];
+  }
+
+  getValue() {
+    return $.map($(this._el).find('tbody tr'), (el) => {
+      return {
+        field: $(el).find('.condition-field').val(),
+        type: $(el).find('.condition-type').val(),
+        value: $(el).find('.condition-value').val()
+      }
+    });
+  }
+
+  setValue(value) {
+    const trs = $(this._el).find('tbody tr');
+    value.forEach((row, i) => {
+      $(trs[i]).find('.condition-field').val(row.field),
+      $(trs[i]).find('.condition-type').val(row.type),
+      $(trs[i]).find('.condition-value').val(row.value)
+    });
   }
 }

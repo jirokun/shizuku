@@ -7,7 +7,7 @@ export default class TranslateDcfSyscdComponent extends ShizukuComponent {
     return "DCFコードをシステムコードに変換";
   }
 
-  getOutputFields() {
+  getOriginalOutputFields() {
     return [
       { label: 'システムコード', field: 'system_cd' },
       { label: '姓', field: 'sei' },

@@ -1,84 +1,125 @@
 export default {
   "connections": [
     {
-      "sourceId": "data2",
+      "sourceId": "szk_a5d72210ddef11e591064735c6952994",
       "sourceEndpointId": "output-0",
-      "targetId": "data3-1",
+      "targetId": "szk_data2",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "a5d72210-ddef-11e5-9106-4735c6952994",
+      "sourceId": "szk_a5d72210ddef11e591064735c6952994",
       "sourceEndpointId": "output-0",
-      "targetId": "data2",
+      "targetId": "szk_c8ca6de0ddef11e591064735c6952994",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "a5d72210-ddef-11e5-9106-4735c6952994",
+      "sourceId": "szk_a5d72210ddef11e591064735c6952994",
       "sourceEndpointId": "output-0",
-      "targetId": "c8ca6de0-ddef-11e5-9106-4735c6952994",
+      "targetId": "szk_0b80ad20ddf011e591064735c6952994",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "c8ca6de0-ddef-11e5-9106-4735c6952994",
+      "sourceId": "szk_data2",
       "sourceEndpointId": "output-0",
-      "targetId": "data3-1",
+      "targetId": "szk_data31",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk_c8ca6de0ddef11e591064735c6952994",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk_data31",
       "targetEndpointId": "input-1"
     },
     {
-      "sourceId": "a5d72210-ddef-11e5-9106-4735c6952994",
+      "sourceId": "szk_data31",
       "sourceEndpointId": "output-0",
-      "targetId": "0b80ad20-ddf0-11e5-9106-4735c6952994",
+      "targetId": "szk_15731020ddf011e591064735c6952994",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "0b80ad20-ddf0-11e5-9106-4735c6952994",
+      "sourceId": "szk_0b80ad20ddf011e591064735c6952994",
       "sourceEndpointId": "output-0",
-      "targetId": "15731020-ddf0-11e5-9106-4735c6952994",
-      "targetEndpointId": "input-1"
+      "targetId": "szk_15731020ddf011e591064735c6952994",
+      "targetEndpointId": "input-2"
     },
     {
-      "sourceId": "data3-1",
+      "sourceId": "szk_15731020ddf011e591064735c6952994",
       "sourceEndpointId": "output-0",
-      "targetId": "15731020-ddf0-11e5-9106-4735c6952994",
+      "targetId": "szke5cf06f0dee711e581f0f323b16a9174",
       "targetEndpointId": "input-0"
     }
   ],
   "data": [
     {
-      "id": "data2",
-      "x": 501,
-      "y": 67,
-      "type": "DcfFilterComponent"
+      "id": "szk_data2",
+      "x": 468,
+      "y": 65,
+      "type": "DcfFilterComponent",
+      "value": [
+        {
+          "field": "sei",
+          "type": "!=",
+          "value": "abc"
+        }
+      ]
     },
     {
-      "id": "data3-1",
-      "x": 1075,
-      "y": 103,
-      "type": "MergeComponent"
+      "id": "szk_data31",
+      "x": 1000,
+      "y": 287,
+      "type": "MergeComponent",
+      "value": {}
     },
     {
-      "id": "a5d72210-ddef-11e5-9106-4735c6952994",
-      "x": 48,
-      "y": 102,
-      "type": "ListInputComponent"
+      "id": "szk_a5d72210ddef11e591064735c6952994",
+      "x": 8,
+      "y": 60,
+      "type": "ListInputComponent",
+      "value": {
+        "targetMr": "aba",
+        "listId": "LBC_3213727_DCF_31928",
+        "listType": "system_cd"
+      }
     },
     {
-      "id": "c8ca6de0-ddef-11e5-9106-4735c6952994",
-      "x": 505,
-      "y": 370,
-      "type": "DcfFilterComponent"
+      "id": "szk_c8ca6de0ddef11e591064735c6952994",
+      "x": 56,
+      "y": 475,
+      "type": "DcfFilterComponent",
+      "value": [
+        {
+          "field": "sei",
+          "type": "=",
+          "value": "岩本"
+        }
+      ]
     },
     {
-      "id": "0b80ad20-ddf0-11e5-9106-4735c6952994",
-      "x": 975,
-      "y": 318,
-      "type": "DcfFilterComponent"
+      "id": "szk_0b80ad20ddf011e591064735c6952994",
+      "x": 705,
+      "y": 488,
+      "type": "DcfFilterComponent",
+      "value": [
+        {
+          "field": "age",
+          "type": ">",
+          "value": "40"
+        }
+      ]
     },
     {
-      "id": "15731020-ddf0-11e5-9106-4735c6952994",
-      "x": 1415,
-      "y": 232,
-      "type": "MergeComponent"
+      "id": "szk_15731020ddf011e591064735c6952994",
+      "x": 1260,
+      "y": 310,
+      "type": "MergeComponent",
+      "value": {}
+    },
+    {
+      "id": "szke5cf06f0dee711e581f0f323b16a9174",
+      "x": 1341,
+      "y": 195,
+      "type": "OutputCsvComponent",
+      "value": {}
     }
   ]
-}
+};
