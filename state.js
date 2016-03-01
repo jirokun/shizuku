@@ -73,7 +73,7 @@ export default {
       "id": "szk_data31",
       "x": 1000,
       "y": 285,
-      "type": "MergeComponent",
+      "type": "AndComponent",
       "value": []
     },
     {
@@ -126,7 +126,7 @@ export default {
       "id": "szk_15731020ddf011e591064735c6952994",
       "x": 1260,
       "y": 310,
-      "type": "MergeComponent",
+      "type": "AndComponent",
       "value": []
     },
     {

@@ -1,15 +1,15 @@
 import ShizukuComponent from './ShizukuComponent'
 import { flatten } from '../../utils'
 
-export default class MergeComponent extends ShizukuComponent {
+export default class AndComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }
 
   buildTitle() {
-    return "結合";
+    return "AND";
   }
 
   buildBody() {
-    return `<div class="icon-only"><i class="fa fa-compress"></i></div>`;
+    return `<div><img width="100" height="73" src="img/Venn0111.svg"/></div>`;
   }
 
   getInputNum() {

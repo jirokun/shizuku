@@ -1,6 +1,6 @@
 import CsvInputComponent from './CsvInputComponent'
 import DcfFilterComponent from './DcfFilterComponent'
-import MergeComponent from './MergeComponent'
+import AndComponent from './AndComponent'
 import TranslateDcfSyscdComponent from './TranslateDcfSyscdComponent'
 import ListInputComponent from './ListInputComponent'
 import OutputCsvComponent from './OutputCsvComponent'
@@ -8,7 +8,7 @@ import OutputCsvComponent from './OutputCsvComponent'
 export default [
   CsvInputComponent,
   DcfFilterComponent,
-  MergeComponent,
+  AndComponent,
   TranslateDcfSyscdComponent,
   ListInputComponent,
   OutputCsvComponent,
