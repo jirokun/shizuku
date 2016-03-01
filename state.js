@@ -52,7 +52,7 @@ export default {
   "data": [
     {
       "id": "szk_data2",
-      "x": 468,
+      "x": 466,
       "y": 65,
       "type": "DcfFilterComponent",
       "value": [
@@ -66,24 +66,33 @@ export default {
     {
       "id": "szk_data31",
       "x": 1000,
-      "y": 287,
+      "y": 285,
       "type": "MergeComponent",
-      "value": {}
+      "value": []
     },
     {
       "id": "szk_a5d72210ddef11e591064735c6952994",
-      "x": 8,
+      "x": 6,
       "y": 60,
       "type": "ListInputComponent",
-      "value": {
-        "targetMr": "aba",
-        "listId": "LBC_3213727_DCF_31928",
-        "listType": "system_cd"
-      }
+      "value": [
+        {
+          "name": "targetMr",
+          "value": "asdf"
+        },
+        {
+          "name": "listId",
+          "value": "LBC_3213727_DCF_31928"
+        },
+        {
+          "name": "listType",
+          "value": "system_cd"
+        }
+      ]
     },
     {
       "id": "szk_c8ca6de0ddef11e591064735c6952994",
-      "x": 56,
+      "x": 55,
       "y": 475,
       "type": "DcfFilterComponent",
       "value": [
@@ -97,7 +106,7 @@ export default {
     {
       "id": "szk_0b80ad20ddf011e591064735c6952994",
       "x": 705,
-      "y": 488,
+      "y": 486,
       "type": "DcfFilterComponent",
       "value": [
         {
@@ -112,14 +121,23 @@ export default {
       "x": 1260,
       "y": 310,
       "type": "MergeComponent",
-      "value": {}
+      "value": []
     },
     {
       "id": "szke5cf06f0dee711e581f0f323b16a9174",
-      "x": 1341,
+      "x": 1340,
       "y": 195,
       "type": "OutputCsvComponent",
-      "value": {}
+      "value": [
+        {
+          "name": "outputFile",
+          "value": "asfdasdf"
+        },
+        {
+          "name": "header",
+          "value": "off"
+        }
+      ]
     }
   ]
 };

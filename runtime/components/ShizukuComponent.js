@@ -88,11 +88,14 @@ export default class ShizukuComponent {
 
   /** formの内容を返す */
   getValue() {
-    return {};
+    const $form = $(this._el).find('form');
+    return $form.getFormValues();
   }
 
   /** formの内容を復元する */
   setValue(value) {
+    const $form = $(this._el).find('form');
+    return $form.restoreFormValues(value);
   }
 
   /** 再描画する */

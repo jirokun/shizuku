@@ -9,32 +9,34 @@ export default class ListInputComponent extends ShizukuComponent {
 
   buildBody() {
     return `
-      <table class="table-form">
-        <tbody>
-          <tr>
-            <th>対象のMR</th>
-            <td><input class="target-mr" type="text"/></td>
-          </tr>
-          <tr>
-            <th>入力するリスト</th>
-            <td>
-              <select class="list-id">
-                <option value="LBC_1123287_DCF_20123">LBC_1123287_DCF_20123</option>
-                <option value="LBC_3213727_DCF_31928">LBC_3213727_DCF_31928</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th>リストのタイプ</th>
-            <td>
-              <select class="list-type">
-                <option value="dcf">医師コード</option>
-                <option value="system_cd">システムコード</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
-      </table>`;
+      <form>
+        <table class="table-form">
+          <tbody>
+            <tr>
+              <th>対象のMR</th>
+              <td><input name="targetMr" type="text"/></td>
+            </tr>
+            <tr>
+              <th>入力するリスト</th>
+              <td>
+                <select name="listId">
+                  <option value="LBC_1123287_DCF_20123">LBC_1123287_DCF_20123</option>
+                  <option value="LBC_3213727_DCF_31928">LBC_3213727_DCF_31928</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>リストのタイプ</th>
+              <td>
+                <select name="listType">
+                  <option value="dcf">医師コード</option>
+                  <option value="system_cd">システムコード</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>`;
   }
 
   onRendered() {
@@ -59,21 +61,5 @@ export default class ListInputComponent extends ShizukuComponent {
       { label: '最小病床数', field: 'dcf_min_bed_facility' },
       { label: '最終ログイン日時', field: 'last_login_date' },
     ];
-  }
-
-  getValue() {
-    const $el = $(this._el);
-    return {
-      "targetMr": $el.find('.target-mr').val(),
-      "listId": $el.find('.list-id').val(),
-      "listType": $el.find('.list-type').val(),
-    };
-  }
-
-  setValue(value) {
-    const $el = $(this._el);
-    $el.find('.target-mr').val(value.targetMr),
-    $el.find('.list-id').val(value.listId),
-    $el.find('.list-type').val(value.listType)
   }
 }

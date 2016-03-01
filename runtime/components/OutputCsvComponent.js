@@ -11,27 +11,29 @@ export default class OutputCsvComponent extends ShizukuComponent {
   buildBody() {
     const name = generateId();
     return `
-      <table class="table-form">
-        <tbody>
-          <tr>
-            <th>出力ファイル</th>
-            <td><input type="text"/></td>
-          </tr>
-          <tr>
-            <th>ヘッダー</th>
-            <td>
-              <label>
-                <input type="radio" value="on" name="${name}" checked/>
-                有り
-              </label>
-              <label>
-                <input type="radio" value="off" name="${name}"/>
-                有り
-              </label>
-            </td>
-          </tr>
-        </tbody>
-      </table>`;
+      <form>
+        <table class="table-form">
+          <tbody>
+            <tr>
+              <th>出力ファイル</th>
+              <td><input name="outputFile" type="text"/></td>
+            </tr>
+            <tr>
+              <th>ヘッダー</th>
+              <td>
+                <label>
+                  <input type="radio" value="on" name="header" checked/>
+                  有り
+                </label>
+                <label>
+                  <input type="radio" value="off" name="header"/>
+                  無し
+                </label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>`;
 
   }
 
@@ -40,5 +42,4 @@ export default class OutputCsvComponent extends ShizukuComponent {
       { label: 'CSVファイル', field: 'csv_file' },
     ];
   }
-
 }
