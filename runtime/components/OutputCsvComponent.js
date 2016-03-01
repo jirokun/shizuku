@@ -9,7 +9,8 @@ export default class OutputCsvComponent extends ShizukuComponent {
   }
 
   buildBody() {
-    const name = generateId();
+    const fields = this.getOutputFields();
+    console.log(fields);
     return `
       <form>
         <table class="table-form">
@@ -31,15 +32,18 @@ export default class OutputCsvComponent extends ShizukuComponent {
                 </label>
               </td>
             </tr>
+            <tr>
+              <th>出力するフィールド</th>
+              <td>
+                ${fields.map((f) => `<label class="vertical-checkbox"><input type="checkbox" name="outputFields" value="${f.field}"/> ${f.label}</label>`).join('\n')}
+              </td>
+            </tr>
           </tbody>
         </table>
       </form>`;
-
   }
 
-  getOriginalOutputFields() {
-    return [
-      { label: 'CSVファイル', field: 'csv_file' },
-    ];
+  getOutputNum() {
+    return 0;
   }
 }

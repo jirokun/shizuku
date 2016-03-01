@@ -21,7 +21,10 @@ export default class TranslateDcfSyscdComponent extends ShizukuComponent {
       { label: '最大病床数', field: 'dcf_max_bed_facility' },
       { label: '最小病床数', field: 'dcf_min_bed_facility' },
       { label: '最終ログイン日時', field: 'last_login_date' },
-    ];
+    ].map((f) => {
+      f.owner = this;
+      return f;
+    });
   }
 
 }

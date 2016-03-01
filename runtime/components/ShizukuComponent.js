@@ -25,6 +25,10 @@ export default class ShizukuComponent {
     return "";
   }
 
+  getId() {
+    return this._el.id;
+  }
+
   /** inputのportの数を返す */
   getInputNum() {
     return 1;
@@ -83,19 +87,28 @@ export default class ShizukuComponent {
   }
 
   getOutputFields() {
-    return this.getOriginalOutputFields();
+    // initializedされる前はsourceComponentsなどを取得できない
+    if (!this.initialized) {
+      return [];
+    }
+    // sourcesのfieldsを取得
+    const sourceComponents = this.getSourceComponents();
+    const sources = sourceComponents.map((sc) => sc.getOutputFields());
+    const fieldSet = new Set(flatten(sources));
+    this.getOriginalOutputFields().forEach((f) => fieldSet.add(f));
+    return Array.from(fieldSet);
   }
 
   /** formの内容を返す */
   getValue() {
     const $form = $(this._el).find('form');
-    return $form.getFormValues();
+    return $form.values();
   }
 
   /** formの内容を復元する */
   setValue(value) {
     const $form = $(this._el).find('form');
-    return $form.restoreFormValues(value);
+    return $form.values(value);
   }
 
   /** 再描画する */
@@ -106,8 +119,7 @@ export default class ShizukuComponent {
 
   /** SQLを作成する */
   buildSQL() {
-    const fields = this.getOutputFields().map((f) => f.field).join('\n, ');
-    let sql = `select ${fields} from`;
+    throw 'not impletented yet';
   }
 
   render() {

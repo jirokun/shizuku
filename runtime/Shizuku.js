@@ -1,4 +1,4 @@
-import { findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from '../utils'
+import { flatten, findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from '../utils'
 
 export default class Shizuku {
   constructor(el) {
@@ -33,10 +33,7 @@ export default class Shizuku {
   }
 
   debug() {
-    const values = this._componentMap.values();
-    for (const component of values) {
-      component.getValue();
-    }
+    this.findStartComponent();
   }
 
   /** elementにひもつくComponentを取得する */
@@ -181,6 +178,28 @@ export default class Shizuku {
       const component = this.getComponent(el);
       const value = component.getValue();
       return { id: el.id, x: parseInt(rect.left), y: parseInt(rect.top), type, value };
+    });
+  }
+
+  /** 入力がない開始コンポーネントを取得する */
+  findStartComponent() {
+    function recurseSources(c) {
+      const sources = c.getSourceComponents();
+      if (sources.length === 0) return c;
+      return sources.map((s) => recurseSources(s));
+    }
+    const shizukucomponentMap = this._el.querySelectorAll('.shizuku-component-container');
+    const allComponents = Array.prototype.map.call(shizukucomponentMap, (el) => this.getComponent(el) );
+    const startComponentSet = new Set(flatten(allComponents.map((c) => recurseSources(allComponents[5]))));
+    return Array.from(startComponentSet);
+  }
+
+  /** SQLを作成する */
+  buildSQL() {
+    const builtComponentSet = new Set();
+    const startComponents = this.findStartComponent();
+    startComponents.forEach((c) => {
+      c.buildSQL();
     });
   }
 
