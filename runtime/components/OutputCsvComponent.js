@@ -46,4 +46,5 @@ export default class OutputCsvComponent extends ShizukuComponent {
   getOutputNum() {
     return 0;
   }
+
 }

@@ -1,4 +1,4 @@
-import { findSourceEndpoint, flatten, isElement, findComponentConstructor, findData } from '../../utils'
+import { findTargetEndpoint, findSourceEndpoint, flatten, isElement, findComponentConstructor, findData } from '../../utils'
 
 /**
  * Componentは必ずShizukuComponentを継承して作ること
@@ -70,16 +70,35 @@ export default class ShizukuComponent {
     return shizukuComponentEl;
   }
 
-  getSourceElements() {
+  /**
+   * sourceまたはtargetのelementを取得する
+   *
+   * @param sourceOrTarget 'source' or 'target'
+   */
+  _getElements(sourceOrTarget) {
     const jp = this._shizuku.getJsPlumb();
-    const inputEndpoints = jp.getEndpoints(this._el).filter((ep) => ep.getParameter('type') === 'input');
-    const connections = flatten(inputEndpoints.map((ep) => ep.connections));
-    const sourceEndpoints = connections.map((con) => findSourceEndpoint(con));
+    const type = sourceOrTarget === 'source' ? 'input' : 'output';
+    const endpoints = jp.getEndpoints(this._el).filter((ep) => ep.getParameter('type') === type);
+    const connections = flatten(endpoints.map((ep) => ep.connections));
+    const finder = sourceOrTarget === 'source' ? findSourceEndpoint : findTargetEndpoint;
+    const sourceEndpoints = connections.map((con) => finder(con));
     return sourceEndpoints.map((ep) => ep.element);
+  }
+
+  getSourceElements() {
+    return this._getElements('source');
   }
 
   getSourceComponents() {
     return this.getSourceElements().map((el) => this._shizuku.getComponent(el));
+  }
+
+  getTargetElements() {
+    return this._getElements('target');
+  }
+
+  getTargetComponents() {
+    return this.getTargetElements().map((el) => this._shizuku.getComponent(el));
   }
 
   getOriginalOutputFields() {

@@ -33,7 +33,8 @@ export default class Shizuku {
   }
 
   debug() {
-    this.findStartComponent();
+    //this.findStartComponent();
+    this.buildSQL();
   }
 
   /** elementにひもつくComponentを取得する */
@@ -183,26 +184,35 @@ export default class Shizuku {
     });
   }
 
-  /** 入力がない開始コンポーネントを取得する */
-  findStartComponent() {
-    function recurseSources(c) {
-      const sources = c.getSourceComponents();
-      if (sources.length === 0) return c;
-      return sources.map((s) => recurseSources(s));
+  _findComponent(firstOrLast) {
+    function recurse(c) {
+      const components = firstOrLast === 'first' ? c.getSourceComponents() : c.getTargetComponents();
+      if (components.length === 0) return c;
+      return components.map((s) => recurse(s));
     }
     const shizukucomponentMap = this._el.querySelectorAll('.shizuku-component-container');
     const allComponents = Array.prototype.map.call(shizukucomponentMap, (el) => this.getComponent(el) );
-    const startComponentSet = new Set(flatten(allComponents.map((c) => recurseSources(allComponents[5]))));
+    const startComponentSet = new Set(flatten(allComponents.map((c) => recurse(allComponents[5]))));
     return Array.from(startComponentSet);
+  }
+
+  /** 入力がない開始コンポーネントを取得する */
+  findFirstComponents() {
+    return this._findComponent('first');
+  }
+
+  /** 出力がない終了コンポーネントを取得する */
+  findLastComponents() {
+    return this._findComponent('last');
   }
 
   /** SQLを作成する */
   buildSQL() {
     const builtComponentSet = new Set();
-    const startComponents = this.findStartComponent();
-    startComponents.forEach((c) => {
-      c.buildSQL();
-    });
+    const firstComponents = this.findFirstComponents();
+    const lastComponents = this.findLastComponents();
+    console.log(firstComponents);
+    console.log(lastComponents);
   }
 
   /** 定義されている情報をdumpする */
