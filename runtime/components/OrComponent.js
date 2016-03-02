@@ -42,4 +42,8 @@ export default class OrComponent extends ShizukuComponent {
     return outputFields;
   }
 
+  buildSQL(fields) {
+    console.log(fields);
+    return "select 1 from dual";
+  }
 }

@@ -1,83 +1,83 @@
 export default {
   "connections": [
     {
-      "sourceId": "szk_a5d72210ddef11e591064735c6952994",
+      "sourceId": "s0000",
       "sourceEndpointId": "output-0",
-      "targetId": "szk_data2",
+      "targetId": "s0006",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "szk_a5d72210ddef11e591064735c6952994",
+      "sourceId": "s0000",
       "sourceEndpointId": "output-0",
-      "targetId": "szk_c8ca6de0ddef11e591064735c6952994",
+      "targetId": "s0001",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "szk_a5d72210ddef11e591064735c6952994",
+      "sourceId": "s0000",
       "sourceEndpointId": "output-0",
-      "targetId": "szk_0b80ad20ddf011e591064735c6952994",
+      "targetId": "s0002",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "szk_data2",
+      "sourceId": "s0006",
       "sourceEndpointId": "output-0",
-      "targetId": "szk_data31",
+      "targetId": "s0007",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "szk_c8ca6de0ddef11e591064735c6952994",
+      "sourceId": "s0001",
       "sourceEndpointId": "output-0",
-      "targetId": "szk_data31",
+      "targetId": "s0007",
       "targetEndpointId": "input-1"
     },
     {
-      "sourceId": "szk_data31",
+      "sourceId": "s0007",
       "sourceEndpointId": "output-0",
-      "targetId": "szk_15731020ddf011e591064735c6952994",
+      "targetId": "s0003",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "szk_0b80ad20ddf011e591064735c6952994",
+      "sourceId": "s0002",
       "sourceEndpointId": "output-0",
-      "targetId": "szk_15731020ddf011e591064735c6952994",
+      "targetId": "s0003",
       "targetEndpointId": "input-2"
     },
     {
-      "sourceId": "szk_15731020ddf011e591064735c6952994",
+      "sourceId": "s0003",
       "sourceEndpointId": "output-0",
-      "targetId": "szke5cf06f0dee711e581f0f323b16a9174",
+      "targetId": "s0004",
       "targetEndpointId": "input-0"
     },
     {
-      "sourceId": "szkefeb0a90dfae11e59ddb3755cc079993",
+      "sourceId": "s0005",
       "sourceEndpointId": "output-0",
-      "targetId": "szk_data31",
+      "targetId": "s0007",
       "targetEndpointId": "input-3"
     }
   ],
   "data": [
     {
-      "id": "szk_data2",
+      "id": "s0006",
       "x": 465,
       "y": 65,
       "type": "DcfFilterComponent",
       "value": [
         {
-          "field": "sei",
+          "field": "s0000:sei",
           "type": "!=",
           "value": "abc"
         }
       ]
     },
     {
-      "id": "szk_data31",
-      "x": 926,
-      "y": 325,
+      "id": "s0007",
+      "x": 915,
+      "y": 313,
       "type": "OrComponent",
       "value": {}
     },
     {
-      "id": "szk_a5d72210ddef11e591064735c6952994",
+      "id": "s0000",
       "x": 5,
       "y": 60,
       "type": "ListInputComponent",
@@ -94,40 +94,40 @@ export default {
       }
     },
     {
-      "id": "szk_c8ca6de0ddef11e591064735c6952994",
+      "id": "s0001",
       "x": 110,
       "y": 465,
       "type": "DcfFilterComponent",
       "value": [
         {
-          "field": "sei",
+          "field": "s0000:dcf_specialty1",
           "type": "=",
           "value": "岩本"
         }
       ]
     },
     {
-      "id": "szk_0b80ad20ddf011e591064735c6952994",
+      "id": "s0002",
       "x": 705,
       "y": 485,
       "type": "DcfFilterComponent",
       "value": [
         {
-          "field": "age",
+          "field": "s0000:age",
           "type": ">",
           "value": "40"
         }
       ]
     },
     {
-      "id": "szk_15731020ddf011e591064735c6952994",
+      "id": "s0003",
       "x": 1170,
-      "y": 222,
+      "y": 221,
       "type": "OrComponent",
       "value": {}
     },
     {
-      "id": "szke5cf06f0dee711e581f0f323b16a9174",
+      "id": "s0004",
       "x": 1340,
       "y": 195,
       "type": "OutputCsvComponent",
@@ -139,16 +139,16 @@ export default {
           "on"
         ],
         "outputFields": [
-          "dcf_specialty2",
-          "dcf_specialty4",
-          "dcf_specialty5"
+          "s0000:dcf_dr_cd",
+          "s0000:sei",
+          "s0000:mei"
         ]
       }
     },
     {
-      "id": "szkefeb0a90dfae11e59ddb3755cc079993",
-      "x": 42,
-      "y": 301,
+      "id": "s0005",
+      "x": 41,
+      "y": 300,
       "type": "ListInputComponent",
       "value": {
         "targetMr": [
@@ -163,4 +163,4 @@ export default {
       }
     }
   ]
-};
+}

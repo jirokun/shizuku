@@ -1,5 +1,5 @@
 import ShizukuComponent from './ShizukuComponent'
-import { generateId } from '../../utils.js'
+import { encodeField, generateId } from '../../utils.js'
 
 export default class OutputCsvComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }
@@ -9,7 +9,7 @@ export default class OutputCsvComponent extends ShizukuComponent {
   }
 
   buildBody() {
-    const fields = this.getOutputFields();
+    const fields = this.getInputFields();
     console.log(fields);
     return `
       <form>
@@ -35,7 +35,7 @@ export default class OutputCsvComponent extends ShizukuComponent {
             <tr>
               <th>出力するフィールド</th>
               <td>
-                ${fields.map((f) => `<label class="vertical-checkbox"><input type="checkbox" name="outputFields" value="${f.field}"/> ${f.label}</label>`).join('\n')}
+                ${fields.map((f) => `<label class="vertical-checkbox"><input type="checkbox" name="outputFields" value="${encodeField(f)}"/> ${f.label}</label>`).join('\n')}
               </td>
             </tr>
           </tbody>
@@ -47,4 +47,14 @@ export default class OutputCsvComponent extends ShizukuComponent {
     return 0;
   }
 
+  /** このコンポーネントで使用するフィールドを返す */
+  getUsedFields() {
+    const els = this._el.querySelectorAll('input[type="checkbox"]:checked');
+    return Array.prototype.map.call(els, (el) => el.value);
+  }
+
+  buildSQL(fields) {
+    console.log(fields);
+    return "select 1 from dual";
+  }
 }

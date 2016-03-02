@@ -62,3 +62,26 @@ export function findTargetEndpoint(connection) {
 export function generateId() {
   return 'szk' + uuid.v1().replace(/-/g, '');
 }
+
+/** field情報をhtmlのvalue値で持つ際のフォーマットを共通化 */
+export function encodeField(f) {
+  return f.ownerId + ':' + f.field;
+}
+
+/** field情報をhtmlのvalue値で持つ際のフォーマットを共通化 */
+export function decodeField(str) {
+  const tokens = str.split(/:/);
+  return { ownerId: tokens[0], field: tokens[1] };
+}
+
+export function escapeHTML(content) {
+  var TABLE_FOR_ESCAPE_HTML = {
+    "&": "&amp;",
+    "\"": "&quot;",
+    "<": "&lt;",
+    ">": "&gt;"
+  };
+  return content.replace(/[&"<>]/g, function(match) {
+    return TABLE_FOR_ESCAPE_HTML[match];
+  });
+}

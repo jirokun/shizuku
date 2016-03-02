@@ -1,7 +1,12 @@
 import ShizukuComponent from './ShizukuComponent'
+import { decodeField, encodeField } from '../../utils.js'
 
 export default class DcfFilterComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }
+
+  getKey() {
+    return 'dcf_dr_cd';
+  }
 
   buildTitle() {
     return "医師のフィルタ";
@@ -26,7 +31,7 @@ export default class DcfFilterComponent extends ShizukuComponent {
               <td><button type="button" class="btn btn-mini btn-danger">削除</button></td>
               <td>
                 <select class="condition-field">
-                  ${fields.map((f) => `<option value="${f.field}">${f.label}</option>`)}
+                  ${fields.map((f) => `<option value="${encodeField(f)}">${f.label}</option>`)}
                 </select>
               </td>
               <td>
@@ -79,5 +84,23 @@ export default class DcfFilterComponent extends ShizukuComponent {
       $(trs[i]).find('.condition-type').val(row.type),
       $(trs[i]).find('.condition-value').val(row.value)
     });
+  }
+
+  getUsedFields() {
+    return $.map($(this._el).find('select.condition-field'), (el) => $(el).val());
+  }
+
+  buildSQL(fields) {
+    const id = this.getId();
+    const key = this.getKey();
+    const otherTables = Array.from(new Set(Array.from(fields).map(decodeField).map((f) => `${f.ownerId}`)));
+    const value = this.getValue();
+    let sql = 'select ';
+    sql += Array.from(fields).map(decodeField).map((f) => `${f.ownerId}.${f.field}`).join(',');
+    sql += ` from ${id} `;
+    sql += otherTables.map((t) => `inner join ${t} on ${t}.${key} = ${id}.${key}`).join('\n');
+    sql += ` where `;
+    sql += value.map((v) => `${v.field.replace(/:/, '.')} ${v.type} '${v.value}'`).join(",");
+    return sql;
   }
 }

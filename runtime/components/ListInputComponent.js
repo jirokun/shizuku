@@ -1,4 +1,5 @@
 import ShizukuComponent from './ShizukuComponent'
+import { decodeField } from '../../utils.js'
 
 export default class ListInputComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }
@@ -61,11 +62,14 @@ export default class ListInputComponent extends ShizukuComponent {
       { label: '最小病床数', field: 'dcf_min_bed_facility' },
       { label: '最終ログイン日時', field: 'last_login_date' },
     ].map((f) => {
-      f.owner = this;
+      f.ownerId = this.getId();
       return f;
     });
   }
 
-  buildSQL() {
+  buildSQL(fieldSet) {
+    const id = this.getId();
+    const fields = Array.from(fieldSet).map((f) => decodeField(f));
+    return `select ${fields.map((f) => f.ownerId + '.' + f.field).join(',')} from ${id}`;
   }
 }

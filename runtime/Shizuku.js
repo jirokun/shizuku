@@ -1,4 +1,4 @@
-import { flatten, findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from '../utils'
+import { decodeField, flatten, findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from '../utils'
 
 export default class Shizuku {
   constructor(el) {
@@ -208,11 +208,36 @@ export default class Shizuku {
 
   /** SQLを作成する */
   buildSQL() {
-    const builtComponentSet = new Set();
-    const firstComponents = this.findFirstComponents();
-    const lastComponents = this.findLastComponents();
-    console.log(firstComponents);
-    console.log(lastComponents);
+    function checkFieldRecurse(c) {
+      c.getUsedFields().forEach((f) => usedFields.add(f));
+      c.getSourceComponents().forEach(checkFieldRecurse);
+    }
+    function findUsedFields(ownerId) {
+      const encodedFieldSet = new Set();
+      for (let value of usedFields) {
+        const field = decodeField(value);
+        if (field.ownerId === ownerId) {
+          encodedFieldSet.add(value);
+        }
+      }
+      return encodedFieldSet;
+    }
+    function buildRecurse(c, parentFieldSet = new Set()) {
+      const fieldSet = new Set(parentFieldSet); // clone
+      findUsedFields(c.getId()).forEach((f) => fieldSet.add(f));
+      sqls.push(c.buildSQL(fieldSet));
+      c.getTargetComponents().forEach((c) => buildRecurse(c, fieldSet));
+    }
+
+    // 使用するフィールドをマーク lastからたどる
+    const usedFields = new Set();
+    this.findLastComponents().forEach(checkFieldRecurse);
+
+    // SQLを生成 firstからたどる
+    const builtSet = new Set(); // 生成済みのSet
+    const sqls = [];
+    this.findFirstComponents().forEach((c) => buildRecurse(c));
+    console.log(sqls);
   }
 
   /** 定義されている情報をdumpする */

@@ -111,11 +111,26 @@ export default class ShizukuComponent {
       return [];
     }
     // sourcesのfieldsを取得
+    const fieldSet = new Set(this.getInputFields());
+    this.getOriginalOutputFields().forEach((f) => fieldSet.add(f));
+    return Array.from(fieldSet);
+  }
+
+  getInputFields() {
+    // initializedされる前はsourceComponentsなどを取得できない
+    if (!this.initialized) {
+      return [];
+    }
+    // sourcesのfieldsを取得
     const sourceComponents = this.getSourceComponents();
     const sources = sourceComponents.map((sc) => sc.getOutputFields());
     const fieldSet = new Set(flatten(sources));
-    this.getOriginalOutputFields().forEach((f) => fieldSet.add(f));
     return Array.from(fieldSet);
+  }
+
+  /** 使用するフィールドを返す */
+  getUsedFields() {
+    return [];
   }
 
   /** formの内容を返す */
