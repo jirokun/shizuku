@@ -1,4 +1,5 @@
 import ComponentList from './runtime/components/ComponentList'
+import uuid from 'node-uuid'
 
 export function flatten(ary) {
   return ary.reduce((p, c) => {
@@ -20,18 +21,19 @@ export function findComponentConstructor(name) {
   throw 'Item is not defined: ' + name;
 }
 
-/** jsPlumbからstateのconnectionを作成する */
-export function createConnectionState(jp) {
-  return jp.getAllConnections().map((c) => {
-    const te = c.endpoints.find((ep) => ep.getParameter('type') === 'input');
-    const se = c.endpoints.find((ep) => ep.getParameter('type') === 'output');
-    return {
-      sourceId: se.elementId,
-      sourceEndpointId: se.getParameter('endpointId'),
-      targetId: te.elementId,
-      targetEndpointId: te.getParameter('endpointId'),
-    };
-  });
+export function isString(obj) {
+  return typeof obj === 'string';
+}
+
+export function isElement(obj) {
+  try {
+    return obj instanceof HTMLElement;
+  }
+  catch(e){
+    return (typeof obj==="object") &&
+      (obj.nodeType===1) && (typeof obj.style === "object") &&
+      (typeof obj.ownerDocument ==="object");
+  }
 }
 
 export function findData(state, dataId) {
@@ -45,4 +47,18 @@ export function findConnection(state, connectionId) {
 /** オブジェクトをcloneする */
 export function cloneObj(obj) {
   return JSON.parse(JSON.stringify(obj));
+}
+
+/** Connectionに紐付いている2つのendpointのうち、source(output)となるendpointを返す */
+export function findSourceEndpoint(connection) {
+  return connection.endpoints.find((ep) => ep.getParameter('type') === 'output');
+}
+
+/** Connectionに紐付いている2つのendpointのうち、target(input)となるendpointを返す */
+export function findTargetEndpoint(connection) {
+  return connection.endpoints.find((ep) => ep.getParameter('type') === 'input');
+}
+
+export function generateId() {
+  return 'szk' + uuid.v1().replace(/-/g, '');
 }

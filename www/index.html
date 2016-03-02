@@ -3,17 +3,17 @@
   <head>
     <title>JPipes</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css"/>
   </head>
   <body>
-    <div id="root">
+    <div class="shizuku">
+      <div id="shizuku-menu"></div>
+      <div id="shizuku-editor"></div>
     </div>
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/js/jquery.values.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/node_modules/jsplumb/dist/js/jsPlumb-2.0.7.js"></script>
-    <script>
-      var jp = jsPlumb.getInstance('root', {
-      });
-    </script>
     <script src="/static/runtime.bundle.js"></script>
   </body>
 </html>
