@@ -119,6 +119,8 @@ export default class Shizuku {
       isSource: true,
       isTarget: true,
       endpoint: ['Dot', { radius: 6 }],
+      //connector: ["Flowchart", { stub: [30, 30], cornerRadius: 5, alwaysRespectStubs: true }],
+      connectorOverlays:[[ "Arrow", { location:1 } ]],
       maxconnections: 1,
     };
 

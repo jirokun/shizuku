@@ -71,35 +71,32 @@ export default {
     },
     {
       "id": "szk_data31",
-      "x": 1000,
-      "y": 285,
-      "type": "AndComponent",
-      "value": []
+      "x": 926,
+      "y": 325,
+      "type": "OrComponent",
+      "value": {}
     },
     {
       "id": "szk_a5d72210ddef11e591064735c6952994",
       "x": 5,
       "y": 60,
       "type": "ListInputComponent",
-      "value": [
-        {
-          "name": "targetMr",
-          "value": "asdf"
-        },
-        {
-          "name": "listId",
-          "value": "LBC_3213727_DCF_31928"
-        },
-        {
-          "name": "listType",
-          "value": "system_cd"
-        }
-      ]
+      "value": {
+        "targetMr": [
+          "abc"
+        ],
+        "listId": [
+          "LBC_1123287_DCF_20123"
+        ],
+        "listType": [
+          "dcf"
+        ]
+      }
     },
     {
       "id": "szk_c8ca6de0ddef11e591064735c6952994",
-      "x": 111,
-      "y": 466,
+      "x": 110,
+      "y": 465,
       "type": "DcfFilterComponent",
       "value": [
         {
@@ -124,46 +121,46 @@ export default {
     },
     {
       "id": "szk_15731020ddf011e591064735c6952994",
-      "x": 1260,
-      "y": 310,
-      "type": "AndComponent",
-      "value": []
+      "x": 1170,
+      "y": 222,
+      "type": "OrComponent",
+      "value": {}
     },
     {
       "id": "szke5cf06f0dee711e581f0f323b16a9174",
       "x": 1340,
       "y": 195,
       "type": "OutputCsvComponent",
-      "value": [
-        {
-          "name": "outputFile",
-          "value": "asfdasdf"
-        },
-        {
-          "name": "header",
-          "value": "off"
-        }
-      ]
+      "value": {
+        "outputFile": [
+          "aaabbbb"
+        ],
+        "header": [
+          "on"
+        ],
+        "outputFields": [
+          "dcf_specialty2",
+          "dcf_specialty4",
+          "dcf_specialty5"
+        ]
+      }
     },
     {
       "id": "szkefeb0a90dfae11e59ddb3755cc079993",
-      "x": 43,
-      "y": 302,
+      "x": 42,
+      "y": 301,
       "type": "ListInputComponent",
-      "value": [
-        {
-          "name": "targetMr",
-          "value": "asdf"
-        },
-        {
-          "name": "listId",
-          "value": "LBC_1123287_DCF_20123"
-        },
-        {
-          "name": "listType",
-          "value": "system_cd"
-        }
-      ]
+      "value": {
+        "targetMr": [
+          "def"
+        ],
+        "listId": [
+          "LBC_1123287_DCF_20123"
+        ],
+        "listType": [
+          "dcf"
+        ]
+      }
     }
   ]
 };

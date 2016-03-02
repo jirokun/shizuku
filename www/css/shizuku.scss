@@ -84,6 +84,12 @@ html, body {
         fill: #0ff;
       }
     }
+    .jsplumb-connector {
+      path:nth-child(2) {
+        stroke: #777;
+        fill: #777;
+      }
+    }
   }
 
   .shizuku-menu {

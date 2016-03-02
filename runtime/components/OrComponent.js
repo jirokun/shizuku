@@ -1,11 +1,11 @@
 import ShizukuComponent from './ShizukuComponent'
 import { flatten } from '../../utils'
 
-export default class AndComponent extends ShizukuComponent {
+export default class OrComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }
 
   buildTitle() {
-    return "AND";
+    return "OR";
   }
 
   buildBody() {
