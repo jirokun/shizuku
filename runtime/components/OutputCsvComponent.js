@@ -1,5 +1,5 @@
 import ShizukuComponent from './ShizukuComponent'
-import { encodeField, generateId } from '../../utils.js'
+import { decodeField, encodeField, generateId } from '../../utils.js'
 
 export default class OutputCsvComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }
@@ -10,7 +10,6 @@ export default class OutputCsvComponent extends ShizukuComponent {
 
   buildBody() {
     const fields = this.getInputFields();
-    console.log(fields);
     return `
       <form>
         <table class="table-form">
@@ -54,7 +53,23 @@ export default class OutputCsvComponent extends ShizukuComponent {
   }
 
   buildSQL(fields) {
-    console.log(fields);
-    return "select 1 from dual";
+    const usedFields = this.getUsedFields().map((f) => decodeField(f).field);
+    const sourceId = this.getSourceComponents()[0].getId();
+    let sql = `select `;
+    sql += usedFields.map((f) => sourceId + "." + f).join(',');
+    sql += ` from ${sourceId}`;
+    return sql;
+  }
+
+  onComplete(sqls) {
+    const sqlArr = [];
+    for (let i = 0, len = sqls.length - 1; i < len; i++) {
+      const obj = sqls[i];
+      sqlArr.push(`${obj.id} as ( ${obj.sql} )`);
+    }
+
+    let sql = `with ` + sqlArr.join('\n, ');
+    sql += '\n' + sqls[sqls.length - 1].sql;
+    console.log(sql);
   }
 }

@@ -223,21 +223,34 @@ export default class Shizuku {
       return encodedFieldSet;
     }
     function buildRecurse(c, parentFieldSet = new Set()) {
+      const id = c.getId();
+      // 実行済みのコンポーネントはパス
+      if (builtSet.has(id)) { return; }
+      // 親のコンポーネントが一つでも未実行だったらパス
+      const sourceComponents = c.getSourceComponents();
+      if (sourceComponents.some((pc) => !builtSet.has(pc.getId()))) { return };
       const fieldSet = new Set(parentFieldSet); // clone
-      findUsedFields(c.getId()).forEach((f) => fieldSet.add(f));
-      sqls.push(c.buildSQL(fieldSet));
+      findUsedFields(id).forEach((f) => fieldSet.add(f));
+      sqls.push({
+        id: id,
+        sql: c.buildSQL(fieldSet)
+      });
+      builtSet.add(id);
       c.getTargetComponents().forEach((c) => buildRecurse(c, fieldSet));
     }
 
     // 使用するフィールドをマーク lastからたどる
     const usedFields = new Set();
-    this.findLastComponents().forEach(checkFieldRecurse);
+    const lastComponents = this.findLastComponents();
+    lastComponents.forEach(checkFieldRecurse);
 
     // SQLを生成 firstからたどる
     const builtSet = new Set(); // 生成済みのSet
     const sqls = [];
     this.findFirstComponents().forEach((c) => buildRecurse(c));
-    console.log(sqls);
+
+    // 終了処理
+    lastComponents.forEach((c) => c.onComplete(sqls));
   }
 
   /** 定義されている情報をdumpする */

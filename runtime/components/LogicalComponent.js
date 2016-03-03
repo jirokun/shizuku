@@ -1,20 +1,8 @@
-import LogicalComponent from './LogicalComponent'
+import ShizukuComponent from './ShizukuComponent'
 import { flatten } from '../../utils'
 
-export default class OrComponent extends LogicalComponent {
+export default class LogicalComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }
-
-  buildTitle() {
-    return "OR";
-  }
-
-  buildBody() {
-    return `<div><img width="100" height="100" src="img/or.svg"/></div>`;
-  }
-
-  getInputNum() {
-    return 5;
-  }
 
   /**
    * 全てのsourcesの中に出現するfieldのみ出力する
@@ -40,14 +28,5 @@ export default class OrComponent extends LogicalComponent {
       outputFields.push(fields[prop].field);
     }
     return outputFields;
-  }
-
-  buildSQL(fields) {
-    const outputFields = this.getOutputFields();
-    const sourceComponents = this.getSourceComponents();
-    return sourceComponents.map((c) => {
-      const id = c.getId();
-      return `select ${outputFields.map((f) => id + '.' + f.field).join(',')} from ${id}`;
-    }).join('\nunion\n ');
   }
 }

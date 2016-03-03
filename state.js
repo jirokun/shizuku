@@ -47,19 +47,13 @@ export default {
       "sourceEndpointId": "output-0",
       "targetId": "s0004",
       "targetEndpointId": "input-0"
-    },
-    {
-      "sourceId": "s0005",
-      "sourceEndpointId": "output-0",
-      "targetId": "s0007",
-      "targetEndpointId": "input-3"
     }
   ],
   "data": [
     {
       "id": "s0006",
-      "x": 465,
-      "y": 65,
+      "x": 430,
+      "y": 95,
       "type": "DcfFilterComponent",
       "value": [
         {
@@ -71,15 +65,15 @@ export default {
     },
     {
       "id": "s0007",
-      "x": 915,
-      "y": 313,
-      "type": "OrComponent",
+      "x": 1027,
+      "y": 231,
+      "type": "AndComponent",
       "value": {}
     },
     {
       "id": "s0000",
-      "x": 5,
-      "y": 60,
+      "x": 10,
+      "y": 106,
       "type": "ListInputComponent",
       "value": {
         "targetMr": [
@@ -95,8 +89,8 @@ export default {
     },
     {
       "id": "s0001",
-      "x": 110,
-      "y": 465,
+      "x": 428,
+      "y": 268,
       "type": "DcfFilterComponent",
       "value": [
         {
@@ -108,8 +102,8 @@ export default {
     },
     {
       "id": "s0002",
-      "x": 705,
-      "y": 485,
+      "x": 427,
+      "y": 443,
       "type": "DcfFilterComponent",
       "value": [
         {
@@ -121,8 +115,8 @@ export default {
     },
     {
       "id": "s0003",
-      "x": 1170,
-      "y": 221,
+      "x": 1183,
+      "y": 435,
       "type": "OrComponent",
       "value": {}
     },
@@ -142,23 +136,6 @@ export default {
           "s0000:dcf_dr_cd",
           "s0000:sei",
           "s0000:mei"
-        ]
-      }
-    },
-    {
-      "id": "s0005",
-      "x": 41,
-      "y": 300,
-      "type": "ListInputComponent",
-      "value": {
-        "targetMr": [
-          "def"
-        ],
-        "listId": [
-          "LBC_1123287_DCF_20123"
-        ],
-        "listType": [
-          "dcf"
         ]
       }
     }
