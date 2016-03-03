@@ -91,14 +91,12 @@ export default class DcfFilterComponent extends ShizukuComponent {
   }
 
   buildSQL(fields) {
-    const id = this.getId();
-    const key = this.getKey();
-    const otherTables = Array.from(new Set(Array.from(fields).map(decodeField).map((f) => `${f.ownerId}`)));
+    const sc = this.getSourceComponents()[0];
+    const id = sc.getId();
     const value = this.getValue();
     let sql = 'select ';
     sql += Array.from(fields).map(decodeField).map((f) => `${f.ownerId}.${f.field}`).join(',');
     sql += ` from ${id} `;
-    sql += otherTables.map((t) => `inner join ${t} on ${t}.${key} = ${id}.${key}`).join('\n');
     sql += ` where `;
     sql += value.map((v) => `${v.field.replace(/:/, '.')} ${v.type} '${v.value}'`).join(",");
     return sql;

@@ -24,7 +24,7 @@ export default class AndComponent extends LogicalComponent {
     for (let i = 1, len = sourceComponents.length; i < len; i++) {
       const id = sourceComponents[i].getId();
       const cf = outputFields[0].field;
-      sql += `inner join ${id} on ${id}.${cf} = ${firstId}.${cf}\n`;
+      sql += ` inner join ${id} on ${id}.${cf} = ${firstId}.${cf} `;
     }
     return sql;
   }

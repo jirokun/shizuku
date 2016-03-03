@@ -192,7 +192,7 @@ export default class Shizuku {
     }
     const shizukucomponentMap = this._el.querySelectorAll('.shizuku-component-container');
     const allComponents = Array.prototype.map.call(shizukucomponentMap, (el) => this.getComponent(el) );
-    const startComponentSet = new Set(flatten(allComponents.map((c) => recurse(allComponents[5]))));
+    const startComponentSet = new Set(flatten(allComponents.map((c) => recurse(c))));
     return Array.from(startComponentSet);
   }
 
@@ -231,10 +231,13 @@ export default class Shizuku {
       if (sourceComponents.some((pc) => !builtSet.has(pc.getId()))) { return };
       const fieldSet = new Set(parentFieldSet); // clone
       findUsedFields(id).forEach((f) => fieldSet.add(f));
-      sqls.push({
-        id: id,
-        sql: c.buildSQL(fieldSet)
-      });
+      const sql = c.buildSQL(fieldSet);
+      if (sql !== null) {
+        sqls.push({
+          id: id,
+          sql: sql
+        });
+      }
       builtSet.add(id);
       c.getTargetComponents().forEach((c) => buildRecurse(c, fieldSet));
     }

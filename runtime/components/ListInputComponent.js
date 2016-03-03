@@ -30,8 +30,7 @@ export default class ListInputComponent extends ShizukuComponent {
               <th>リストのタイプ</th>
               <td>
                 <select name="listType">
-                  <option value="dcf">医師コード</option>
-                  <option value="system_cd">システムコード</option>
+                  <option value="id">ユーザID</option>
                 </select>
               </td>
             </tr>
@@ -49,18 +48,14 @@ export default class ListInputComponent extends ShizukuComponent {
 
   getOriginalOutputFields() {
     return [
-      { label: '医師コード', field: 'dcf_dr_cd' },
+      { label: 'ユーザID', field: 'id' },
       { label: '姓', field: 'sei' },
       { label: '名', field: 'mei' },
       { label: '年齢', field: 'age' },
-      { label: '第1診療科', field: 'dcf_specialty1' },
-      { label: '第2診療科', field: 'dcf_specialty2' },
-      { label: '第3診療科', field: 'dcf_specialty3' },
-      { label: '第4診療科', field: 'dcf_specialty4' },
-      { label: '第5診療科', field: 'dcf_specialty5' },
-      { label: '最大病床数', field: 'dcf_max_bed_facility' },
-      { label: '最小病床数', field: 'dcf_min_bed_facility' },
-      { label: '最終ログイン日時', field: 'last_login_date' },
+      { label: '会社名', field: 'employment' },
+      { label: '従業員数', field: 'employee_number' },
+      { label: '専門コード', field: 'specialty' },
+      { label: '最終ログイン日時', field: 'last_login' },
     ].map((f) => {
       f.ownerId = this.getId();
       return f;
@@ -68,8 +63,6 @@ export default class ListInputComponent extends ShizukuComponent {
   }
 
   buildSQL(fieldSet) {
-    const id = this.getId();
-    const fields = Array.from(fieldSet).map((f) => decodeField(f));
-    return `select ${fields.map((f) => f.ownerId + '.' + f.field).join(',')} from ${id}`;
+    return null;
   }
 }

@@ -57,23 +57,23 @@ export default {
       "type": "DcfFilterComponent",
       "value": [
         {
-          "field": "s0000:sei",
-          "type": "!=",
-          "value": "abc"
+          "field": "s0000:age",
+          "type": ">",
+          "value": "35"
         }
       ]
     },
     {
       "id": "s0007",
-      "x": 1027,
-      "y": 231,
+      "x": 1026,
+      "y": 230,
       "type": "AndComponent",
       "value": {}
     },
     {
       "id": "s0000",
       "x": 10,
-      "y": 106,
+      "y": 105,
       "type": "ListInputComponent",
       "value": {
         "targetMr": [
@@ -83,39 +83,39 @@ export default {
           "LBC_1123287_DCF_20123"
         ],
         "listType": [
-          "dcf"
+          "id"
         ]
       }
     },
     {
       "id": "s0001",
-      "x": 428,
-      "y": 268,
+      "x": 427,
+      "y": 267,
       "type": "DcfFilterComponent",
       "value": [
         {
-          "field": "s0000:dcf_specialty1",
-          "type": "=",
-          "value": "岩本"
+          "field": "s0000:employee_number",
+          "type": ">",
+          "value": "100"
         }
       ]
     },
     {
       "id": "s0002",
-      "x": 427,
-      "y": 443,
+      "x": 426,
+      "y": 442,
       "type": "DcfFilterComponent",
       "value": [
         {
-          "field": "s0000:age",
+          "field": "s0000:last_login",
           "type": ">",
-          "value": "40"
+          "value": "2016-01-01"
         }
       ]
     },
     {
       "id": "s0003",
-      "x": 1183,
+      "x": 1182,
       "y": 435,
       "type": "OrComponent",
       "value": {}
@@ -133,11 +133,16 @@ export default {
           "on"
         ],
         "outputFields": [
-          "s0000:dcf_dr_cd",
+          "s0000:id",
           "s0000:sei",
-          "s0000:mei"
+          "s0000:mei",
+          "s0000:age",
+          "s0000:employment",
+          "s0000:employee_number",
+          "s0000:specialty",
+          "s0000:last_login"
         ]
       }
     }
   ]
-}
+};
