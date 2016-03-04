@@ -1,15 +1,11 @@
-import ShizukuComponent from './ShizukuComponent'
-import { decodeField, encodeField } from '../../utils.js'
+import FilterComponent from '../base/FilterComponent'
+import { decodeField, encodeField } from '../../../utils.js'
 
-export default class DcfFilterComponent extends ShizukuComponent {
+export default class GeneralFilterComponent extends FilterComponent {
   constructor(...args) { super(...args); }
 
-  getKey() {
-    return 'dcf_dr_cd';
-  }
-
   buildTitle() {
-    return "医師のフィルタ";
+    return "汎用フィルタ";
   }
 
   buildBody() {
@@ -53,18 +49,6 @@ export default class DcfFilterComponent extends ShizukuComponent {
           </tbody>
         </table>
       </div>`;
-  }
-
-  getOutputFields() {
-    // initializedされる前はsourceComponentsなどを取得できない
-    if (!this.initialized) {
-      return [];
-    }
-    const source = this.getSourceComponents()[0];
-    if (source) {
-      return source.getOutputFields();
-    }
-    return [];
   }
 
   getValue() {

@@ -1,4 +1,4 @@
-import ShizukuComponent from './ShizukuComponent'
+import ShizukuComponent from '../base/ShizukuComponent'
 
 export default class TranslateDcfSyscdComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }

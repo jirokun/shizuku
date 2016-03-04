@@ -1,5 +1,5 @@
 import ShizukuComponent from './ShizukuComponent'
-import { flatten } from '../../utils'
+import { flatten } from '../../../utils'
 
 export default class LogicalComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }

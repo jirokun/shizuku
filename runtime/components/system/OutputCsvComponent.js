@@ -1,5 +1,5 @@
-import ShizukuComponent from './ShizukuComponent'
-import { decodeField, encodeField, generateId } from '../../utils.js'
+import ShizukuComponent from '../base/ShizukuComponent'
+import { decodeField, encodeField, generateId } from '../../../utils.js'
 
 export default class OutputCsvComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }

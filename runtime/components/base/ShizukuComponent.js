@@ -1,4 +1,4 @@
-import { findTargetEndpoint, findSourceEndpoint, flatten, isElement, findComponentConstructor, findData } from '../../utils'
+import { findTargetEndpoint, findSourceEndpoint, flatten, isElement, findComponentConstructor, findData } from '../../../utils'
 
 /**
  * Componentは必ずShizukuComponentを継承して作ること

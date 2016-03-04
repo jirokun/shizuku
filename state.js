@@ -54,7 +54,7 @@ export default {
       "id": "s0006",
       "x": 430,
       "y": 95,
-      "type": "DcfFilterComponent",
+      "type": "GeneralFilterComponent",
       "value": [
         {
           "field": "s0000:age",
@@ -91,7 +91,7 @@ export default {
       "id": "s0001",
       "x": 427,
       "y": 267,
-      "type": "DcfFilterComponent",
+      "type": "GeneralFilterComponent",
       "value": [
         {
           "field": "s0000:employee_number",
@@ -104,7 +104,7 @@ export default {
       "id": "s0002",
       "x": 426,
       "y": 442,
-      "type": "DcfFilterComponent",
+      "type": "GeneralFilterComponent",
       "value": [
         {
           "field": "s0000:last_login",

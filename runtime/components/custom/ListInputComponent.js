@@ -1,5 +1,5 @@
-import ShizukuComponent from './ShizukuComponent'
-import { decodeField } from '../../utils.js'
+import ShizukuComponent from '../base/ShizukuComponent'
+import { decodeField } from '../../../utils.js'
 
 export default class ListInputComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }

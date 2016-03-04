@@ -1,5 +1,5 @@
-import LogicalComponent from './LogicalComponent'
-import { flatten } from '../../utils'
+import LogicalComponent from '../base/LogicalComponent'
+import { flatten } from '../../../utils'
 
 export default class AndComponent extends LogicalComponent {
   constructor(...args) { super(...args); }
