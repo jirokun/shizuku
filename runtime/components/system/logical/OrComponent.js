@@ -1,5 +1,5 @@
-import LogicalComponent from '../base/LogicalComponent'
-import { decodeField, flatten } from '../../../utils'
+import LogicalComponent from '../../base/LogicalComponent'
+import { decodeField, flatten } from '../../../../utils'
 
 export default class OrComponent extends LogicalComponent {
   constructor(...args) { super(...args); }

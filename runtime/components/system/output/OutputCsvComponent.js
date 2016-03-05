@@ -1,5 +1,5 @@
-import OutputComponent from '../base/OutputComponent'
-import { decodeField, encodeField, generateId } from '../../../utils.js'
+import OutputComponent from '../../base/OutputComponent'
+import { decodeField, encodeField, generateId } from '../../../../utils.js'
 
 export default class OutputCsvComponent extends OutputComponent {
   constructor(...args) { super(...args); }

@@ -1,5 +1,5 @@
-import FilterComponent from '../base/FilterComponent'
-import { decodeField, encodeField } from '../../../utils.js'
+import FilterComponent from '../../base/FilterComponent'
+import { decodeField, encodeField } from '../../../../utils.js'
 
 export default class GeneralFilterComponent extends FilterComponent {
   constructor(...args) { super(...args); }

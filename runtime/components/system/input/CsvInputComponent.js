@@ -1,4 +1,4 @@
-import ShizukuComponent from '../base/ShizukuComponent'
+import ShizukuComponent from '../../base/ShizukuComponent'
 
 export default class CsvInputComponent extends ShizukuComponent {
   constructor(...args) { super(...args); }

@@ -1,5 +1,5 @@
-import InputComponent from '../base/InputComponent'
-import { decodeField, encodeField } from '../../../utils.js'
+import InputComponent from '../../base/InputComponent'
+import { decodeField, encodeField } from '../../../../utils.js'
 
 export default class TableInputComponent extends InputComponent {
   constructor(...args) { super(...args); }

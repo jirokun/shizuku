@@ -1,19 +1,15 @@
-import CsvInputComponent from './system/CsvInputComponent'
-import OrComponent from './system/OrComponent'
-import AndComponent from './system/AndComponent'
-import OutputCsvComponent from './system/OutputCsvComponent'
-import TableInputComponent from './system/TableInputComponent'
-import GeneralFilterComponent from './system/GeneralFilterComponent'
-import TranslateDcfSyscdComponent from './custom/TranslateDcfSyscdComponent'
-import ListInputComponent from './custom/ListInputComponent'
+import TableInputComponent from './system/input/TableInputComponent'
+import CsvInputComponent from './system/input/CsvInputComponent'
+import GeneralFilterComponent from './system/filter/GeneralFilterComponent'
+import OrComponent from './system/logical/OrComponent'
+import AndComponent from './system/logical/AndComponent'
+import OutputCsvComponent from './system/output/OutputCsvComponent'
 
 export default [
   TableInputComponent,
   CsvInputComponent,
-  ListInputComponent,
   GeneralFilterComponent,
   OrComponent,
   AndComponent,
-  TranslateDcfSyscdComponent,
   OutputCsvComponent,
 ];
