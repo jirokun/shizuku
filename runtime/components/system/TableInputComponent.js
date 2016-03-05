@@ -24,8 +24,9 @@ export default class TableInputComponent extends InputComponent {
             <tr>
               <td><button type="button" class="btn btn-mini btn-danger">削除</button></td>
               <td>
-                <select class="condition-field">
+                <select class="target-table">
                   <option value="users">users</option>
+                  <option value="transactions">transactions</option>
                 </select>
               </td>
             </tr>
@@ -39,30 +40,25 @@ export default class TableInputComponent extends InputComponent {
     if (!this.initialized) {
       return [];
     }
-    const source = this.getSourceComponents()[0];
-    if (source) {
-      return source.getOutputFields();
+    const targetTable = this._el.querySelector('.target-table').value;
+    if (targetTable === 'users') {
+      return [
+        { label: 'ユーザID', field: 'id' },
+        { label: '姓', field: 'sei' },
+        { label: '名', field: 'mei' },
+        { label: '年齢', field: 'age' },
+        { label: '会社名', field: 'employment' },
+        { label: '従業員数', field: 'employee_number' },
+        { label: '専門コード', field: 'specialty' },
+        { label: '最終ログイン日時', field: 'last_login' },
+      ];
+    } else if (targetTable === 'transactions') {
+      return [
+        { label: 'ユーザID', field: 'user_id' },
+        { label: '金額', field: 'amount' },
+        { label: '取引日時', field: 'created_date' },
+      ];
     }
-    return [];
-  }
-
-  getValue() {
-    return $.map($(this._el).find('tbody tr'), (el) => {
-      return {
-        field: $(el).find('.condition-field').val(),
-        type: $(el).find('.condition-type').val(),
-        value: $(el).find('.condition-value').val()
-      }
-    });
-  }
-
-  setValue(value) {
-    const trs = $(this._el).find('tbody tr');
-    value.forEach((row, i) => {
-      $(trs[i]).find('.condition-field').val(row.field),
-      $(trs[i]).find('.condition-type').val(row.type),
-      $(trs[i]).find('.condition-value').val(row.value)
-    });
   }
 
   getUsedFields() {
