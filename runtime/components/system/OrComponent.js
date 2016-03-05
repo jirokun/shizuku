@@ -1,5 +1,5 @@
 import LogicalComponent from '../base/LogicalComponent'
-import { flatten } from '../../../utils'
+import { decodeField, flatten } from '../../../utils'
 
 export default class OrComponent extends LogicalComponent {
   constructor(...args) { super(...args); }
@@ -43,11 +43,12 @@ export default class OrComponent extends LogicalComponent {
   }
 
   buildSQL(fields) {
+    const usedFields = Array.from(fields).map(decodeField);
     const outputFields = this.getOutputFields();
     const sourceComponents = this.getSourceComponents();
     return sourceComponents.map((c) => {
       const id = c.getId();
-      return `select ${outputFields.map((f) => id + '.' + f.field).join(',')} from ${id}`;
+      return `select ${usedFields.map((f) => id + '.' + f.field).join(',')} from ${id}`;
     }).join(' union ');
   }
 }

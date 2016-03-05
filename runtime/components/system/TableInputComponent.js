@@ -5,30 +5,23 @@ export default class TableInputComponent extends InputComponent {
   constructor(...args) { super(...args); }
 
   buildTitle() {
-    return "医師のフィルタ";
+    return "汎用テーブルローダー";
   }
 
   buildBody() {
     const fields = this.getOutputFields();
     return `
       <div>
-        条件は全てand条件です。
-        <table class="table table-bordered table-condensed">
-          <thead>
-            <tr>
-              <th></th>
-              <th>対象のテーブル</th>
-            </tr>
-          </thead>
+        <table class="table-form">
           <tbody>
             <tr>
-              <td><button type="button" class="btn btn-mini btn-danger">削除</button></td>
-              <td>
+              <th>対象のテーブル</th>
+              <th>
                 <select class="target-table">
                   <option value="users">users</option>
                   <option value="transactions">transactions</option>
                 </select>
-              </td>
+              </th>
             </tr>
           </tbody>
         </table>

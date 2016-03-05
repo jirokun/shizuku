@@ -9,31 +9,7 @@ export default {
     {
       "sourceId": "s0000",
       "sourceEndpointId": "output-0",
-      "targetId": "s0001",
-      "targetEndpointId": "input-0"
-    },
-    {
-      "sourceId": "s0000",
-      "sourceEndpointId": "output-0",
       "targetId": "s0002",
-      "targetEndpointId": "input-0"
-    },
-    {
-      "sourceId": "s0006",
-      "sourceEndpointId": "output-0",
-      "targetId": "s0007",
-      "targetEndpointId": "input-0"
-    },
-    {
-      "sourceId": "s0001",
-      "sourceEndpointId": "output-0",
-      "targetId": "s0007",
-      "targetEndpointId": "input-1"
-    },
-    {
-      "sourceId": "s0007",
-      "sourceEndpointId": "output-0",
-      "targetId": "s0003",
       "targetEndpointId": "input-0"
     },
     {
@@ -46,6 +22,12 @@ export default {
       "sourceId": "s0003",
       "sourceEndpointId": "output-0",
       "targetId": "s0004",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "s0006",
+      "sourceEndpointId": "output-0",
+      "targetId": "s0003",
       "targetEndpointId": "input-0"
     }
   ],
@@ -60,15 +42,13 @@ export default {
           "field": "users:age",
           "type": ">",
           "value": "35"
+        },
+        {
+          "field": "users:employee_number",
+          "type": ">",
+          "value": "100"
         }
       ]
-    },
-    {
-      "id": "s0007",
-      "x": 1025,
-      "y": 230,
-      "type": "AndComponent",
-      "value": {}
     },
     {
       "id": "s0000",
@@ -76,19 +56,6 @@ export default {
       "y": 105,
       "type": "TableInputComponent",
       "value": {}
-    },
-    {
-      "id": "s0001",
-      "x": 425,
-      "y": 265,
-      "type": "GeneralFilterComponent",
-      "value": [
-        {
-          "field": "users:employee_number",
-          "type": ">",
-          "value": "100"
-        }
-      ]
     },
     {
       "id": "s0002",
@@ -105,8 +72,8 @@ export default {
     },
     {
       "id": "s0003",
-      "x": 1180,
-      "y": 435,
+      "x": 1067,
+      "y": 307,
       "type": "OrComponent",
       "value": {}
     },
@@ -123,14 +90,7 @@ export default {
           "on"
         ],
         "outputFields": [
-          "users:id",
-          "users:sei",
-          "users:mei",
-          "users:age",
-          "users:employment",
-          "users:employee_number",
-          "users:specialty",
-          "users:last_login"
+          "users:id"
         ]
       }
     }

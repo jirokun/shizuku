@@ -85,6 +85,9 @@ export default class GeneralFilterComponent extends FilterComponent {
   }
 
   setValue(value) {
+    for (let i = $(this._el).find('tbody tr').length, len = value.length; i < len; i++) {
+      this.addRow();
+    }
     const trs = $(this._el).find('tbody tr');
     value.forEach((row, i) => {
       $(trs[i]).find('.condition-field').val(row.field),
