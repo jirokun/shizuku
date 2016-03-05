@@ -13,7 +13,10 @@ export default class GeneralFilterComponent extends FilterComponent {
     return `
       <div>
         条件は全てand条件です。
-        <table class="table table-bordered table-condensed">
+        <div>
+          <button class="addrow"><i class="fa fa-plus-square"></i> 条件追加</button>
+        </div>
+        <table class="table table-bordered table-condensed filter-table">
           <thead>
             <tr>
               <th></th>
@@ -24,7 +27,7 @@ export default class GeneralFilterComponent extends FilterComponent {
           </thead>
           <tbody>
             <tr>
-              <td><button type="button" class="btn btn-mini btn-danger">削除</button></td>
+              <td><button type="button" class="close"><span>&times;</span></button></td>
               <td>
                 <select class="condition-field">
                   ${fields.map((f) => `<option value="${encodeField(f)}">${f.label}</option>`)}
@@ -49,6 +52,26 @@ export default class GeneralFilterComponent extends FilterComponent {
           </tbody>
         </table>
       </div>`;
+  }
+
+  componentDidMount() {
+    $(this._el).on('click', '.filter-table tbody .close', this.deleteRow.bind(this));
+    $(this._el).on('click', '.addrow', this.addRow.bind(this));
+  }
+
+  deleteRow(e) {
+    if ($(this._el).find('.filter-table tbody > tr').length === 1) {
+      $(this._el).find(':input').val('');
+    } else {
+      $(e.target).parents('tr').remove();
+    }
+  }
+
+  addRow() {
+    const trEl = $(this._el).find('.filter-table tbody > tr')[0];
+    const clonedNode = $(trEl.cloneNode(true));
+    clonedNode.find(':input').val('');
+    clonedNode.appendTo($(this._el).find('.filter-table tbody'));
   }
 
   getValue() {
@@ -82,7 +105,7 @@ export default class GeneralFilterComponent extends FilterComponent {
     sql += Array.from(fields).map(decodeField).map((f) => `${tableName}.${f.field}`).join(',');
     sql += ` from ${tableName} `;
     sql += ` where `;
-    sql += value.map((v) => `${v.field.replace(/:/, '.')} ${v.type} '${v.value}'`).join(",");
+    sql += value.map((v) => `${v.field.replace(/:/, '.')} ${v.type} '${v.value}'`).join(" and ");
     return sql;
   }
 }

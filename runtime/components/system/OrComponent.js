@@ -48,6 +48,6 @@ export default class OrComponent extends LogicalComponent {
     return sourceComponents.map((c) => {
       const id = c.getId();
       return `select ${outputFields.map((f) => id + '.' + f.field).join(',')} from ${id}`;
-    }).join('\nunion\n ');
+    }).join(' union ');
   }
 }

@@ -15,6 +15,10 @@ export default class ShizukuComponent {
     this.initialized = false;
   }
 
+  /** DOMに追加された時一度だけ呼ばれる */
+  componentDidMount() {
+  }
+
   /** renderが呼ばれたあとに実行される */
   onRendered() {
   }

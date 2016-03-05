@@ -23,7 +23,7 @@ export default class Shizuku {
   }
 
   _initializeEvents() {
-    $(this._el).on('click', '.shizuku-component .close', (e) => this.removeComponent($(e.target).parents('.shizuku-component-container')[0]));
+    $(this._el).on('click', '.shizuku-component .shizuku-header .close', (e) => this.removeComponent($(e.target).parents('.shizuku-component-container')[0]));
     $(document).on('mousewheel', (e) => this.setZoom(this.getZoom() * (e.originalEvent.deltaY < 0 ? 1.05 : 0.95)));
     this._initializeJsPlumbEvents();
   }
@@ -101,6 +101,7 @@ export default class Shizuku {
     const component = new constructor(container, this);
     // レンダリング
     component.render();
+    component.componentDidMount();
     this._componentMap.set(container, component);
     this.initJsPlumb(container, component.getInputNum(), component.getOutputNum());
   }
