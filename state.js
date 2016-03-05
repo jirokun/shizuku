@@ -19,15 +19,21 @@ export default {
       "targetEndpointId": "input-2"
     },
     {
-      "sourceId": "s0003",
-      "sourceEndpointId": "output-0",
-      "targetId": "s0004",
-      "targetEndpointId": "input-0"
-    },
-    {
       "sourceId": "s0006",
       "sourceEndpointId": "output-0",
       "targetId": "s0003",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "s0003",
+      "sourceEndpointId": "output-0",
+      "targetId": "s0009",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "s0009",
+      "sourceEndpointId": "output-0",
+      "targetId": "s0004",
       "targetEndpointId": "input-0"
     }
   ],
@@ -72,8 +78,8 @@ export default {
     },
     {
       "id": "s0003",
-      "x": 1067,
-      "y": 307,
+      "x": 1066,
+      "y": 306,
       "type": "OrComponent",
       "value": {}
     },
@@ -84,15 +90,25 @@ export default {
       "type": "OutputCsvComponent",
       "value": {
         "outputFile": [
-          "aaabbbb"
+          "c"
         ],
         "header": [
           "on"
         ],
         "outputFields": [
-          "users:id"
+          "users:id",
+          "s0009:tbmc200001",
+          "s0009:tbmc200002",
+          "s0009:tbmc200003"
         ]
       }
+    },
+    {
+      "id": "s0009",
+      "x": 970,
+      "y": 513,
+      "type": "TransactionByMonthComponent",
+      "value": {}
     }
   ]
 }

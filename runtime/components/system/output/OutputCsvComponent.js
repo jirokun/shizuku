@@ -34,7 +34,10 @@ export default class OutputCsvComponent extends OutputComponent {
             <tr>
               <th>出力するフィールド</th>
               <td>
-                ${fields.map((f) => `<label class="vertical-checkbox"><input type="checkbox" name="outputFields" value="${encodeField(f)}"/> ${f.label}</label>`).join('\n')}
+                <label class="vertical-checkbox check-all"><input type="checkbox"/> 全てチェック</label>
+                <div class="use-field" style="max-height: 400px; overflow: auto;">
+                  ${fields.map((f) => `<label class="vertical-checkbox"><input type="checkbox" name="outputFields" value="${encodeField(f)}"/> ${f.label}</label>`).join('\n')}
+                </div>
               </td>
             </tr>
           </tbody>
@@ -44,7 +47,7 @@ export default class OutputCsvComponent extends OutputComponent {
 
   /** このコンポーネントで使用するフィールドを返す */
   getUsedFields() {
-    const els = this._el.querySelectorAll('input[type="checkbox"]:checked');
+    const els = this._el.querySelectorAll('.use-field input[type="checkbox"]:checked');
     return Array.prototype.map.call(els, (el) => el.value);
   }
 
@@ -55,5 +58,14 @@ export default class OutputCsvComponent extends OutputComponent {
     sql += usedFields.map((f) => tableName + "." + f).join(',');
     sql += ` from ${tableName}`;
     return sql;
+  }
+
+  componentDidMount() {
+    $(this._el).on('change', '.check-all', this.allCheck.bind(this));
+  }
+
+  allCheck(e) {
+    const checked = e.target.checked;
+    $(this._el).find('.use-field input[type="checkbox"]').prop('checked', checked);
   }
 }

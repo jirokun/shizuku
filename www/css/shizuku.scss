@@ -48,6 +48,9 @@ html, body {
                 .vertical-checkbox {
                   display: block;
                   margin-bottom: 0;
+                  &.check-all {
+                    margin-bottom: 0.5em;
+                  }
                 }
               }
             }
