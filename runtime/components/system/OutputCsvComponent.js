@@ -1,7 +1,7 @@
-import ShizukuComponent from '../base/ShizukuComponent'
+import OutputComponent from '../base/OutputComponent'
 import { decodeField, encodeField, generateId } from '../../../utils.js'
 
-export default class OutputCsvComponent extends ShizukuComponent {
+export default class OutputCsvComponent extends OutputComponent {
   constructor(...args) { super(...args); }
 
   buildTitle() {
@@ -42,10 +42,6 @@ export default class OutputCsvComponent extends ShizukuComponent {
       </form>`;
   }
 
-  getOutputNum() {
-    return 0;
-  }
-
   /** このコンポーネントで使用するフィールドを返す */
   getUsedFields() {
     const els = this._el.querySelectorAll('input[type="checkbox"]:checked');
@@ -54,22 +50,10 @@ export default class OutputCsvComponent extends ShizukuComponent {
 
   buildSQL(fields) {
     const usedFields = this.getUsedFields().map((f) => decodeField(f).field);
-    const sourceId = this.getSourceComponents()[0].getId();
+    const tableName = this.getSourceComponents()[0].getRuntimeTableName();
     let sql = `select `;
-    sql += usedFields.map((f) => sourceId + "." + f).join(',');
-    sql += ` from ${sourceId}`;
+    sql += usedFields.map((f) => tableName + "." + f).join(',');
+    sql += ` from ${tableName}`;
     return sql;
-  }
-
-  onComplete(sqls) {
-    const sqlArr = [];
-    for (let i = 0, len = sqls.length - 1; i < len; i++) {
-      const obj = sqls[i];
-      sqlArr.push(`${obj.id} as ( ${obj.sql} )`);
-    }
-
-    let sql = `with ` + sqlArr.join('\n, ');
-    sql += '\n' + sqls[sqls.length - 1].sql;
-    console.log(sql);
   }
 }

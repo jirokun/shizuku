@@ -51,7 +51,10 @@ export default class TableInputComponent extends InputComponent {
         { label: '従業員数', field: 'employee_number' },
         { label: '専門コード', field: 'specialty' },
         { label: '最終ログイン日時', field: 'last_login' },
-      ];
+      ].map((f) => {
+        f.ownerId = this.getRuntimeTableName();
+        return f;
+      });
     } else if (targetTable === 'transactions') {
       return [
         { label: 'ユーザID', field: 'user_id' },
@@ -63,6 +66,10 @@ export default class TableInputComponent extends InputComponent {
 
   getUsedFields() {
     return $.map($(this._el).find('select.condition-field'), (el) => $(el).val());
+  }
+
+  getOutputTableName() {
+    return this._el.querySelector('.target-table').value;
   }
 
   buildSQL(fields) {

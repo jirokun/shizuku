@@ -57,7 +57,7 @@ export default {
       "type": "GeneralFilterComponent",
       "value": [
         {
-          "field": "s0000:age",
+          "field": "users:age",
           "type": ">",
           "value": "35"
         }
@@ -65,7 +65,7 @@ export default {
     },
     {
       "id": "s0007",
-      "x": 1026,
+      "x": 1025,
       "y": 230,
       "type": "AndComponent",
       "value": {}
@@ -75,26 +75,16 @@ export default {
       "x": 10,
       "y": 105,
       "type": "TableInputComponent",
-      "value": {
-        "targetMr": [
-          "abc"
-        ],
-        "listId": [
-          "LBC_1123287_DCF_20123"
-        ],
-        "listType": [
-          "id"
-        ]
-      }
+      "value": {}
     },
     {
       "id": "s0001",
-      "x": 427,
-      "y": 267,
+      "x": 425,
+      "y": 265,
       "type": "GeneralFilterComponent",
       "value": [
         {
-          "field": "s0000:employee_number",
+          "field": "users:employee_number",
           "type": ">",
           "value": "100"
         }
@@ -102,12 +92,12 @@ export default {
     },
     {
       "id": "s0002",
-      "x": 426,
-      "y": 442,
+      "x": 425,
+      "y": 440,
       "type": "GeneralFilterComponent",
       "value": [
         {
-          "field": "s0000:last_login",
+          "field": "users:last_login",
           "type": ">",
           "value": "2016-01-01"
         }
@@ -115,7 +105,7 @@ export default {
     },
     {
       "id": "s0003",
-      "x": 1182,
+      "x": 1180,
       "y": 435,
       "type": "OrComponent",
       "value": {}
@@ -133,16 +123,16 @@ export default {
           "on"
         ],
         "outputFields": [
-          "s0000:id",
-          "s0000:sei",
-          "s0000:mei",
-          "s0000:age",
-          "s0000:employment",
-          "s0000:employee_number",
-          "s0000:specialty",
-          "s0000:last_login"
+          "users:id",
+          "users:sei",
+          "users:mei",
+          "users:age",
+          "users:employment",
+          "users:employee_number",
+          "users:specialty",
+          "users:last_login"
         ]
       }
     }
   ]
-};
+}

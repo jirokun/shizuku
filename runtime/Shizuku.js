@@ -1,4 +1,5 @@
 import { decodeField, flatten, findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from '../utils'
+import InputComponent from './components/base/InputComponent'
 
 export default class Shizuku {
   constructor(el) {
@@ -212,6 +213,7 @@ export default class Shizuku {
       c.getUsedFields().forEach((f) => usedFields.add(f));
       c.getSourceComponents().forEach(checkFieldRecurse);
     }
+    /** ownerIdのfieldSetを取得 */
     function findUsedFields(ownerId) {
       const encodedFieldSet = new Set();
       for (let value of usedFields) {
@@ -224,19 +226,32 @@ export default class Shizuku {
     }
     function buildRecurse(c, parentFieldSet = new Set()) {
       const id = c.getId();
+      const tableName = c.getRuntimeTableName();
+
       // 実行済みのコンポーネントはパス
       if (builtSet.has(id)) { return; }
+
       // 親のコンポーネントが一つでも未実行だったらパス
       const sourceComponents = c.getSourceComponents();
       if (sourceComponents.some((pc) => !builtSet.has(pc.getId()))) { return };
+
       const fieldSet = new Set(parentFieldSet); // clone
-      findUsedFields(id).forEach((f) => fieldSet.add(f));
-      const sql = c.buildSQL(fieldSet);
-      if (sql !== null) {
+      findUsedFields(tableName).forEach((f) => fieldSet.add(f));
+      if (c instanceof InputComponent) {
         sqls.push({
           id: id,
-          sql: sql
+          type: 'input',
+          tableName: c.getRuntimeTableName()
         });
+      } else {
+        const sql = c.buildSQL(fieldSet);
+        if (sql !== null) {
+          sqls.push({
+            id: id,
+            type: 'sql',
+            sql: sql
+          });
+        }
       }
       builtSet.add(id);
       c.getTargetComponents().forEach((c) => buildRecurse(c, fieldSet));

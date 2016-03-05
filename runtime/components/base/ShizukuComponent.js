@@ -2,6 +2,10 @@ import { findTargetEndpoint, findSourceEndpoint, flatten, isElement, findCompone
 
 /**
  * Componentは必ずShizukuComponentを継承して作ること
+ *
+ * 必ずgetOutputFieldsを実装すること。
+ * このコンポーネントを実行して後続のフィールドで取得できる
+ * フィールドの一覧を記載する。
  */
 export default class ShizukuComponent {
   /** コンストラクタ. 描画するElementをとる */
@@ -23,6 +27,11 @@ export default class ShizukuComponent {
   /** bodyを生成して返す。stringまたはElementを返す。子クラスでオーバーライドすることが前提 */
   buildBody() {
     return "";
+  }
+
+  /** SQLを作成するときに使用するTableName */
+  getRuntimeTableName() {
+    return this._el.id;
   }
 
   getId() {
