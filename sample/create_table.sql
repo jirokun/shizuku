@@ -1,3 +1,5 @@
+drop table if exists transactions;
+drop table if exists users;
 create table users (
 	id varchar(10) primary key,
 	sei varchar(20),
@@ -8,6 +10,14 @@ create table users (
 	employee_number int,
 	last_login timestamp
 );
+
+create table transactions (
+	id int primary key,
+	user_id varchar(10) reverences users(id),
+	amount bigint,
+	created_date timestamp
+);
+
 
 COPY users (id, sei, mei, age, specialty, employment, employee_number, last_login) FROM stdin;
 0000000001	竹口	誉三	20	A01	ミサワユーアベンティス組合	100	2015-12-21 00:00:00
@@ -40,4 +50,7 @@ COPY users (id, sei, mei, age, specialty, employment, employee_number, last_logi
 0000000028	殿勝	明暉	47	A02	マイヤーズグループホールディングスサービス株式会社	80000	2015-12-17 00:00:00
 0000000029	小豆沢	八千誉	48	A02	マイヤーズグループホールディングスサービス株式会社	80000	2015-12-21 00:00:00
 0000000030	生永	久繁	49	A02	マイヤーズグループホールディングスサービス株式会社	80000	2015-12-06 00:00:00
+\.
+
+COPY transactions (id, user_id, amount, created_ate) FROM stdin;
 \.

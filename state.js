@@ -74,7 +74,7 @@ export default {
       "id": "s0000",
       "x": 10,
       "y": 105,
-      "type": "ListInputComponent",
+      "type": "TableInputComponent",
       "value": {
         "targetMr": [
           "abc"
