@@ -17,6 +17,9 @@ export default class ShizukuComponent {
 
   /** DOMに追加された時一度だけ呼ばれる */
   componentDidMount() {
+    // 入力項目が変更された時は自動的にchangeFormが呼ばれるが、
+    // 独自の入力項目を定義するような場合には独自にchangeFormを呼び出す必要がある。
+    $(this._el).on('change', ':input', this.changeForm.bind(this));
   }
 
   /** renderが呼ばれたあとに実行される */
@@ -167,6 +170,16 @@ export default class ShizukuComponent {
   /** SQLを作成する */
   buildSQL() {
     throw 'not impletented yet';
+  }
+
+  /** フォームの値が変わった時に呼び出す。関連するtargetComponentを更新し、さらにchangeFormを呼び出す。 */
+  changeForm() {
+    this.getTargetComponents().forEach((c) => {
+      const value = c.getValue(); // backup
+      c.refresh();
+      c.setValue(value); // restore
+      c.changeForm();
+    });
   }
 
   render() {
