@@ -4,6 +4,7 @@ import GeneralFilterComponent from './system/filter/GeneralFilterComponent'
 import OrComponent from './system/logical/OrComponent'
 import AndComponent from './system/logical/AndComponent'
 import OutputCsvComponent from './system/output/OutputCsvComponent'
+import DebugSQLComponent from './system/output/DebugSQLComponent'
 import TransactionByMonthComponent from './custom/decorate/TransactionByMonthComponent'
 
 export default [
@@ -13,5 +14,6 @@ export default [
   OrComponent,
   AndComponent,
   OutputCsvComponent,
+  DebugSQLComponent,
   TransactionByMonthComponent,
 ];

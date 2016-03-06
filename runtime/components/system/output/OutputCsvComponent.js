@@ -61,6 +61,7 @@ export default class OutputCsvComponent extends OutputComponent {
   }
 
   componentDidMount() {
+    super.componentDidMount();
     $(this._el).on('change', '.check-all', this.allCheck.bind(this));
   }
 

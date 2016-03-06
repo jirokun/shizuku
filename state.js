@@ -35,6 +35,12 @@ export default {
       "sourceEndpointId": "output-0",
       "targetId": "s0004",
       "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "s0009",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk9f2ae820e37b11e5aa76d349489a20b3",
+      "targetEndpointId": "input-0"
     }
   ],
   "data": [
@@ -78,15 +84,15 @@ export default {
     },
     {
       "id": "s0003",
-      "x": 1066,
-      "y": 306,
+      "x": 1065,
+      "y": 305,
       "type": "OrComponent",
       "value": {}
     },
     {
       "id": "s0004",
-      "x": 1340,
-      "y": 195,
+      "x": 1380,
+      "y": 50,
       "type": "OutputCsvComponent",
       "value": {
         "outputFile": [
@@ -97,18 +103,35 @@ export default {
         ],
         "outputFields": [
           "users:id",
-          "s0009:tbmc200001",
-          "s0009:tbmc200002",
-          "s0009:tbmc200003"
+          "s0009:tbmc200001"
         ]
       }
     },
     {
       "id": "s0009",
       "x": 970,
-      "y": 513,
+      "y": 512,
       "type": "TransactionByMonthComponent",
       "value": {}
+    },
+    {
+      "id": "szk9f2ae820e37b11e5aa76d349489a20b3",
+      "x": 1437,
+      "y": 433,
+      "type": "DebugSQLComponent",
+      "value": {
+        "outputFields": [
+          "users:id",
+          "users:sei",
+          "users:mei",
+          "users:age",
+          "users:employment",
+          "users:employee_number",
+          "users:specialty",
+          "users:last_login",
+          "s0009:tbmc200001"
+        ]
+      }
     }
   ]
 }
