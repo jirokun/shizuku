@@ -19,7 +19,7 @@ export default class DebugSQLComponent extends OutputComponent {
               <td><input type="checkbox" class="check-all"/></td>
               <th>出力するフィールド</th>
             </tr>
-            ${fields.map((f) => `<tr><td><input type="checkbox" name="outputFields" value="${encodeField(f)}"/></td><td>${f.label}</td></tr>`).join('\n')}
+            ${fields.map((f) => `<tr><td><input type="checkbox" name="useFields" value="${encodeField(f)}"/></td><td>${f.label}</td></tr>`).join('\n')}
           </tbody>
         </table>
         <button type="button" class="generate-debug-sql">SQL生成</button>
