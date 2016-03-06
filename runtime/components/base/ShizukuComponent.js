@@ -15,6 +15,55 @@ export default class ShizukuComponent {
     this.initialized = false;
   }
 
+  initJsPlumb() {
+    const jp = this._shizuku.getJsPlumb();
+    const draggable = jp.draggable(this._el);
+    const horizontal = false; // アンカーの配置
+    const endpointOps = {
+      isSource: true,
+      isTarget: true,
+      endpoint: ['Dot', { radius: 6 }],
+      //connector: ["Flowchart", { stub: [30, 30], cornerRadius: 5, alwaysRespectStubs: true }],
+      connectorOverlays:[[ "Arrow", { location:1 } ]],
+      maxconnections: 1,
+    };
+    const inputNum = this.getInputNum();
+    const outputNum = this.getOutputNum();
+
+    for (let i = 0; i < inputNum; i++) {
+      const ep = jp.addEndpoint(this._el, endpointOps, {
+        anchor: this.inputAnchorPosition(horizontal, i, inputNum),
+      });
+      ep.setParameter('endpointId', 'input-' + i);
+      ep.setParameter('type', 'input');
+    }
+
+    for (let i = 0; i < outputNum; i++) {
+      const ep = jp.addEndpoint(this._el, endpointOps, {
+        anchor: this.outputAnchorPosition(horizontal, i, outputNum),
+        maxConnections: 10,
+      });
+      ep.setParameter('endpointId', 'output-' + i);
+      ep.setParameter('type', 'output');
+    }
+  }
+
+  inputAnchorPosition(horizontal, i, inputNum) {
+    if (horizontal) {
+      return [(i + 1) / (inputNum + 1), 0, 0, -1];
+    } else {
+      return [0, (i + 1) / (inputNum + 1), -1, 0];
+    }
+  }
+
+  outputAnchorPosition(horizontal, i, outputNum) {
+    if (horizontal) {
+      return [(i + 1) / (outputNum + 1), 1, 0, 1];
+    } else {
+      return [1, (i + 1) / (outputNum + 1), 1, 0];
+    }
+  }
+
   /** DOMに追加された時一度だけ呼ばれる */
   componentDidMount() {
     // 入力項目が変更された時は自動的にchangeFormが呼ばれるが、
@@ -161,12 +210,6 @@ export default class ShizukuComponent {
     return $form.values(value);
   }
 
-  /** 再描画する */
-  refresh() {
-    this._el.innerHTML = '';
-    this.render();
-  }
-
   /** SQLを作成する */
   buildSQL() {
     throw 'not impletented yet';
@@ -176,16 +219,24 @@ export default class ShizukuComponent {
   changeForm() {
     this.getTargetComponents().forEach((c) => {
       const value = c.getValue(); // backup
-      c.refresh();
+      c.render();
       c.setValue(value); // restore
       c.changeForm();
     });
   }
 
+  /** 描画する */
   render() {
-    this._el.appendChild(this.buildComponent());
-    this._el.dataset.type = this.constructor.name;
-    this.initialized = true;
-    this.onRendered();
+    if (!this.initialized) {
+      this.initJsPlumb();
+    }
+    const jp = this._shizuku.getJsPlumb();
+    jp.batch(() => {
+      this._el.innerHTML = '';
+      this._el.appendChild(this.buildComponent());
+      this._el.dataset.type = this.constructor.name;
+      this.initialized = true;
+      this.onRendered();
+    });
   }
 }

@@ -12,14 +12,12 @@ export default class Shizuku {
   /************* Events ***************/
   onConnect(info, originalEvent) {
     const tep = findTargetEndpoint(info.connection);
-    const component = this.getComponent(tep.element);
-    this._jp.batch(() => component.refresh());
+    const component = this.getComponent(tep.element).render();
   }
 
   onDisConnect(info, originalEvent) {
     const tep = findTargetEndpoint(info.connection);
-    const component = this.getComponent(tep.element);
-    this._jp.batch(() => component.refresh());
+    const component = this.getComponent(tep.element).render();
   }
 
   _initializeEvents() {
@@ -103,7 +101,6 @@ export default class Shizuku {
     component.render();
     component.componentDidMount();
     this._componentMap.set(container, component);
-    this.initJsPlumb(container, component.getInputNum(), component.getOutputNum());
   }
 
   removeComponent(el) {
@@ -113,52 +110,6 @@ export default class Shizuku {
 
   getJsPlumb() {
     return this._jp;
-  }
-
-  initJsPlumb(container, inputNum, outputNum) {
-    const draggable = this._jp.draggable(container);
-    const horizontal = false; // アンカーの配置
-    const endpointOps = {
-      isSource: true,
-      isTarget: true,
-      endpoint: ['Dot', { radius: 6 }],
-      //connector: ["Flowchart", { stub: [30, 30], cornerRadius: 5, alwaysRespectStubs: true }],
-      connectorOverlays:[[ "Arrow", { location:1 } ]],
-      maxconnections: 1,
-    };
-
-    for (let i = 0; i < inputNum; i++) {
-      const ep = this._jp.addEndpoint(container, endpointOps, {
-        anchor: this.inputAnchorPosition(horizontal, i, inputNum),
-      });
-      ep.setParameter('endpointId', 'input-' + i);
-      ep.setParameter('type', 'input');
-    }
-
-    for (let i = 0; i < outputNum; i++) {
-      const ep = this._jp.addEndpoint(container, endpointOps, {
-        anchor: this.outputAnchorPosition(horizontal, i, outputNum),
-        maxConnections: 10,
-      });
-      ep.setParameter('endpointId', 'output-' + i);
-      ep.setParameter('type', 'output');
-    }
-  }
-
-  inputAnchorPosition(horizontal, i, inputNum) {
-    if (horizontal) {
-      return [(i + 1) / (inputNum + 1), 0, 0, -1];
-    } else {
-      return [0, (i + 1) / (inputNum + 1), -1, 0];
-    }
-  }
-
-  outputAnchorPosition(horizontal, i, outputNum) {
-    if (horizontal) {
-      return [(i + 1) / (outputNum + 1), 1, 0, 1];
-    } else {
-      return [1, (i + 1) / (outputNum + 1), 1, 0];
-    }
   }
 
   /** jsPlumbからstateのconnectionを作成する */

@@ -64,6 +64,7 @@ export default class GeneralFilterComponent extends FilterComponent {
       $(this._el).find(':input').val('');
     } else {
       $(e.target).parents('tr').remove();
+      this._shizuku.getJsPlumb().repaintEverything();
     }
   }
 
@@ -72,6 +73,7 @@ export default class GeneralFilterComponent extends FilterComponent {
     const clonedNode = $(trEl.cloneNode(true));
     clonedNode.find(':input').val('');
     clonedNode.appendTo($(this._el).find('.filter-table tbody'));
+    this._shizuku.getJsPlumb().repaintEverything();
   }
 
   getValue() {
