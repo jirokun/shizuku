@@ -35,23 +35,31 @@ html, body {
           padding: 10px 10px 5px 10px;
           text-shadow: 0 1px rgba(255, 255, 255, 0.5);
           table.table-form {
-            tr {
-              th {
-                white-space: nowrap;
-                text-align: right;
-                padding-right: 15px;
-                padding-bottom: 5px;
-              }
-              td {
-                white-space: nowrap;
-                padding-bottom: 5px;
-                .vertical-checkbox {
-                  display: block;
-                  margin-bottom: 0;
-                  &.check-all {
-                    margin-bottom: 0.5em;
-                  }
+            th {
+              white-space: nowrap;
+              text-align: right;
+              padding-right: 15px;
+              padding-bottom: 5px;
+            }
+            td {
+              white-space: nowrap;
+              padding-bottom: 5px;
+              .vertical-checkbox {
+                display: block;
+                margin-bottom: 0;
+                &.check-all {
+                  margin-bottom: 0.5em;
                 }
+              }
+            }
+            &.vertical {
+              th {
+                text-align: left;
+              }
+            }
+            &.bordered {
+              td, th {
+                border: 1px solid #ccc;
               }
             }
           }
@@ -65,9 +73,13 @@ html, body {
               color: #a94442;
               opacity: 0.6;
               &:hover {
-              opacity: 1;
+                opacity: 1;
               }
             }
+          }
+          .logical-image {
+            text-align: center;
+            margin-bottom: 10px;
           }
         }
       }

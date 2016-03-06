@@ -1,17 +1,17 @@
 import LogicalComponent from '../../base/LogicalComponent'
 import { decodeField, flatten } from '../../../../utils'
 
-export default class AndComponent extends LogicalComponent {
+export default class MinusComponent extends LogicalComponent {
   constructor(...args) { super(...args); }
 
   buildTitle() {
-    return "AND";
+    return "MINUS";
   }
 
   buildBody() {
     const fields = this.getOutputFields();
     return `<div>
-      <div class="logical-image"><img width="100" height="100" src="img/and.svg"/></div>
+      <div class="logical-image"><img width="100" height="100" src="img/minus.svg"/></div>
       <table class="table-form vertical">
         <tbody>
           <tr>
@@ -28,20 +28,20 @@ export default class AndComponent extends LogicalComponent {
   }
 
   getInputNum() {
-    return 5;
+    return 2;
   }
 
   buildSQL(fields) {
     const usedFields = Array.from(fields).map(decodeField);
     const sourceComponents = this.getSourceComponents();
-    const firstTable = sourceComponents[0].getRuntimeTableName();
-    const fieldsSQL = usedFields.map((f) => 'f.' + f.field).join(',');
+    const plusTable = sourceComponents[0].getRuntimeTableName();
+    const minusTable = sourceComponents[1].getRuntimeTableName();
+    const fieldsSQL = usedFields.map((f) => 'p.' + f.field).join(',');
     const compareField = $(this._el).find('.compare-field').val();
-    let sql = `select ${fieldsSQL} from ${firstTable} f `;
-    for (let i = 1, len = sourceComponents.length; i < len; i++) {
-      const table = sourceComponents[i].getRuntimeTableName();
-      sql += `inner join ${table} on ${table}.${compareField} = f.${compareField} `;
-    }
+
+    let sql = `select ${fieldsSQL} from ${plusTable} p `;
+    sql += `left outer join ${minusTable} m on p.${compareField} = m.${compareField} `;
+    sql += `where m.${compareField} is null`;
     return sql;
   }
 }

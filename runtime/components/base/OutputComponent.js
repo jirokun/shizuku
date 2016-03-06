@@ -27,7 +27,6 @@ export default class OutputComponent extends ShizukuComponent {
 
     let sql = `with ` + sqlArr.join('\n, ');
     sql += '\n' + sqls[sqls.length - 1].sql;
-    console.log(sql);
     return sql;
   }
 }

@@ -13,17 +13,13 @@ export default class DebugSQLComponent extends OutputComponent {
     const fields = this.getInputFields();
     return `
       <form>
-        <table class="table-form">
+        <table class="table-form bordered">
           <tbody>
             <tr>
+              <td><input type="checkbox" class="check-all"/></td>
               <th>出力するフィールド</th>
-              <td>
-                <label class="vertical-checkbox check-all"><input type="checkbox"/> 全てチェック</label>
-                <div class="use-field" style="max-height: 400px; overflow: auto;">
-                  ${fields.map((f) => `<label class="vertical-checkbox"><input type="checkbox" name="outputFields" value="${encodeField(f)}"/> ${f.label}</label>`).join('\n')}
-                </div>
-              </td>
             </tr>
+            ${fields.map((f) => `<tr><td><input type="checkbox" name="outputFields" value="${encodeField(f)}"/></td><td>${f.label}</td></tr>`).join('\n')}
           </tbody>
         </table>
         <button type="button" class="generate-debug-sql">SQL生成</button>
@@ -33,6 +29,12 @@ export default class DebugSQLComponent extends OutputComponent {
   componentDidMount() {
     super.componentDidMount();
     $(this._el).on('click', '.generate-debug-sql', () => this._shizuku.buildSQL());
+    $(this._el).on('change', '.check-all', this.toggleAllCheckbox.bind(this));
+  }
+
+  toggleAllCheckbox(e) {
+    const checked = $(e.target)[0].checked;
+    $(this._el).find('form input[name]').prop('checked', checked);
   }
 
   /** このコンポーネントで使用するフィールドを返す */
