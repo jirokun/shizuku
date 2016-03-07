@@ -71,6 +71,7 @@ export default class OutputCsvComponent extends OutputComponent {
   }
 
   execute(sql) {
+    $.blockUI();
     $.ajax({
       method: 'post',
       url: 'executeSQL',
@@ -80,6 +81,7 @@ export default class OutputCsvComponent extends OutputComponent {
       },
       dataType: 'json'
     }).done((json) => {
+      $.unblockUI();
       let $dlEl = $(this._el).find('a');
       if ($dlEl.length === 0) {
         $dlEl = $('<a>CSV DL</a>').appendTo($(this._el).find('form'));
