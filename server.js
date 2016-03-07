@@ -4,6 +4,7 @@ var webpackHotMiddleware = require('webpack-hot-middleware');
 var config = require('./webpack.config');
 var express = require('express');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 var pg = require('pg');
 var conString = "postgres://jiro:@localhost/test";
@@ -16,6 +17,7 @@ app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output
 app.use(webpackHotMiddleware(compiler));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', express.static('www'));
+app.use('/file', express.static('file'));
 app.use('/node_modules/', express.static('node_modules'));
 app.use('/bower_components/', express.static('bower_components'));
 /*
@@ -35,14 +37,15 @@ app.post("/executeSQL", function(req, res) {
       return console.error('error fetching client from pool', err);
     }
     var sql = req.body.sql;
-    console.log(sql);
+    var fields = req.body.fields;
     client.query(sql, [], function(err, result) {
       //call `done()` to release the client back to the pool 
       done();
       if(err) {
         return console.error('error running query', err);
       }
-      res.send({result: result.rows});
+      const fname = makeCSVFile(fields, result.rows);
+      res.send({file: '/' + fname});
       //output: 1 
     });
   });
@@ -55,3 +58,19 @@ app.listen(port, function(error) {
     console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port);
   }
 })
+
+function makeCSVFile(fields, rows) {
+  var fname = 'file/' + new Date().getTime() + '.csv';
+  fs.open(fname, 'w', function(err, fd) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    var csv = rows.forEach((row) => {
+      var line = fields.map((f) => row[f]).join(',') + '\n';
+      fs.write(fd, line, null, 'Shift_JIS');
+    });
+  });
+  return fname;
+}
+

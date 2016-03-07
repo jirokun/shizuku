@@ -12,7 +12,7 @@ export default class OutputComponent extends ShizukuComponent {
     return 0;
   }
 
-  onComplete(sqls) {
+  conbineSQL(sqls) {
     const sqlArr = [];
     for (let i = 0, len = sqls.length - 1; i < len; i++) {
       const obj = sqls[i];

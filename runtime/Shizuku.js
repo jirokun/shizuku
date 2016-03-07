@@ -31,11 +31,6 @@ export default class Shizuku {
     this._jp.bind('connectionDetached', this.onDisConnect.bind(this));
   }
 
-  debug() {
-    //this.findStartComponent();
-    this.buildSQL();
-  }
-
   /** elementにひもつくComponentを取得する */
   getComponent(el) {
     return this._componentMap.get(el);
@@ -160,7 +155,7 @@ export default class Shizuku {
   }
 
   /** SQLを作成する */
-  buildSQL() {
+  run() {
     function checkFieldRecurse(c) {
       c.getUsedFields().forEach((f) => usedFields.add(f));
       c.getSourceComponents().forEach(checkFieldRecurse);
@@ -214,13 +209,19 @@ export default class Shizuku {
     const lastComponents = this.findLastComponents();
     lastComponents.forEach(checkFieldRecurse);
 
+    // TODO ロジックが間違っているので直す必要がある。
+    // OutputComponentが複数あった場合、複数のsqlsが生成される必要があるが
+    // ここではひとつしか生成されていない。明らかな謝り。
     // SQLを生成 firstからたどる
     const builtSet = new Set(); // 生成済みのSet
     const sqls = [];
     this.findFirstComponents().forEach((c) => buildRecurse(c));
 
     // 終了処理
-    lastComponents.forEach((c) => c.onComplete(sqls));
+    lastComponents.forEach((c) => {
+      const sql = c.conbineSQL(sqls);
+      c.execute(sql);
+    });
   }
 
   /** 定義されている情報をdumpする */

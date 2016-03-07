@@ -50,8 +50,7 @@ export default class DebugSQLComponent extends OutputComponent {
     return OutputCsvComponent.prototype.allCheck.call(this, e);
   }
 
-  onComplete(sqls) {
-    const sql = super.onComplete(sqls);
+  execute(sql) {
     const dataURI = "data:application/octet-stream," + encodeURIComponent(sql);
     let $dlEl = $(this._el).find('a[download]');
     if ($dlEl.length === 0) {

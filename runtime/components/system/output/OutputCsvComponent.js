@@ -69,4 +69,22 @@ export default class OutputCsvComponent extends OutputComponent {
     const checked = e.target.checked;
     $(this._el).find('.use-field input[type="checkbox"]').prop('checked', checked);
   }
+
+  execute(sql) {
+    $.ajax({
+      method: 'post',
+      url: 'executeSQL',
+      data: {
+        sql: sql,
+        fields: this.getUsedFields().map((f) => decodeField(f).field)
+      },
+      dataType: 'json'
+    }).done((json) => {
+      let $dlEl = $(this._el).find('a');
+      if ($dlEl.length === 0) {
+        $dlEl = $('<a>CSV DL</a>').appendTo($(this._el).find('form'));
+      }
+      $dlEl.attr('href', json.file);
+    });
+  }
 }
