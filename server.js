@@ -5,6 +5,8 @@ var config = require('./webpack.config');
 var express = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var Iconv = require('iconv').Iconv
+  , iconv = new Iconv('UTF-8', 'CP932');
 
 var pg = require('pg');
 var conString = "postgres://jiro:@localhost/test";
@@ -38,6 +40,7 @@ app.post("/executeSQL", function(req, res) {
     }
     var sql = req.body.sql;
     var fields = req.body.fields;
+    console.log(fields);
     client.query(sql, [], function(err, result) {
       //call `done()` to release the client back to the pool 
       done();
@@ -68,7 +71,8 @@ function makeCSVFile(fields, rows) {
     }
     var csv = rows.forEach((row) => {
       var line = fields.map((f) => row[f]).join(',') + '\n';
-      fs.write(fd, line, null, 'Shift_JIS');
+      var buf = iconv.convert(line);
+      fs.write(fd, buf, 0, buf.length);
     });
   });
   return fname;

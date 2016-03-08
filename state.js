@@ -35,30 +35,24 @@ export default {
       "sourceEndpointId": "output-0",
       "targetId": "s0004",
       "targetEndpointId": "input-0"
-    },
-    {
-      "sourceId": "s0009",
-      "sourceEndpointId": "output-0",
-      "targetId": "szk9f2ae820e37b11e5aa76d349489a20b3",
-      "targetEndpointId": "input-0"
     }
   ],
   "data": [
     {
       "id": "s0006",
-      "x": 430,
-      "y": 95,
+      "x": 343,
+      "y": 71,
       "type": "GeneralFilterComponent",
       "value": [
         {
           "field": "users:age",
           "type": ">",
-          "value": "35"
+          "value": "65"
         },
         {
           "field": "users:employee_number",
           "type": ">",
-          "value": "100"
+          "value": "1000"
         }
       ]
     },
@@ -71,56 +65,37 @@ export default {
     },
     {
       "id": "s0002",
-      "x": 425,
-      "y": 440,
+      "x": 195,
+      "y": 321,
       "type": "GeneralFilterComponent",
       "value": [
         {
           "field": "users:last_login",
           "type": ">",
-          "value": "2016-01-01"
+          "value": "2016-03-01"
         }
       ]
     },
     {
       "id": "s0003",
-      "x": 1065,
-      "y": 305,
+      "x": 736,
+      "y": 381,
       "type": "OrComponent",
       "value": {}
     },
     {
       "id": "s0004",
-      "x": 1380,
-      "y": 50,
+      "x": 946,
+      "y": 211,
       "type": "OutputCsvComponent",
       "value": {
         "outputFile": [
-          "c"
+          "output"
         ],
         "header": [
-          "on"
+          "off"
         ],
-        "outputFields": [
-          "users:id",
-          "s0009:tbmc200001"
-        ]
-      }
-    },
-    {
-      "id": "s0009",
-      "x": 970,
-      "y": 512,
-      "type": "TransactionByMonthComponent",
-      "value": {}
-    },
-    {
-      "id": "szk9f2ae820e37b11e5aa76d349489a20b3",
-      "x": 1437,
-      "y": 433,
-      "type": "DebugSQLComponent",
-      "value": {
-        "outputFields": [
+        "useFields": [
           "users:id",
           "users:sei",
           "users:mei",
@@ -132,6 +107,13 @@ export default {
           "s0009:tbmc200001"
         ]
       }
+    },
+    {
+      "id": "s0009",
+      "x": 916,
+      "y": 90,
+      "type": "TransactionByMonthComponent",
+      "value": {}
     }
   ]
 }

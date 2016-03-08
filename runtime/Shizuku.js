@@ -1,4 +1,4 @@
-import { decodeField, flatten, findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from '../utils'
+import { isElement, decodeField, flatten, findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from '../utils'
 import InputComponent from './components/base/InputComponent'
 
 export default class Shizuku {
@@ -31,9 +31,20 @@ export default class Shizuku {
     this._jp.bind('connectionDetached', this.onDisConnect.bind(this));
   }
 
-  /** elementにひもつくComponentを取得する */
-  getComponent(el) {
-    return this._componentMap.get(el);
+  /**
+   * keyにひもつくComponentを取得する
+   * keyはelementまたはid
+   */
+  getComponent(key) {
+    if (isElement(key)) {
+      return this._componentMap.get(key);
+    } else {
+      for (var [mapKey, mapValue] of this._componentMap) {
+        if (key === mapKey.id) {
+          return mapValue;
+        }
+      }
+    }
   }
 
   getZoom() {
