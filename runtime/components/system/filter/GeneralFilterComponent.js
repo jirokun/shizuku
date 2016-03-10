@@ -107,10 +107,10 @@ export default class GeneralFilterComponent extends FilterComponent {
     const tableName = sc.getRuntimeTableName();
     const value = this.getValue();
     let sql = 'select ';
-    sql += Array.from(fields).map(decodeField).map((f) => `${tableName}.${f.field}`).join(',');
-    sql += ` from ${tableName} `;
+    sql += Array.from(fields).map(decodeField).map((f) => `t1.${f.field}`).join(',');
+    sql += ` from ${tableName} t1`;
     sql += ` where `;
-    sql += value.map((v) => `${v.field.replace(/:/, '.')} ${v.type} '${v.value}'`).join(" and ");
+    sql += value.map((v) => `t1.${v.field.split(/:/)[1]} ${v.type} '${v.value}'`).join(" and ");
     return sql;
   }
 }

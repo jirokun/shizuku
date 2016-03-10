@@ -22,7 +22,7 @@ export default class OrComponent extends LogicalComponent {
     const sourceComponents = this.getSourceComponents();
     return sourceComponents.map((c) => {
       const id = c.getId();
-      return `select ${usedFields.map((f) => id + '.' + f.field).join(',')} from ${id}`;
+      return `select ${usedFields.map((f) => 't1.' + f.field).join(',')} from ${id} t1`;
     }).join(' union ');
   }
 }

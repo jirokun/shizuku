@@ -55,8 +55,8 @@ export default class OutputCsvComponent extends OutputComponent {
     const usedFields = this.getUsedFields().map((f) => decodeField(f).field);
     const tableName = this.getSourceComponents()[0].getRuntimeTableName();
     let sql = `select `;
-    sql += usedFields.map((f) => tableName + "." + f).join(',');
-    sql += ` from ${tableName}`;
+    sql += usedFields.map((f) => "t1." + f).join(',');
+    sql += ` from ${tableName} t1`;
     return sql;
   }
 
