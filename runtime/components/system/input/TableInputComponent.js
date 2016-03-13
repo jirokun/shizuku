@@ -9,7 +9,6 @@ export default class TableInputComponent extends InputComponent {
   }
 
   buildBody() {
-    const fields = this.getOutputFields();
     return `
       <div>
         <table class="table-form">

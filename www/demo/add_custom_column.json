@@ -42,15 +42,15 @@
     },
     {
       "id": "s0004",
-      "x": 560,
-      "y": 285,
+      "x": 561,
+      "y": 262,
       "type": "OutputCsvComponent",
       "value": {
         "outputFile": [
           "output"
         ],
         "header": [
-          "off"
+          "on"
         ],
         "useFields": [
           "users:id",
@@ -61,16 +61,31 @@
           "users:employee_number",
           "users:specialty",
           "users:last_login",
-          "s0009:tbmc200001"
+          "s0009:tbmc201601",
+          "s0009:tbmc201602",
+          "s0009:tbmc201603"
         ]
       }
     },
     {
       "id": "s0009",
-      "x": 71,
-      "y": 361,
+      "x": 70,
+      "y": 360,
       "type": "TransactionByMonthComponent",
-      "value": {}
+      "value": {
+        "from-year": [
+          "2016"
+        ],
+        "from-month": [
+          "1"
+        ],
+        "to-year": [
+          "2016"
+        ],
+        "to-month": [
+          "3"
+        ]
+      }
     }
   ]
 }

@@ -73,11 +73,12 @@ export default class Shizuku {
           target: tep
         });
       });
-      // form内容をロード
-      state.data.forEach((c) => {
-        const el = document.getElementById(c.id);
-        const component = this.getComponent(el);
-        component.setValue(c.value);
+      this.descendingOrderProcess((currentComponent, parentComponents, fieldSet) => {
+        // レンダリング
+        currentComponent.render();
+        // formの内容をロード
+        const data = state.data.find((d) => d.id === currentComponent.getId());
+        currentComponent.setValue(data.value);
       });
     });
   }
@@ -165,12 +166,15 @@ export default class Shizuku {
     return this._findComponent('last');
   }
 
-  /** SQLを作成する */
-  run() {
+  /**
+   * 降順に処理する
+   */
+  descendingOrderProcess(func) {
     function checkFieldRecurse(c) {
       c.getUsedFields().forEach((f) => usedFields.add(f));
       c.getSourceComponents().forEach(checkFieldRecurse);
     }
+
     /** ownerIdのfieldSetを取得 */
     function findUsedFields(ownerId) {
       const encodedFieldSet = new Set();
@@ -182,6 +186,7 @@ export default class Shizuku {
       }
       return encodedFieldSet;
     }
+
     function buildRecurse(c, parentFieldSet = new Set()) {
       const id = c.getId();
       const tableName = c.getRuntimeTableName();
@@ -193,24 +198,12 @@ export default class Shizuku {
       const sourceComponents = c.getSourceComponents();
       if (sourceComponents.some((pc) => !builtSet.has(pc.getId()))) { return };
 
+      // 
       const fieldSet = new Set(parentFieldSet); // clone
       findUsedFields(tableName).forEach((f) => fieldSet.add(f));
-      if (c instanceof InputComponent) {
-        sqls.push({
-          id: id,
-          type: 'input',
-          tableName: c.getRuntimeTableName()
-        });
-      } else {
-        const sql = c.buildSQL(fieldSet);
-        if (sql !== null) {
-          sqls.push({
-            id: id,
-            type: 'sql',
-            sql: sql
-          });
-        }
-      }
+
+      func(c, sourceComponents, fieldSet);
+
       builtSet.add(id);
       c.getTargetComponents().forEach((c) => buildRecurse(c, fieldSet));
     }
@@ -220,16 +213,39 @@ export default class Shizuku {
     const lastComponents = this.findLastComponents();
     lastComponents.forEach(checkFieldRecurse);
 
+    const builtSet = new Set(); // 生成済みのSet
+    this.findFirstComponents().forEach((c) => buildRecurse(c));
+  }
+
+  /** SQLを作成する */
+  run() {
     // TODO ロジックが間違っているので直す必要がある。
     // OutputComponentが複数あった場合、複数のsqlsが生成される必要があるが
     // ここではひとつしか生成されていない。明らかな謝り。
     // SQLを生成 firstからたどる
-    const builtSet = new Set(); // 生成済みのSet
     const sqls = [];
-    this.findFirstComponents().forEach((c) => buildRecurse(c));
+    this.descendingOrderProcess((currentComponent, parentComponents, fieldSet) => {
+      const id = currentComponent.getId();
+      if (currentComponent instanceof InputComponent) {
+        sqls.push({
+          id: id,
+          type: 'input',
+          tableName: currentComponent.getRuntimeTableName()
+        });
+      } else {
+        const sql = currentComponent.buildSQL(fieldSet);
+        if (sql !== null) {
+          sqls.push({
+            id: id,
+            type: 'sql',
+            sql: sql
+          });
+        }
+      }
+    });
 
     // 終了処理
-    lastComponents.forEach((c) => {
+    this.findLastComponents().forEach((c) => {
       const sql = c.conbineSQL(sqls);
       c.execute(sql);
     });
