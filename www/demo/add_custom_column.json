@@ -1,0 +1,76 @@
+{
+  "connections": [
+    {
+      "sourceId": "s0000",
+      "sourceEndpointId": "output-0",
+      "targetId": "s0006",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "s0009",
+      "sourceEndpointId": "output-0",
+      "targetId": "s0004",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "s0006",
+      "sourceEndpointId": "output-0",
+      "targetId": "s0009",
+      "targetEndpointId": "input-0"
+    }
+  ],
+  "data": [
+    {
+      "id": "s0006",
+      "x": 420,
+      "y": 65,
+      "type": "GeneralFilterComponent",
+      "value": [
+        {
+          "field": "users:age",
+          "type": ">",
+          "value": "55"
+        }
+      ]
+    },
+    {
+      "id": "s0000",
+      "x": 10,
+      "y": 105,
+      "type": "TableInputComponent",
+      "value": {}
+    },
+    {
+      "id": "s0004",
+      "x": 560,
+      "y": 285,
+      "type": "OutputCsvComponent",
+      "value": {
+        "outputFile": [
+          "output"
+        ],
+        "header": [
+          "off"
+        ],
+        "useFields": [
+          "users:id",
+          "users:sei",
+          "users:mei",
+          "users:age",
+          "users:employment",
+          "users:employee_number",
+          "users:specialty",
+          "users:last_login",
+          "s0009:tbmc200001"
+        ]
+      }
+    },
+    {
+      "id": "s0009",
+      "x": 71,
+      "y": 361,
+      "type": "TransactionByMonthComponent",
+      "value": {}
+    }
+  ]
+}

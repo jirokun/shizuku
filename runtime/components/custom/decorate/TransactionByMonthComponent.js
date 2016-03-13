@@ -14,7 +14,7 @@ export default class TransactionByMonthComponent extends DecorateComponent {
     for (let y = 2000, max = new Date().getFullYear(); y <= max; y++) { years.push(y); }
     for (let m = 1, max = 12; m <= max; m++) { months.push(m); }
     return `
-      <div>
+      <form>
         <table class="table-form">
           <tbody>
             <tr>
@@ -29,7 +29,7 @@ export default class TransactionByMonthComponent extends DecorateComponent {
             </tr>
           </tbody>
         </table>
-      </div>`;
+      </form>`;
   }
 
   getOutputFields() {
@@ -37,7 +37,11 @@ export default class TransactionByMonthComponent extends DecorateComponent {
     if (!this.initialized) {
       return [];
     }
-    const outputFields = cloneObj(this.getSourceComponents()[0].getOutputFields());
+    const sourceComponents = this.getSourceComponents();
+    if (sourceComponents.length === 0) {
+      return [];
+    }
+    const outputFields = cloneObj(sourceComponents[0].getOutputFields());
     const fromYear = $(this._el).find(':input[name="from-year"]').val();
     const fromMonth = $(this._el).find(':input[name="from-month"]').val();
     const toYear = $(this._el).find(':input[name="to-year"]').val();

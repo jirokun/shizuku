@@ -4,6 +4,6 @@ import Shizuku from './Shizuku'
 import ShizukuMenu from './ShizukuMenu'
 
 const shizuku = new Shizuku(document.getElementById('shizuku-editor'));
-shizuku.load(state);
 const shizukuMenu = new ShizukuMenu(document.getElementById('shizuku-menu'), shizuku);
 shizukuMenu.render();
+window.shizuku = shizuku;

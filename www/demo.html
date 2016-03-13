@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JPipes</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css"/>
+  </head>
+  <body>
+    <div class="shizuku">
+      <div id="shizuku-menu"></div>
+      <div id="shizuku-editor"></div>
+    </div>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/block-ui/jquery.blockUI.js"></script>
+    <script src="/js/jquery.values.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/node_modules/jsplumb/dist/js/jsPlumb-2.0.7.js"></script>
+    <script src="/static/runtime.bundle.js"></script>
+    <script>
+(function() {
+  function parseQuery(search) {
+    return (search ?
+      search.substr(1).split(/&/).map(function(keyValue) {
+        return keyValue.split(/=/);
+      }).map(function(arr) {
+        return { key: arr[0], value: arr[1] };
+      }) : []).reduce(function(value, keyValue) {
+        value[keyValue.key] = keyValue.value;
+        return value;
+      }, {});
+  }
+  var params = parseQuery(location.search);
+  if (params.demo) {
+    $.getJSON('demo/' + params.demo).done(function(json) {
+      shizuku.load(json);
+    });
+  }
+})();
+    </script>
+  </body>
+</html>
