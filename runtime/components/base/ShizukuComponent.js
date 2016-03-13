@@ -1,5 +1,14 @@
 import { findTargetEndpoint, findSourceEndpoint, flatten, isElement, findComponentConstructor, findData } from '../../../utils'
 
+const ENDPOINT_OPS = {
+  isSource: true,
+  isTarget: true,
+  endpoint: ['Dot', { radius: 6 }],
+  //connector: ["Flowchart", { stub: [30, 30], cornerRadius: 5, alwaysRespectStubs: true }],
+  connectorOverlays:[[ "Arrow", { location:1 } ]],
+  maxconnections: 1,
+};
+
 /**
  * Componentは必ずShizukuComponentを継承して作ること
  *
@@ -13,34 +22,26 @@ export default class ShizukuComponent {
     this._el = el;
     this._shizuku = shizuku;
     this.initialized = false;
+    this.horintal = false; // アンカーの配置
   }
 
   initJsPlumb() {
     const jp = this._shizuku.getJsPlumb();
     const draggable = jp.draggable(this._el);
-    const horizontal = false; // アンカーの配置
-    const endpointOps = {
-      isSource: true,
-      isTarget: true,
-      endpoint: ['Dot', { radius: 6 }],
-      //connector: ["Flowchart", { stub: [30, 30], cornerRadius: 5, alwaysRespectStubs: true }],
-      connectorOverlays:[[ "Arrow", { location:1 } ]],
-      maxconnections: 1,
-    };
     const inputNum = this.getInputNum();
     const outputNum = this.getOutputNum();
 
     for (let i = 0; i < inputNum; i++) {
-      const ep = jp.addEndpoint(this._el, endpointOps, {
-        anchor: this.inputAnchorPosition(horizontal, i, inputNum),
+      const ep = jp.addEndpoint(this._el, ENDPOINT_OPS, {
+        anchor: this.inputAnchorPosition(i, inputNum),
       });
       ep.setParameter('endpointId', 'input-' + i);
       ep.setParameter('type', 'input');
     }
 
     for (let i = 0; i < outputNum; i++) {
-      const ep = jp.addEndpoint(this._el, endpointOps, {
-        anchor: this.outputAnchorPosition(horizontal, i, outputNum),
+      const ep = jp.addEndpoint(this._el, ENDPOINT_OPS, {
+        anchor: this.outputAnchorPosition(i, outputNum),
         maxConnections: 10,
       });
       ep.setParameter('endpointId', 'output-' + i);
@@ -48,16 +49,64 @@ export default class ShizukuComponent {
     }
   }
 
-  inputAnchorPosition(horizontal, i, inputNum) {
-    if (horizontal) {
+  /**
+   * 指定したインデックスのAnchorを削除する
+   */
+  deleteInputEndpoint(index) {
+    const jp = this._shizuku.getJsPlumb();
+    const endpoints = jp.getEndpoints(this._el);
+    const targetEndpoint = endpoints.findIndex((e) => e.getParameter('endpointId') === 'input-' + index);
+    // TODO 残っているparameterのendpointIdを整える必要がある。
+    console.log(endpoints[targetEndpoint]);
+    jp.deleteEndpoint(endpoints[targetEndpoint]);
+  }
+
+  /**
+   * 指定したインデックスのAnchorを削除する
+   */
+  addInputEndpoint() {
+    const jp = this._shizuku.getJsPlumb();
+    const endpoints = this.getSourceEndpoints();
+    const i = endpoints.length;
+    endpoints.forEach((e) => {
+      console.log(e);
+    });
+    const ep = jp.addEndpoint(this._el, ENDPOINT_OPS, {
+      anchor: this.inputAnchorPosition(this._horizontal, i, i),
+    });
+    ep.setParameter('endpointId', 'input-' + i);
+    ep.setParameter('type', 'input');
+  }
+
+  /** type === 'input'のendpointsを取得する */
+  getSourceEndpoints() {
+    const jp = this._shizuku.getJsPlumb();
+    console.log(jp.getEndpoints(this._el));
+    return jp.getEndpoints(this._el).filter((e) => {
+      console.log(e.getParameter('type'));
+      return e.getParameter('type') === 'input'
+    });
+  }
+
+  /**
+   * endpointの位置をまとめて設定する
+   */
+  setEndpointPosition() {
+    const jp = this._shizuku.getJsPlumb();
+    const endpoints = this.getSourceEndpoints();
+    endpoints.forEach((e, i) => e.setAnchor(this.inputAnchorPosition(i, endpoints.length)));
+  }
+
+  inputAnchorPosition(i, inputNum) {
+    if (this._horizontal) {
       return [(i + 1) / (inputNum + 1), 0, 0, -1];
     } else {
       return [0, (i + 1) / (inputNum + 1), -1, 0];
     }
   }
 
-  outputAnchorPosition(horizontal, i, outputNum) {
-    if (horizontal) {
+  outputAnchorPosition(i, outputNum) {
+    if (this._horizontal) {
       return [(i + 1) / (outputNum + 1), 1, 0, 1];
     } else {
       return [1, (i + 1) / (outputNum + 1), 1, 0];
