@@ -54,11 +54,13 @@ export default class ShizukuComponent {
    */
   deleteInputEndpoint(index) {
     const jp = this._shizuku.getJsPlumb();
-    const endpoints = jp.getEndpoints(this._el);
-    const targetEndpoint = endpoints.findIndex((e) => e.getParameter('endpointId') === 'input-' + index);
-    // TODO 残っているparameterのendpointIdを整える必要がある。
-    console.log(endpoints[targetEndpoint]);
-    jp.deleteEndpoint(endpoints[targetEndpoint]);
+    const endpoints = this.getInputEndpoints();
+    const targetEndpoint = endpoints.find((e) => e.getParameter('endpointId') === 'input-' + index);
+    if (!targetEndpoint) {
+      throw 'invalid index: ' + index;
+    }
+    jp.deleteEndpoint(targetEndpoint);
+    this.getInputEndpoints().forEach((e, i) => e.setParameter('endpointId', 'input-' + i));
   }
 
   /**
@@ -66,11 +68,8 @@ export default class ShizukuComponent {
    */
   addInputEndpoint() {
     const jp = this._shizuku.getJsPlumb();
-    const endpoints = this.getSourceEndpoints();
+    const endpoints = this.getInputEndpoints();
     const i = endpoints.length;
-    endpoints.forEach((e) => {
-      console.log(e);
-    });
     const ep = jp.addEndpoint(this._el, ENDPOINT_OPS, {
       anchor: this.inputAnchorPosition(this._horizontal, i, i),
     });
@@ -79,11 +78,9 @@ export default class ShizukuComponent {
   }
 
   /** type === 'input'のendpointsを取得する */
-  getSourceEndpoints() {
+  getInputEndpoints() {
     const jp = this._shizuku.getJsPlumb();
-    console.log(jp.getEndpoints(this._el));
     return jp.getEndpoints(this._el).filter((e) => {
-      console.log(e.getParameter('type'));
       return e.getParameter('type') === 'input'
     });
   }
@@ -93,7 +90,7 @@ export default class ShizukuComponent {
    */
   setEndpointPosition() {
     const jp = this._shizuku.getJsPlumb();
-    const endpoints = this.getSourceEndpoints();
+    const endpoints = this.getInputEndpoints();
     endpoints.forEach((e, i) => e.setAnchor(this.inputAnchorPosition(i, endpoints.length)));
   }
 
@@ -275,7 +272,7 @@ export default class ShizukuComponent {
   }
 
   /** 描画する */
-  render() {
+  render(callback) {
     if (!this.initialized) {
       this.initJsPlumb();
     }
@@ -286,6 +283,9 @@ export default class ShizukuComponent {
       this._el.dataset.type = this.constructor.name;
       this.initialized = true;
       this.onRendered();
+      if (callback) {
+        callback();
+      }
     });
   }
 }

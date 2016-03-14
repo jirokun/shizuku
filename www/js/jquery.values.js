@@ -40,7 +40,11 @@ $.fn.values = function(data) {
           }
           $this.attr("checked", found);
         } else {
-          $this.val(names[0]);
+          var elName = $this.prop('name');
+          $this.parents('form').find('*[name="' + elName + '"]').each(function(i, el) {
+            $(el).val(names[i]);
+          });
+          //$this.val(names[0]);
         }
       }
     });

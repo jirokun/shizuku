@@ -1,8 +1,11 @@
 import LogicalComponent from '../../base/LogicalComponent'
-import { decodeField, flatten } from '../../../../utils'
+import { decodeField, flatten, escapeHTML } from '../../../../utils'
 
 export default class AddAttributeByEntryOrder extends LogicalComponent {
-  constructor(...args) { super(...args); }
+  constructor(...args) {
+    super(...args);
+    this.row = ['']; // 描画のためのデータ
+  }
 
   buildTitle() {
     return "優先順に属性追加";
@@ -24,11 +27,12 @@ export default class AddAttributeByEntryOrder extends LogicalComponent {
             </tr>
           </thead>
           <tbody>
+            ${this.row.map((value, i) => `
             <tr>
               <td><button type="button" class="close"><span>&times;</span></button></td>
-              <td class"row-num">1</td>
-              <td><input class="condition-value" type="text"/></td>
-            </tr>
+              <td class"row-num">${i}</td>
+              <td><input name="additionValue" class="condition-value" type="text" value="${escapeHTML(value)}"/></td>
+            </tr>`).join('')}
           </tbody>
         </table>
       </form>
@@ -47,28 +51,31 @@ export default class AddAttributeByEntryOrder extends LogicalComponent {
       $(this._el).find(':input').val('');
     } else {
       const index = $(this._el).find('.define-table tbody > tr').index($tr);
-      $tr.remove();
-      this.deleteInputEndpoint(index);
-      this.setEndpointPosition();
-      setTimeout(() => {
-        this._shizuku.getJsPlumb().repaintEverything();
-      }, 1);
+      const jp = this._shizuku.getJsPlumb();
+      jp.batch(() => {
+        this.row = this.getValue().additionValue;
+        this.row.splice(index, 1);
+        this.render(() => {
+          const $form = $(this._el).parents('form');
+          $form.find('input[name="condition-value"]').each((i, el) => {
+            $(el).val(this.row[i]);
+          })
+        });
+        this.deleteInputEndpoint(index);
+        this.setEndpointPosition();
+      });
     }
   }
 
   addRow(e) {
-    console.log(e);
-    const $trEls = $(this._el).find('.define-table tbody > tr');
-    const trEl = $trEls[0];
-    const clonedNode = $(trEl.cloneNode(true));
-    clonedNode.find(':input').val('');
-    clonedNode.appendTo($(this._el).find('.define-table tbody'));
-    clonedNode.find('.row-num').text($trEls.length);
-    this.addInputEndpoint();
-    this.setEndpointPosition();
-    setTimeout(() => {
-      this._shizuku.getJsPlumb().repaintEverything();
-    }, 1);
+    const jp = this._shizuku.getJsPlumb();
+    this.row = this.getValue().additionValue;
+    jp.batch(() => {
+      this.row.push('');
+      this.render();
+      this.addInputEndpoint();
+      this.setEndpointPosition();
+    });
   }
 
   buildSQL(fields) {
