@@ -1,4 +1,3 @@
-import state from '../state.js'
 import '../www/css/shizuku.scss'
 import Shizuku from './Shizuku'
 import ShizukuMenu from './ShizukuMenu'
