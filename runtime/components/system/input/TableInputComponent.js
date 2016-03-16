@@ -10,13 +10,13 @@ export default class TableInputComponent extends InputComponent {
 
   buildBody() {
     return `
-      <div>
+      <form>
         <table class="table-form">
           <tbody>
             <tr>
               <th>対象のテーブル</th>
               <th>
-                <select class="target-table">
+                <select name="targetValue" class="target-table">
                   <option value="users">ユーザ情報</option>
                   <option value="transactions">取引情報</option>
                 </select>
@@ -24,7 +24,7 @@ export default class TableInputComponent extends InputComponent {
             </tr>
           </tbody>
         </table>
-      </div>`;
+      </form>`;
   }
 
   getOutputFields() {
