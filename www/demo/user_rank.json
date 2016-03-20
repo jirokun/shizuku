@@ -1,0 +1,105 @@
+{
+  "connections": [
+    {
+      "sourceId": "szk1",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk2",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk1",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk3",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk2",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk4",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk3",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk4",
+      "targetEndpointId": "input-1"
+    },
+    {
+      "sourceId": "szk4",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk6",
+      "targetEndpointId": "input-0"
+    }
+  ],
+  "data": [
+    {
+      "id": "szk1",
+      "x": 45,
+      "y": 220,
+      "type": "TableInputComponent",
+      "value": {
+        "targetValue": [
+          "transactions"
+        ]
+      }
+    },
+    {
+      "id": "szk2",
+      "x": 460,
+      "y": 95,
+      "type": "GeneralFilterComponent",
+      "value": [
+        {
+          "field": "transactions:created_date",
+          "type": ">=",
+          "value": "2016-03-16"
+        }
+      ]
+    },
+    {
+      "id": "szk3",
+      "x": 455,
+      "y": 290,
+      "type": "GeneralFilterComponent",
+      "value": [
+        {
+          "field": "transactions:created_date",
+          "type": ">=",
+          "value": "2016-03-15"
+        }
+      ]
+    },
+    {
+      "id": "szk4",
+      "x": 1005,
+      "y": 150,
+      "type": "AddAttributeByEntryOrder",
+      "value": {
+        "additionValue": [
+          "rank1",
+          "rank2"
+        ]
+      }
+    },
+    {
+      "id": "szk6",
+      "x": 1392,
+      "y": 265,
+      "type": "OutputCsvComponent",
+      "value": {
+        "outputFile": [
+          "test.csv"
+        ],
+        "header": [
+          "on"
+        ],
+        "useFields": [
+          "transactions:user_id",
+          "transactions:amount",
+          "transactions:created_date",
+          "szk4:szk4_av"
+        ]
+      }
+    }
+  ]
+}

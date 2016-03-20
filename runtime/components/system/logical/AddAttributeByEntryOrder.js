@@ -1,5 +1,5 @@
 import LogicalComponent from '../../base/LogicalComponent'
-import { decodeField, flatten, escapeHTML } from '../../../../utils'
+import { escapeSQL, decodeField, flatten, escapeHTML } from '../../../../utils'
 
 export default class AddAttributeByEntryOrder extends LogicalComponent {
   constructor(...args) {
@@ -44,6 +44,15 @@ export default class AddAttributeByEntryOrder extends LogicalComponent {
     $(this._el).on('click', '.addrow', this.addRow.bind(this));
   }
 
+  setValue(value) {
+    // あらかじめ値がセットできるようにadditionValueの数だけendpointを用意しておく
+    const endpointNum = this.getInputEndpoints().length;
+    for (var i = endpointNum, len = value.additionValue.length; i < len; i++) {
+      this.addRow();
+    }
+    super.setValue(value);
+  }
+
   deleteRow(e) {
     const $tr = $(e.target).parents('tr');
     const $trs = $tr.parents('tbody').find('tr');
@@ -67,7 +76,7 @@ export default class AddAttributeByEntryOrder extends LogicalComponent {
     }
   }
 
-  addRow(e) {
+  addRow() {
     const jp = this._shizuku.getJsPlumb();
     this.row = this.getValue().additionValue;
     jp.batch(() => {
@@ -78,13 +87,41 @@ export default class AddAttributeByEntryOrder extends LogicalComponent {
     });
   }
 
+  getOutputFields() {
+    const fields = super.getOutputFields();
+    fields.push({ label: '追加カラム' + this.getRuntimeTableName(), field: this.getRuntimeTableName() + '_av', ownerId: this.getRuntimeTableName()});
+    return fields;
+  }
+
   buildSQL(fields) {
     const usedFields = Array.from(fields).map(decodeField);
     const outputFields = this.getOutputFields();
     const sourceComponents = this.getSourceComponents();
-    return sourceComponents.map((c) => {
+    const avField = this.getRuntimeTableName() + '_av';
+    let sql = `select `;
+    sql += usedFields.map((f) => {
+      if (f.field === avField) {
+        return `min(${f.field}) as ${avField}`;
+      } else {
+        return f.field;
+      }
+    }).join(',');
+    sql += `,min(shizuku_order) from (`;
+    const row = this.getValue().additionValue;
+    sql += sourceComponents.map((c, i) => {
       const id = c.getId();
-      return `select ${usedFields.map((f) => 't1.' + f.field).join(',')} from ${id} t1`;
-    }).join(' union ');
+      let sqlInner = `select `;
+      sqlInner += Array.from(fields).map(decodeField).map((f) => {
+        if (f.ownerId === this.getRuntimeTableName()) {
+          return `${escapeSQL(row[i])} as ${f.field}`;
+        } else {
+          return `t1.${f.field}`;
+        }
+      }).join(',');
+      sqlInner += `,${i} as shizuku_order from ${id} t1`;
+      return sqlInner;
+    }).join(' union all ');
+    sql += `) t0 group by ${usedFields.filter((f) => f.ownerId !== this.getRuntimeTableName()).map((f) => f.field).join(',')}`;
+    return sql;
   }
 }

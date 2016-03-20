@@ -52,7 +52,10 @@ export default class TableInputComponent extends InputComponent {
         { label: 'ユーザID', field: 'user_id' },
         { label: '金額', field: 'amount' },
         { label: '取引日時', field: 'created_date' },
-      ];
+      ].map((f) => {
+        f.ownerId = this.getRuntimeTableName();
+        return f;
+      });
     }
   }
 

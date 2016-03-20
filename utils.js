@@ -58,9 +58,14 @@ export function findSourceEndpoint(connection) {
 export function findTargetEndpoint(connection) {
   return connection.endpoints.find((ep) => ep.getParameter('type') === 'input');
 }
-
+let sequence = 1;
 export function generateId() {
-  return 'szk' + uuid.v1().replace(/-/g, '');
+  let id;
+  do {
+    id = 'szk' + sequence++;
+    console.log(document.getElementById(id));
+  } while (document.getElementById(id));
+  return id;
 }
 
 /** field情報をhtmlのvalue値で持つ際のフォーマットを共通化 */
@@ -84,4 +89,17 @@ export function escapeHTML(content) {
   return content.replace(/[&"<>]/g, function(match) {
     return TABLE_FOR_ESCAPE_HTML[match];
   });
+}
+
+export function escapeSQL(val) {
+  if (null == val) return 'NULL';
+  if (Array.isArray(val)) {
+    var vals = val.map(escapeSQL)
+    return "(" + vals.join(", ") + ")"
+  }
+  var backslash = ~val.indexOf('\\');
+  var prefix = backslash ? 'E' : '';
+  val = val.replace(/'/g, "''");
+  val = val.replace(/\\/g, '\\\\');
+  return prefix + "'" + val + "'";
 }

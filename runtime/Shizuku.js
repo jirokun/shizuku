@@ -62,6 +62,13 @@ export default class Shizuku {
     this._el.innerHTML = '';
     this._jp.batch(() => {
       state.data.forEach((c) => this.addComponent(c));
+      // 一度endpointを作成するために値を復元。後でもう一度値を復元する
+      this.descendingOrderProcess((currentComponent, parentComponents, fieldSet) => {
+        // formの内容をロード
+        const data = state.data.find((d) => d.id === currentComponent.getId());
+        currentComponent.setValue(data.value);
+      });
+
       // コネクションをはる
       state.connections.forEach((c) => {
         const sourceEndpoints = this._jp.getEndpoints(c.sourceId);
@@ -198,7 +205,6 @@ export default class Shizuku {
       const sourceComponents = c.getSourceComponents();
       if (sourceComponents.some((pc) => !builtSet.has(pc.getId()))) { return };
 
-      // 
       const fieldSet = new Set(parentFieldSet); // clone
       findUsedFields(tableName).forEach((f) => fieldSet.add(f));
 
@@ -233,6 +239,7 @@ export default class Shizuku {
           tableName: currentComponent.getRuntimeTableName()
         });
       } else {
+        console.log(currentComponent.constructor.name, fieldSet);
         const sql = currentComponent.buildSQL(fieldSet);
         if (sql !== null) {
           sqls.push({

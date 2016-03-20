@@ -22,13 +22,11 @@ export default class DebugSQLComponent extends OutputComponent {
             ${fields.map((f) => `<tr><td><input type="checkbox" name="useFields" value="${encodeField(f)}"/></td><td>${f.label}</td></tr>`).join('\n')}
           </tbody>
         </table>
-        <button type="button" class="generate-debug-sql">SQL生成</button>
       </form>`;
   }
 
   componentDidMount() {
     super.componentDidMount();
-    $(this._el).on('click', '.generate-debug-sql', () => this._shizuku.buildSQL());
     $(this._el).on('change', '.check-all', this.toggleAllCheckbox.bind(this));
   }
 
