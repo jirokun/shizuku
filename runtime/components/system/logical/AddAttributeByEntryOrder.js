@@ -30,7 +30,7 @@ export default class AddAttributeByEntryOrder extends LogicalComponent {
             ${this.row.map((value, i) => `
             <tr>
               <td><button type="button" class="close"><span>&times;</span></button></td>
-              <td class"row-num">${i}</td>
+              <td class"row-num">${i + 1}</td>
               <td><input name="additionValue" class="condition-value" type="text" value="${escapeHTML(value)}"/></td>
             </tr>`).join('')}
           </tbody>
@@ -87,9 +87,13 @@ export default class AddAttributeByEntryOrder extends LogicalComponent {
     });
   }
 
+  getOriginalOutputFields() {
+    return [{ label: '追加カラム' + this.getRuntimeTableName(), field: this.getRuntimeTableName() + '_av', ownerId: this.getRuntimeTableName()}];
+  }
+
   getOutputFields() {
     const fields = super.getOutputFields();
-    fields.push({ label: '追加カラム' + this.getRuntimeTableName(), field: this.getRuntimeTableName() + '_av', ownerId: this.getRuntimeTableName()});
+    fields.push(...this.getOriginalOutputFields());
     return fields;
   }
 

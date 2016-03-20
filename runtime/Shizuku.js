@@ -21,7 +21,12 @@ export default class Shizuku {
   }
 
   _initializeEvents() {
+    // ShizukuComponentの削除ボタンのイベント
     $(this._el).on('click', '.shizuku-component .shizuku-header .close', (e) => this.removeComponent($(e.target).parents('.shizuku-component-container')[0]));
+    // ShizukuComponentの情報ポップアップ用
+    $(this._el).on('mouseover', '.shizuku-component .shizuku-header .input-info', (e) => this.getComponent($(e.target).parents('.shizuku-component-container')[0]).popupInputComponentInfo());
+    $(this._el).on('mouseover', '.shizuku-component .shizuku-header .output-info', (e) => this.getComponent($(e.target).parents('.shizuku-component-container')[0]).popupOutputComponentInfo());
+    // 拡大縮小のマウスイベント
     $(document).on('mousewheel', (e) => this.setZoom(this.getZoom() * (e.originalEvent.deltaY < 0 ? 1.05 : 0.95)));
     this._initializeJsPlumbEvents();
   }
@@ -239,7 +244,6 @@ export default class Shizuku {
           tableName: currentComponent.getRuntimeTableName()
         });
       } else {
-        console.log(currentComponent.constructor.name, fieldSet);
         const sql = currentComponent.buildSQL(fieldSet);
         if (sql !== null) {
           sqls.push({

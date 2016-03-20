@@ -27,7 +27,7 @@ export default class TableInputComponent extends InputComponent {
       </form>`;
   }
 
-  getOutputFields() {
+  getOriginalOutputFields() {
     // initializedされる前はsourceComponentsなどを取得できない
     if (!this.initialized) {
       return [];

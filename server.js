@@ -40,7 +40,6 @@ app.post("/executeSQL", function(req, res) {
     }
     var sql = req.body.sql;
     var fields = req.body.fields;
-    console.log(fields);
     client.query(sql, [], function(err, result) {
       //call `done()` to release the client back to the pool 
       done();

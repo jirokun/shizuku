@@ -157,11 +157,13 @@ export default class ShizukuComponent {
     shizukuComponentEl.innerHTML = `
       <div class="shizuku-header">
         <button type="button" class="close"><span>&times;</span></button>
+        <span class="output-info info"><i class="glyphicon glyphicon-info-sign"></i>出</span>
+        <span class="input-info info"><i class="glyphicon glyphicon-info-sign"></i>入</span>
       </div>
       <div class="shizuku-body"></div>`;
     const shizukuHeader = shizukuComponentEl.querySelector('.shizuku-header');
     const shizukuBody = shizukuComponentEl.querySelector('.shizuku-body');
-    const title = this.buildTitle();
+    const title = `${this.buildTitle()} <span class="element-id">(${this.getId()})</span>`;
     if (isElement(title)) {
       shizukuHeader.insertBefore(title, shizukuHeader.firstChild);
     } else if (typeof title === 'string') {
@@ -178,6 +180,8 @@ export default class ShizukuComponent {
       bodyEl.innerHTML = body;
       shizukuBody.insertBefore(bodyEl, shizukuBody.firstChild);
     }
+    this._outputInfoEl = shizukuComponentEl.querySelector('.output-info');
+    this._inputInfoEl = shizukuComponentEl.querySelector('.input-info');
     return shizukuComponentEl;
   }
 
@@ -269,6 +273,78 @@ export default class ShizukuComponent {
       c.setValue(value); // restore
       c.changeForm();
     });
+  }
+
+  /** 出力情報をポップアップする */
+  popupInputComponentInfo() {
+    const inputTable = this.getSourceComponents().length === 0 ? '<p>None</p>' : this.getSourceComponents().map((c) => {
+      return `<h5>${c.getId()}</h5>
+<table class="table table-condensed component-info">
+<thead>
+  <th>生成元</th>
+  <th>ラベル</th>
+  <th>フィールドID</th>
+</thead>
+<tbody>
+  ${ c.getOutputFields().map((f) => `<tr><td>${f.ownerId}</td><td>${f.label}</td><td>${f.field}</td></tr>`).join('')}
+</tbody>
+</table>`;
+    }).join('');
+
+    const content = '<h4>入力情報</h4>' + inputTable;
+
+    // popoverの作成
+    const $popoverEl = $(this._inputInfoEl).popover({
+      html: true,
+      content: content,
+      trigger: 'hover'
+    });
+    // 初回は表示されないためマニュアルで表示
+    $popoverEl.popover('show');
+  }
+
+  /** 出力情報をポップアップする */
+  popupOutputComponentInfo() {
+    const originalOutputFields = this.getOriginalOutputFields();
+    const originalOutputFieldsTable = originalOutputFields.length === 0 ? '<p>None</p>' : `
+<table class="table table-condensed component-info">
+<thead>
+  <th>生成元</th>
+  <th>ラベル</th>
+  <th>フィールドID</th>
+</thead>
+<tbody>
+  ${ originalOutputFields.map((f) => `<tr><td>${f.ownerId}</td><td>${f.label}</td><td>${f.field}</td></tr>`).join('')}
+</tbody>
+</table>`;
+
+    const outputFields = this.getOutputFields();
+    const outptuFieldTable = outputFields.length === 0 ? '<p>None</p>' : `
+<table class="table table-condensed component-info">
+<thead>
+  <th>生成元</th>
+  <th>ラベル</th>
+  <th>フィールドID</th>
+</thead>
+<tbody>
+  ${ outputFields.map((f) => `<tr><td>${f.ownerId}</td><td>${f.label}</td><td>${f.field}</td></tr>`).join('')}
+</tbody>
+</table>`;
+
+    const content = `<h4>出力情報</h4>
+<h5>生成するフィールド</h5>
+${originalOutputFieldsTable}
+<h5>出力するフィールド</h5>
+${outptuFieldTable}`;
+
+    // popoverの作成
+    const $popoverEl = $(this._outputInfoEl).popover({
+      html: true,
+      content: content,
+      trigger: 'hover'
+    });
+    // 初回は表示されないためマニュアルで表示
+    $popoverEl.popover('show');
   }
 
   /** 描画する */
