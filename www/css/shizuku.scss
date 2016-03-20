@@ -1,9 +1,12 @@
 html, body {
   background: #93a0b0;
+  height: 100%;
 }
 
 .shizuku {
   position: relative;
+  height: 100%;
+  overflow: hidden;
 
   #shizuku-editor{
     position: relative;
@@ -141,7 +144,6 @@ html, body {
   }
 
   .shizuku-menu {
-    position: fixed;
     top: 0;
     left: 0;
     z-index: 10;

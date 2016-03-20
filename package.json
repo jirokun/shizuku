@@ -13,6 +13,7 @@
     "font-awesome": "^4.5.0",
     "iconv": "^2.1.11",
     "jquery": "^2.2.0",
+    "jquery.panzoom": "^2.0.6",
     "jsplumb": "^2.0.7",
     "moment": "^2.11.2",
     "pg": "^4.5.1"

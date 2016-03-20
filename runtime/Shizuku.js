@@ -1,9 +1,12 @@
+import Panzoom from 'jquery.panzoom'
 import { isElement, decodeField, flatten, findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from '../utils'
 import InputComponent from './components/base/InputComponent'
 
 export default class Shizuku {
   constructor(el) {
     this._el = el;
+    el.style.width = '30000px';
+    el.style.height = '30000px';
     this._jp = jsPlumb.getInstance(this._el);
     this._initializeEvents();
     this._componentMap = new Map();
@@ -26,9 +29,32 @@ export default class Shizuku {
     // ShizukuComponentの情報ポップアップ用
     $(this._el).on('mouseover', '.shizuku-component .shizuku-header .input-info', (e) => this.getComponent($(e.target).parents('.shizuku-component-container')[0]).popupInputComponentInfo());
     $(this._el).on('mouseover', '.shizuku-component .shizuku-header .output-info', (e) => this.getComponent($(e.target).parents('.shizuku-component-container')[0]).popupOutputComponentInfo());
-    // 拡大縮小のマウスイベント
-    $(document).on('mousewheel', (e) => this.setZoom(this.getZoom() * (e.originalEvent.deltaY < 0 ? 1.05 : 0.95)));
     this._initializeJsPlumbEvents();
+    this._initializePanzoom();
+  }
+
+  _initializePanzoom() {
+    var $panzoom = $(this._el).panzoom({
+      contain: 'invert',
+      minScale: 0.1,
+      maxScale: 2,
+      onZoom: (e, panzoom) => {
+        const currentZoom = parseFloat(panzoom.getMatrix()[0]);
+        // jsPlumbにも設定しておく
+        this._jp.setZoom(currentZoom);
+      }
+    });
+    $panzoom.parent().on('mousewheel.focal', function(e) {
+      e.preventDefault();
+      var delta = e.delta || e.originalEvent.wheelDelta;
+      var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+      console.log(zoomOut);
+      $panzoom.panzoom('zoom', zoomOut, {
+        increment: 0.1,
+        animate: true,
+        focal: e
+      });
+    });
   }
 
   _initializeJsPlumbEvents() {
@@ -54,11 +80,6 @@ export default class Shizuku {
 
   getZoom() {
     return this._jp.getZoom();
-  }
-
-  setZoom(zoom) {
-    this._el.style.transform = `scale(${zoom})`;
-    this._jp.setZoom(zoom);
   }
 
   load(state) {
