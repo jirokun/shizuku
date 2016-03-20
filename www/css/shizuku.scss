@@ -101,15 +101,6 @@ html, body {
           }
         }
       }
-      .popover {
-        max-width: none;
-      }
-      table.component-info {
-        margin-bottom: 0;
-        th, td {
-          white-space: nowrap;
-        }
-      }
     }
     .jsplumb-endpoint {
       z-index: 0;
@@ -177,3 +168,13 @@ html, body {
     }
   }
 }
+table.component-info {
+  margin-bottom: 0;
+  th, td {
+    white-space: nowrap;
+  }
+}
+.popover {
+  max-width: none;
+}
+

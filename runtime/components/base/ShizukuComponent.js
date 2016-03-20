@@ -297,6 +297,7 @@ export default class ShizukuComponent {
     const $popoverEl = $(this._inputInfoEl).popover({
       html: true,
       content: content,
+      container: 'body',
       trigger: 'hover'
     });
     // 初回は表示されないためマニュアルで表示
@@ -341,6 +342,7 @@ ${outptuFieldTable}`;
     const $popoverEl = $(this._outputInfoEl).popover({
       html: true,
       content: content,
+      container: 'body',
       trigger: 'hover'
     });
     // 初回は表示されないためマニュアルで表示
