@@ -1,53 +1,150 @@
 import ShizukuComponent from '../../base/ShizukuComponent'
+import CSV from 'comma-separated-values'
 
 export default class CsvInputComponent extends ShizukuComponent {
-  constructor(...args) { super(...args); }
+  constructor(...args) { super(...args, { externalCommand: true}); }
+
+  componentDidMount() {
+    $(this._el).on('change', 'input[type="file"]', this._onFileChange.bind(this));
+    $(this._el).on('click', '.generate-output-define-elments', this._onClickGenerateOutputDefineElements.bind(this));
+  }
+
+  _onFileChange(e) {
+    const _this = this;
+    const file = e.target.files[0];
+    if (!file) {
+      $('.generate-output-define-elments').prop('disabled', true);
+      return;
+    }
+    $('.generate-output-define-elments').prop('disabled', false);
+    var reader = new FileReader();
+    reader.onload = (fileEvent) => {
+      const result = fileEvent.target.result;
+      const csv = CSV.parse(result);
+      _this._csv = csv;
+    };
+    reader.readAsBinaryString(file);
+  }
+
+  /** 読み込んだCSVファイルから出力を定義するエレメントを生成する */
+  _onClickGenerateOutputDefineElements(e) {
+    if (!this._csv) {
+      return;
+    }
+    const firstLine = this._csv[0];
+    this._buildOutputFieldElements(firstLine);
+  }
+
+  _buildOutputFieldElements(firstLine) {
+    const $tbody = $(this._el).find('.csv-info tbody');
+    $tbody.empty();
+    firstLine.forEach((cell, i) => {
+      const $tr = $(`<tr>
+        <td>${i + 1}列目</td>
+        <td><span class="cell-sample-value"></span><input type="hidden" name="cellSampleValue"/></td>
+        <td><input type="checkbox" name="isOutput"/></td>
+        <td><input type="text" name="cellId"/></td>
+        <td><input type="text" name="cellLabel"/></td>
+        <td class="cell-type">
+          <select name="cellType">
+            <option value="varchar2">文字列</option>
+            <option value="number">数値型</option>
+            <option value="date">日付型</option>
+          </select>
+        </td>
+        <td class="cell-type-length"><input type="text" name="cellTypeLength" size="5"/></td>`).appendTo($tbody);
+      $tr.find('.cell-sample-value').text(cell);
+      $tr.find('input[name="cellSampleValue"]').val(cell);
+      let selectValue;
+      switch ($.type(cell)) {
+        case 'string':
+          selectValue = 'varchar2';
+          break;
+        case 'number':
+          selectValue = 'number';
+          break;
+        case 'date':
+          selectValue = 'date';
+          break;
+      }
+      $tr.find(`input[name="cellType"]`).val(selectValue);
+      this._shizuku.getJsPlumb().repaintEverything();
+    });
+  }
 
   buildTitle() {
     return "CSVファイル入力";
   }
+
   buildBody() {
     return `
-      <table class="table-form">
-        <tbody>
-          <tr>
-            <th>ファイル</th>
-            <td><input class="file" type="file"/></td>
-          </tr>
-          <tr>
-            <th>入力タイプ</th>
-            <td>
-              <select class="">
-                <option value="dcf">医師コード</option>
-                <option value="system_cd">システムコード</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
-      </table>`;
+      <form>
+        <table class="table-form">
+          <tbody>
+            <tr>
+              <th>ファイル</th>
+              <td><input name="" class="file" type="file"/></td>
+            </tr>
+            <tr>
+              <th></th>
+              <td><button class="generate-output-define-elments" type="button" disabled>CSVから出力フィールドを生成</button></td>
+            <tr>
+            </tr>
+              <th>列の定義</th>
+              <td>
+                <table class="table-form bordered csv-info vertical">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>1行目のサンプル値</th>
+                      <th>出力対象</th>
+                      <th>フィールドID</th>
+                      <th>ラベル名</th>
+                      <th>型</th>
+                      <th>桁情報</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>`;
   }
 
   getInputNum() {
     return 0;
   }
 
+  buildSQL(fields) {
+    return "";
+  }
+
   getOriginalOutputFields() {
-    return [
-      { label: '医師コード', field: 'dcf_dr_cd' },
-      { label: '姓', field: 'sei' },
-      { label: '名', field: 'mei' },
-      { label: '年齢', field: 'age' },
-      { label: '第1診療科', field: 'dcf_specialty1' },
-      { label: '第2診療科', field: 'dcf_specialty2' },
-      { label: '第3診療科', field: 'dcf_specialty3' },
-      { label: '第4診療科', field: 'dcf_specialty4' },
-      { label: '第5診療科', field: 'dcf_specialty5' },
-      { label: '最大病床数', field: 'dcf_max_bed_facility' },
-      { label: '最小病床数', field: 'dcf_min_bed_facility' },
-      { label: '最終ログイン日時', field: 'last_login_date' },
-    ].map((f) => {
+    const values = this.getValue();
+    const fields = [];
+    // ファイルを読み込んでない場合は空配列を返す
+    if (!values.cellLabel) {
+      return [];
+    }
+    console.log(values);
+    for (var i = 0, len = values.cellLabel.length; i < len; i++) {
+      if (!values['isOutput:on'][i]) {
+        continue;
+      }
+      fields.push({ label: values.cellLabel[i], field: values.cellId[i] });
+    }
+    return fields.map((f) => {
       f.ownerId = this.getRuntimeTableName();
       return f;
     });
+  }
+
+  setValue(value) {
+    // あらかじめ値がセットできるように要素を作成しておく
+    this._buildOutputFieldElements(value.cellSampleValue);
+    super.setValue(value);
   }
 }

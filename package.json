@@ -10,6 +10,7 @@
     "block-ui": "^2.70.1",
     "body-parser": "^1.15.0",
     "bootstrap": "^3.3.6",
+    "comma-separated-values": "^3.6.4",
     "font-awesome": "^4.5.0",
     "iconv": "^2.1.11",
     "jquery": "^2.2.0",

@@ -13,7 +13,7 @@ export default class DebugSQLComponent extends OutputComponent {
     const fields = this.getInputFields();
     return `
       <form>
-        <table class="table-form bordered">
+        <table class="table-form bordered vertical">
           <tbody>
             <tr>
               <td><input type="checkbox" class="check-all"/></td>

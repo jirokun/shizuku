@@ -1,0 +1,67 @@
+{
+  "connections": [
+    {
+      "sourceId": "szk5",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk7",
+      "targetEndpointId": "input-0"
+    }
+  ],
+  "data": [
+    {
+      "id": "szk5",
+      "x": 60,
+      "y": 230,
+      "type": "CsvInputComponent",
+      "value": {
+        "cellSampleValue": [
+          "619039",
+          "5689",
+          "2016-03-16 00:00:00",
+          "rank1"
+        ],
+        "isOutput:on": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "cellId": [
+          "user_id",
+          "",
+          "",
+          ""
+        ],
+        "cellLabel": [
+          "ユーザID",
+          "",
+          "",
+          ""
+        ],
+        "cellType": [
+          "number",
+          "varchar2",
+          "varchar2",
+          "varchar2"
+        ],
+        "cellTypeLength": [
+          "6",
+          "",
+          "",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "szk7",
+      "x": 1025,
+      "y": 265,
+      "type": "DebugSQLComponent",
+      "value": {
+        "useFields:szk5:user_id": [
+          true
+        ]
+      }
+    }
+  ]
+}

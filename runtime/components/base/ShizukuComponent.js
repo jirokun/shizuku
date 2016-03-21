@@ -18,11 +18,14 @@ const ENDPOINT_OPS = {
  */
 export default class ShizukuComponent {
   /** コンストラクタ. 描画するElementをとる */
-  constructor(el, shizuku) {
+  constructor(el, shizuku, options = {}) {
     this._el = el;
     this._shizuku = shizuku;
     this.initialized = false;
     this.horintal = false; // アンカーの配置
+    this._options = Object.assign({
+      externalCommand: false // 外部コマンドを実行する必要があるかどうか
+    }, options);
   }
 
   initJsPlumb() {

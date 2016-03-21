@@ -11,7 +11,15 @@ $.fn.values = function(data) {
     data = {};
 
     $.each(els, function() {
-      if (this.name && !this.disabled && (this.checked
+      // checkbox
+      if (this.name && !this.disabled && /checkbox/i.test(this.type)) {
+        var name = this.name + ':' + $(this).val();
+        if(data[name] == undefined){
+          data[name] = [];
+        }
+        data[name].push(this.checked);
+      // other
+      } else if (this.name && !this.disabled && (this.checked
           || /select|textarea/i.test(this.nodeName)
           || /text|hidden|password/i.test(this.type))) {
         if(data[this.name] == undefined){
@@ -22,6 +30,23 @@ $.fn.values = function(data) {
     });
     return data;
   } else {
+    // checkboxだけ別に対応
+    for (var prop in data) {
+      var index = prop.indexOf(':');
+      if (index === -1) {
+        continue;
+      }
+      var val = prop.substr(index + 1);
+
+      var checkboxes = $.grep(els, function(el) {
+        return el.type === 'checkbox' && el.value === val;
+      });
+
+      checkboxes.forEach(function(checkbox, i) {
+        checkbox.checked = data[prop][i];
+      });
+    }
+    // checkbox以外
     $.each(els, function() {
       if (this.name && data[this.name]) {
         var names = data[this.name];

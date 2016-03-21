@@ -55,6 +55,11 @@ export default class Shizuku {
         focal: e
       });
     });
+    // componentは選択できるようにイベントをキャンセル
+    // see http://codepen.io/timmywil/pen/bFiqy
+    $(this._el).on('mousedown touchstart', '.shizuku-component', (e) => {
+      e.stopImmediatePropagation();
+    });
   }
 
   _initializeJsPlumbEvents() {
@@ -169,11 +174,12 @@ export default class Shizuku {
   getDataDef() {
     const shizukucomponentMap = this._el.querySelectorAll('.shizuku-component-container');
     return Array.prototype.map.call(shizukucomponentMap, (el) => {
-      const rect = el.getBoundingClientRect();
+      const left = parseInt(el.style.left);
+      const top = parseInt(el.style.top);
       const type = el.dataset.type;
       const component = this.getComponent(el);
       const value = component.getValue();
-      return { id: el.id, x: parseInt(rect.left), y: parseInt(rect.top), type, value };
+      return { id: el.id, x: isNaN(left) ? 0 : left, y: isNaN(top) ? 0 : top, type, value };
     });
   }
 
