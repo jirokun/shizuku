@@ -205,6 +205,17 @@ export default class Shizuku {
     return this._findComponent('last');
   }
 
+  /** 外部コマンドを実行するコンポーネントを取得する */
+  findExternalComponent() {
+    const externalComponents = [];
+    this.descendingOrderProcess((c, sourceComponents, fieldSet) => {
+      if (c.isExternalCompoent()) {
+        externalComponents.push(c);
+      }
+    });
+    return externalComponents;
+  }
+
   /**
    * 降順に処理する
    */
@@ -285,7 +296,7 @@ export default class Shizuku {
     // 終了処理
     this.findLastComponents().forEach((c) => {
       const sql = c.conbineSQL(sqls);
-      c.execute(sql);
+      c.execute(sql, this.findExternalComponent());
     });
   }
 

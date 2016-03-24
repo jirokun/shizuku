@@ -97,6 +97,11 @@ export default class ShizukuComponent {
     endpoints.forEach((e, i) => e.setAnchor(this.inputAnchorPosition(i, endpoints.length)));
   }
 
+  /** 外部コマンドの実行を必要とするかどうか */
+  isExternalCompoent() {
+    return this._options.externalCommand;
+  }
+
   inputAnchorPosition(i, inputNum) {
     if (this._horizontal) {
       return [(i + 1) / (inputNum + 1), 0, 0, -1];

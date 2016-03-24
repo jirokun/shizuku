@@ -7,6 +7,7 @@ import MinusComponent from './system/logical/MinusComponent'
 import AddAttributeByEntryOrder from './system/logical/AddAttributeByEntryOrder'
 import OutputCsvComponent from './system/output/OutputCsvComponent'
 import DebugSQLComponent from './system/output/DebugSQLComponent'
+import OutputShellComponent from './system/output/OutputShellComponent'
 import TransactionByMonthComponent from './custom/decorate/TransactionByMonthComponent'
 
 export default [
@@ -19,5 +20,6 @@ export default [
   AddAttributeByEntryOrder,
   OutputCsvComponent,
   DebugSQLComponent,
+  OutputShellComponent,
   TransactionByMonthComponent,
 ];

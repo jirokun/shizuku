@@ -1,12 +1,16 @@
-import ShizukuComponent from '../../base/ShizukuComponent'
+import InputComponent from '../../base/InputComponent'
 import CSV from 'comma-separated-values'
 
-export default class CsvInputComponent extends ShizukuComponent {
+export default class CsvInputComponent extends InputComponent {
   constructor(...args) { super(...args, { externalCommand: true}); }
 
   componentDidMount() {
     $(this._el).on('change', 'input[type="file"]', this._onFileChange.bind(this));
     $(this._el).on('click', '.generate-output-define-elments', this._onClickGenerateOutputDefineElements.bind(this));
+  }
+
+  getOutputTableName() {
+    return this.getId();
   }
 
   _onFileChange(e) {
@@ -47,8 +51,8 @@ export default class CsvInputComponent extends ShizukuComponent {
         <td><input type="text" name="cellLabel"/></td>
         <td class="cell-type">
           <select name="cellType">
-            <option value="varchar2">文字列</option>
-            <option value="number">数値型</option>
+            <option value="varchar">文字列</option>
+            <option value="numeric">数値型</option>
             <option value="date">日付型</option>
           </select>
         </td>
@@ -58,10 +62,10 @@ export default class CsvInputComponent extends ShizukuComponent {
       let selectValue;
       switch ($.type(cell)) {
         case 'string':
-          selectValue = 'varchar2';
+          selectValue = 'varchar';
           break;
         case 'number':
-          selectValue = 'number';
+          selectValue = 'numeric';
           break;
         case 'date':
           selectValue = 'date';
@@ -147,4 +151,5 @@ export default class CsvInputComponent extends ShizukuComponent {
     this._buildOutputFieldElements(value.cellSampleValue);
     super.setValue(value);
   }
+
 }

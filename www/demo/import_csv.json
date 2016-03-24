@@ -3,15 +3,15 @@
     {
       "sourceId": "szk5",
       "sourceEndpointId": "output-0",
-      "targetId": "szk7",
+      "targetId": "szk1",
       "targetEndpointId": "input-0"
     }
   ],
   "data": [
     {
       "id": "szk5",
-      "x": 60,
-      "y": 230,
+      "x": 64,
+      "y": 76,
       "type": "CsvInputComponent",
       "value": {
         "cellSampleValue": [
@@ -24,41 +24,44 @@
           true,
           false,
           false,
-          false
+          true
         ],
         "cellId": [
           "user_id",
-          "",
-          "",
-          ""
+          "field2",
+          "dt",
+          "rank"
         ],
         "cellLabel": [
           "ユーザID",
           "",
           "",
-          ""
+          "ランク"
         ],
         "cellType": [
-          "number",
-          "varchar2",
-          "varchar2",
-          "varchar2"
+          "varchar",
+          "varchar",
+          "date",
+          "varchar"
         ],
         "cellTypeLength": [
-          "6",
+          "10",
+          "255",
           "",
-          "",
-          ""
+          "5"
         ]
       }
     },
     {
-      "id": "szk7",
-      "x": 1025,
-      "y": 265,
-      "type": "DebugSQLComponent",
+      "id": "szk1",
+      "x": 950,
+      "y": 110,
+      "type": "OutputShellComponent",
       "value": {
         "useFields:szk5:user_id": [
+          true
+        ],
+        "useFields:szk5:rank": [
           true
         ]
       }

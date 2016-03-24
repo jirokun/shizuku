@@ -25,7 +25,12 @@ export default class OutputComponent extends ShizukuComponent {
       }
     }
 
-    let sql = `with ` + sqlArr.join('\n, ');
+    let sql = '';
+    if (sqlArr.length > 1) {
+      sql += 'with ';
+    }
+
+    sql += sqlArr.join('\n, ');
     sql += '\n' + sqls[sqls.length - 1].sql;
     return sql;
   }
