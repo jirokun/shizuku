@@ -9,6 +9,10 @@ import OutputCsvComponent from './system/output/OutputCsvComponent'
 import DebugSQLComponent from './system/output/DebugSQLComponent'
 import OutputShellComponent from './system/output/OutputShellComponent'
 import TransactionByMonthComponent from './custom/decorate/TransactionByMonthComponent'
+import EmployeeIsInListComponent from './custom/decorate/EmployeeIsInListComponent'
+import DesignatingPeriodsTransactionComponent from './custom/decorate/DesignatingPeriodsTransactionComponent'
+import CompanyListFilterComponent from './custom/filter/CompanyListFilterComponent'
+import EmployeeListFilterComponent from './custom/filter/EmployeeListFilterComponent'
 
 export default [
   TableInputComponent,
@@ -22,4 +26,8 @@ export default [
   DebugSQLComponent,
   OutputShellComponent,
   TransactionByMonthComponent,
+  EmployeeIsInListComponent,
+  DesignatingPeriodsTransactionComponent,
+  CompanyListFilterComponent,
+  EmployeeListFilterComponent,
 ];

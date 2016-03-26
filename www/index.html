@@ -44,6 +44,47 @@
           </p>
         </a>
       </div>
+
+      <div class="list-group">
+        <a href="demo.html?demo=complicated.json" class="list-group-item">
+          <h4 class="list-group-item-heading">複雑な例</h4>
+          <p class="list-group-item-text">
+            <h5>縦軸</h5>
+            <pre>下記(1)(2)を満たすかまたは(a)に該当するユーザ
+(1)専門コードが以下のいずれかを満たすユーザ
+A,C,O
+
+(2)所属会社が特定のリストのに含まれている会社。右側がリストID。
+所属しているリストによって左側の識別子を表示したい
+QC-GH: 56845
+QG-AB: 56856
+AC-JP: 56878
+RU-EE: 56867
+RU-GG: 56880
+RU-AA: 56891
+
+(a)以下のユーザリストに含まれているユーザ
+225088</pre>
+
+            <h5>縦軸</h5>
+            <pre>ユーザID
+姓
+名
+会社名
+専門コード
+所属会社のセグメント
+    複数所属している場合には以下のリスト順で優先表示する。所属していない場合はEとする
+    ・QC-GH
+    ・QG-AB
+    ・AC-JP
+    ・RU-EE
+    ・RU-GG
+    ・RU-AA
+225088のリストにユーザが含まれているかどうか
+指定期間(20151201 - 20160301)の取引数</pre>
+          </p>
+        </a>
+      </div>
     </div>
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/block-ui/jquery.blockUI.js"></script>

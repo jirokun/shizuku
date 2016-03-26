@@ -1,0 +1,361 @@
+{
+  "connections": [
+    {
+      "sourceId": "szk2",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk3",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk2",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk4",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk2",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk5",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk3",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk6",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk4",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk6",
+      "targetEndpointId": "input-1"
+    },
+    {
+      "sourceId": "szk5",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk6",
+      "targetEndpointId": "input-2"
+    },
+    {
+      "sourceId": "szk6",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk7",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk6",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk9",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk6",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk8",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk6",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk12",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk6",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk11",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk6",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk10",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk7",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk13",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk9",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk13",
+      "targetEndpointId": "input-1"
+    },
+    {
+      "sourceId": "szk12",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk13",
+      "targetEndpointId": "input-3"
+    },
+    {
+      "sourceId": "szk11",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk13",
+      "targetEndpointId": "input-4"
+    },
+    {
+      "sourceId": "szk8",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk13",
+      "targetEndpointId": "input-2"
+    },
+    {
+      "sourceId": "szk10",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk13",
+      "targetEndpointId": "input-5"
+    },
+    {
+      "sourceId": "szk2",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk14",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk14",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk13",
+      "targetEndpointId": "input-6"
+    },
+    {
+      "sourceId": "szk16",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk17",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk17",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk1",
+      "targetEndpointId": "input-0"
+    },
+    {
+      "sourceId": "szk13",
+      "sourceEndpointId": "output-0",
+      "targetId": "szk16",
+      "targetEndpointId": "input-0"
+    }
+  ],
+  "data": [
+    {
+      "id": "szk1",
+      "x": 2416,
+      "y": 449,
+      "type": "OutputShellComponent",
+      "value": {
+        "useFields:users:id": [
+          true
+        ],
+        "useFields:users:sei": [
+          true
+        ],
+        "useFields:users:mei": [
+          true
+        ],
+        "useFields:users:age": [
+          false
+        ],
+        "useFields:users:employment": [
+          true
+        ],
+        "useFields:users:employee_number": [
+          false
+        ],
+        "useFields:users:specialty": [
+          true
+        ],
+        "useFields:users:last_login": [
+          false
+        ],
+        "useFields:szk13:szk13_av": [
+          true
+        ],
+        "useFields:szk16:employeeIsInList": [
+          true
+        ],
+        "useFields:szk17:designatingPeriodsTransactionNumber": [
+          true
+        ]
+      }
+    },
+    {
+      "id": "szk2",
+      "x": 44,
+      "y": 329,
+      "type": "TableInputComponent",
+      "value": {
+        "targetValue": [
+          "users"
+        ]
+      }
+    },
+    {
+      "id": "szk3",
+      "x": 451,
+      "y": 49,
+      "type": "GeneralFilterComponent",
+      "value": [
+        {
+          "field": "users:specialty",
+          "type": "=",
+          "value": "A"
+        }
+      ]
+    },
+    {
+      "id": "szk4",
+      "x": 484,
+      "y": 274,
+      "type": "GeneralFilterComponent",
+      "value": [
+        {
+          "field": "users:specialty",
+          "type": "=",
+          "value": "C"
+        }
+      ]
+    },
+    {
+      "id": "szk5",
+      "x": 469,
+      "y": 498,
+      "type": "GeneralFilterComponent",
+      "value": [
+        {
+          "field": "users:specialty",
+          "type": "=",
+          "value": "O"
+        }
+      ]
+    },
+    {
+      "id": "szk6",
+      "x": 1125,
+      "y": 309,
+      "type": "OrComponent",
+      "value": {}
+    },
+    {
+      "id": "szk7",
+      "x": 1468,
+      "y": 35,
+      "type": "CompanyListFilterComponent",
+      "value": {
+        "listId": [
+          "56845"
+        ]
+      }
+    },
+    {
+      "id": "szk8",
+      "x": 1483,
+      "y": 249,
+      "type": "CompanyListFilterComponent",
+      "value": {
+        "listId": [
+          "56878"
+        ]
+      }
+    },
+    {
+      "id": "szk9",
+      "x": 1493,
+      "y": 143,
+      "type": "CompanyListFilterComponent",
+      "value": {
+        "listId": [
+          "56856"
+        ]
+      }
+    },
+    {
+      "id": "szk10",
+      "x": 1481,
+      "y": 536,
+      "type": "CompanyListFilterComponent",
+      "value": {
+        "listId": [
+          "56891"
+        ]
+      }
+    },
+    {
+      "id": "szk11",
+      "x": 1477,
+      "y": 442,
+      "type": "CompanyListFilterComponent",
+      "value": {
+        "listId": [
+          "56880"
+        ]
+      }
+    },
+    {
+      "id": "szk12",
+      "x": 1486,
+      "y": 347,
+      "type": "CompanyListFilterComponent",
+      "value": {
+        "listId": [
+          "56767"
+        ]
+      }
+    },
+    {
+      "id": "szk13",
+      "x": 1961,
+      "y": 235,
+      "type": "AddAttributeByEntryOrder",
+      "value": {
+        "additionValue": [
+          "QC-GH",
+          "QG-AB",
+          "AC-JP",
+          "RU-EE",
+          "RU-GG",
+          "RU-AA",
+          "E"
+        ]
+      }
+    },
+    {
+      "id": "szk14",
+      "x": 480,
+      "y": 789,
+      "type": "EmployeeListFilterComponent",
+      "value": {
+        "listId": [
+          "225088"
+        ]
+      }
+    },
+    {
+      "id": "szk16",
+      "x": 2329,
+      "y": 72,
+      "type": "EmployeeIsInListComponent",
+      "value": {
+        "listId": [
+          "225088"
+        ]
+      }
+    },
+    {
+      "id": "szk17",
+      "x": 2383,
+      "y": 262,
+      "type": "DesignatingPeriodsTransactionComponent",
+      "value": {
+        "from": [
+          "20151201"
+        ],
+        "to": [
+          "20160301"
+        ]
+      }
+    }
+  ]
+}
