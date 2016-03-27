@@ -72,7 +72,6 @@ ${commands.join('\n')}
 SQL="${sql}"
 echo $SQL | psql -d $db_name -U $user_name
 `;
-    console.log(script);
     const dataURI = "data:application/octet-stream," + encodeURIComponent(script);
     let $dlEl = $(this._el).find('a[download]');
     if ($dlEl.length === 0) {

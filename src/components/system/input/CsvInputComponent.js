@@ -133,7 +133,6 @@ export default class CsvInputComponent extends InputComponent {
     if (!values.cellLabel) {
       return [];
     }
-    console.log(values);
     for (var i = 0, len = values.cellLabel.length; i < len; i++) {
       if (!values['isOutput:on'][i]) {
         continue;
