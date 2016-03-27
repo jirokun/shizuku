@@ -6,20 +6,6 @@ export function flatten(ary) {
     return Array.isArray(c) ? p.concat(flatten(c)) : p.concat(c);
   }, []);
 }
-/**
- * Itemを探す
- *
- * まず最初にitemsを探し、その後windowを探す
- */
-export function findComponentConstructor(name) {
-  const component = ComponentList.find((c) => c.name === name);
-  if (component) {
-    return component;
-  } else if (typeof window !== 'undefined' && window[name]) {
-    return window[name];
-  }
-  throw 'Item is not defined: ' + name;
-}
 
 export function isString(obj) {
   return typeof obj === 'string';

@@ -1,33 +1,34 @@
-import { createDownloadDataURI, findComponentConstructor } from './utils'
+import { createDownloadDataURI } from './utils'
 import ComponentList from './components/ComponentList'
 
 export default class ShizukuMenu {
-  constructor(el, shizuku) {
-    this.el = el;
-    this.shizuku = shizuku;
+  constructor(el, shizuku, shizukuComponentManager) {
+    this._el = el;
+    this._shizuku = shizuku;
+    this._shizukuComponentManager = shizukuComponentManager;
     this.initializeEvents();
   }
 
   initializeEvents() {
-    $(this.el).on('click', '.file-dropdown', this.createSaveLink.bind(this));
-    $(this.el).on('change', '.load-file', this.onFileSelected.bind(this));
-    $(this.el).on('click', '.add-component', this.onClickAddComponent.bind(this));
-    $(this.el).on('click', '.run', this.run.bind(this));
+    $(this._el).on('click', '.file-dropdown', this.createSaveLink.bind(this));
+    $(this._el).on('change', '.load-file', this.onFileSelected.bind(this));
+    $(this._el).on('click', '.add-component', this.onClickAddComponent.bind(this));
+    $(this._el).on('click', '.run', this.run.bind(this));
   }
 
   run() {
-    this.shizuku.run();
+    this._shizuku.run();
   }
 
   createSaveLink() {
-    const json = this.shizuku.toJSON();
+    const json = this._shizuku.toJSON();
     const dataURI = "data:application/octet-stream," + encodeURIComponent(JSON.stringify(json, null, 2));
     this.saveEl.setAttribute('href', dataURI);
   }
 
   onClickAddComponent(e) {
     const type = e.target.dataset.type;
-    this.shizuku.addComponent(type);
+    this._shizuku.addComponent(type);
   }
 
   onFileSelected(e) {
@@ -39,7 +40,7 @@ export default class ShizukuMenu {
     const reader = new FileReader();
     reader.onload = (e) => {
       const state = JSON.parse(e.target.result);
-      this.shizuku.load(state);
+      this._shizuku.load(state);
     }
     const file = e.target.files[0];
     reader.readAsText(file, 'UTF-8');
@@ -79,11 +80,16 @@ export default class ShizukuMenu {
   }
 
   render() {
-    this.el.innerHTML = this.buildMenu();
-    var addMenu = this.el.querySelector('.add-component-list');
-    ComponentList.forEach((c) => {
-      $(`<li><a href="#" class="add-component" data-type="${c.name}">${c.name}</a></li>`).appendTo(addMenu);
+    this._el.innerHTML = this.buildMenu();
+    const menu = this._shizukuComponentManager.getComponentsForMenu();
+    var addMenu = this._el.querySelector('.add-component-list');
+    menu.forEach((childMenu) => {
+      const $li = $(`<li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">${childMenu.label}</li>`).appendTo(addMenu);
+      const dropdown = $(`<ul class="add-component-list dropdown-menu inverse-dropdown"></ul>`).appendTo($li);
+      childMenu.children.forEach((child) => {
+        $(`<li><a href="#" class="add-component" data-type="${child.constructor.name}">${child.label}</a></li>`).appendTo(dropdown);
+      });
     });
-    this.saveEl = this.el.querySelector('.save-link');
+    this.saveEl = this._el.querySelector('.save-link');
   }
 }

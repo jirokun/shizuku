@@ -1,10 +1,11 @@
 import Panzoom from 'jquery.panzoom'
-import { isElement, decodeField, flatten, findTargetEndpoint, findSourceEndpoint, generateId, findComponentConstructor, isString } from './utils'
+import { isElement, decodeField, flatten, findTargetEndpoint, findSourceEndpoint, generateId, isString } from './utils'
 import InputComponent from './components/base/InputComponent'
 
 export default class Shizuku {
-  constructor(el) {
+  constructor(el, shizukuComponentManager) {
     this._el = el;
+    this._shizukuComponentManager = shizukuComponentManager;
     el.style.width = '30000px';
     el.style.height = '30000px';
     this._jp = jsPlumb.getInstance(this._el);
@@ -140,7 +141,7 @@ export default class Shizuku {
     const type = c.type || c;
     container.className = 'shizuku-component-container';
     this._el.appendChild(container);
-    const constructor = findComponentConstructor(type);
+    const constructor = this._shizukuComponentManager.findComponentConstructor(type);
     const component = new constructor(container, this);
     // レンダリング
     component.render();

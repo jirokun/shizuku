@@ -1,9 +1,9 @@
-import { createDownloadDataURI, findComponentConstructor } from 'utils'
+import { createDownloadDataURI } from './utils'
 import ComponentList from './components/ComponentList'
 
 export default class ShizukuComponentManager {
   constructor(options) {
-    this._options = options.components;
+    this._options = options;
   }
 
   /** Menuのためのコンポーネントを返す */
@@ -12,7 +12,28 @@ export default class ShizukuComponentManager {
   }
 
   /** コンストラクタの名前をキーとしたコンポーネントの一覧を返す */
-  getComponents() {
-    this._options.components
+  getComponentMap() {
+    const componentMap = {};
+    this._options.components.forEach((child) => {
+      child.children.forEach((leaf) => {
+        componentMap[leaf.constructor.name] = leaf.constructor;
+      });
+    });
+    return componentMap;
   }
+
+  /**
+   * Itemを探す
+   *
+   * まず最初にitemsを探し、その後windowを探す
+   */
+  findComponentConstructor(name) {
+    const componentMap = this.getComponentMap();
+    const component = componentMap[name];
+    if (!component) {
+      throw 'Item is not defined: ' + name;
+    }
+    return component;
+  }
+
 }
