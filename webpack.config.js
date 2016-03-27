@@ -5,7 +5,7 @@ module.exports = {
   //devtool: 'cheap-module-eval-source-map',
   devtool: 'inline-source-map',
   entry: {
-    runtime: [ 'webpack-hot-middleware/client', './runtime/index' ],
+    runtime: [ 'webpack-hot-middleware/client', './src/sample' ],
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -21,7 +21,8 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['babel'],
+        loader: "babel",
+        query: {presets: ["es2015"]},
         exclude: /node_modules/,
         include: __dirname
       },
