@@ -91,11 +91,33 @@ export default class AddAttributeByEntryOrderComponent extends DecorateComponent
     return [{ label: '追加カラム' + this.getRuntimeTableName(), field: this.getRuntimeTableName() + '_av', ownerId: this.getRuntimeTableName()}];
   }
 
+  /**
+   * 全てのsourcesの中に出現するfieldと、このコンポーネントで生成するフィールドを出力
+   */
   getOutputFields() {
-    const fields = super.getOutputFields();
-    fields.push(...this.getOriginalOutputFields());
-    return fields;
+    const sourceComponents = this.getSourceComponents();
+    const sources = sourceComponents.map((sc) => sc.getOutputFields());
+    const fields = {};
+    flatten(sources).forEach((field) => {
+      const obj = fields[field.field];
+      if (obj) {
+        obj.count++;
+      } else {
+        fields[field.field] = { count: 1, field: field };
+      }
+    });
+    const sourcesNum = sources.length;
+    const outputFields = [];
+    for (const prop in fields) {
+      if (fields[prop].count !== sourcesNum) {
+        continue;
+      }
+      outputFields.push(fields[prop].field);
+    }
+    outputFields.push(...this.getOriginalOutputFields());
+    return outputFields;
   }
+
 
   buildSQL(fields) {
     const usedFields = Array.from(fields).map(decodeField);
