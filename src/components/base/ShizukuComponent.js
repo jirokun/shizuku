@@ -364,9 +364,17 @@ ${outptuFieldTable}`;
     }
     const jp = this._shizuku.getJsPlumb();
     jp.batch(() => {
+      let oldValue;
+      if (this.initialized) {
+        oldValue = this.getValue();
+      }
+
       this._el.innerHTML = '';
       this._el.appendChild(this.buildComponent());
       this._el.dataset.type = this.constructor.name;
+      if (this.initialized) {
+        this.setValue(oldValue);
+      }
       this.initialized = true;
       this.onRendered();
       if (callback) {
