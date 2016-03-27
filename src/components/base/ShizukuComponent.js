@@ -173,11 +173,11 @@ export default class ShizukuComponent {
     const shizukuBody = shizukuComponentEl.querySelector('.shizuku-body');
     const title = `${this.buildTitle()} <span class="element-id">(${this.getId()})</span>`;
     if (isElement(title)) {
-      shizukuHeader.insertBefore(title, shizukuHeader.firstChild);
+      shizukuHeader.appendChild(title);
     } else if (typeof title === 'string') {
       const titleEl = document.createElement('span');
       titleEl.innerHTML = title;
-      shizukuHeader.insertBefore(titleEl, shizukuHeader.firstChild);
+      shizukuHeader.appendChild(titleEl);
     }
 
     const body = this.buildBody();
