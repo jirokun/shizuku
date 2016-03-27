@@ -1,7 +1,7 @@
-import LogicalComponent from '../../base/LogicalComponent'
+import DecorateComponent from '../../base/DecorateComponent'
 import { escapeSQL, decodeField, flatten, escapeHTML } from '../../../utils'
 
-export default class AddAttributeByEntryOrder extends LogicalComponent {
+export default class AddAttributeByEntryOrderComponent extends DecorateComponent {
   constructor(...args) {
     super(...args);
     this.row = ['']; // 描画のためのデータ

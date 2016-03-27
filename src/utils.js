@@ -1,4 +1,3 @@
-import ComponentList from './components/ComponentList'
 import uuid from 'node-uuid'
 
 export function flatten(ary) {

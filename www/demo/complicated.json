@@ -308,7 +308,7 @@
       "id": "szk13",
       "x": 1961,
       "y": 235,
-      "type": "AddAttributeByEntryOrder",
+      "type": "AddAttributeByEntryOrderComponent",
       "value": {
         "additionValue": [
           "QC-GH",

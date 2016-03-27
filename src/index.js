@@ -8,7 +8,7 @@ import GeneralFilterComponent from './components/system/filter/GeneralFilterComp
 import OrComponent from './components/system/logical/OrComponent'
 import AndComponent from './components/system/logical/AndComponent'
 import MinusComponent from './components/system/logical/MinusComponent'
-import AddAttributeByEntryOrder from './components/system/logical/AddAttributeByEntryOrder'
+import AddAttributeByEntryOrderComponent from './components/system/logical/AddAttributeByEntryOrderComponent'
 import OutputCsvComponent from './components/system/output/OutputCsvComponent'
 import DebugSQLComponent from './components/system/output/DebugSQLComponent'
 import OutputShellComponent from './components/system/output/OutputShellComponent'
@@ -20,7 +20,7 @@ const Components = {
   OrComponent,
   AndComponent,
   MinusComponent,
-  AddAttributeByEntryOrder,
+  AddAttributeByEntryOrderComponent,
   OutputCsvComponent,
   DebugSQLComponent,
   OutputShellComponent,

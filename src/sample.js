@@ -9,10 +9,10 @@ import GeneralFilterComponent from './components/system/filter/GeneralFilterComp
 import OrComponent from './components/system/logical/OrComponent'
 import AndComponent from './components/system/logical/AndComponent'
 import MinusComponent from './components/system/logical/MinusComponent'
-import AddAttributeByEntryOrder from './components/system/logical/AddAttributeByEntryOrder'
 import OutputCsvComponent from './components/system/output/OutputCsvComponent'
 import DebugSQLComponent from './components/system/output/DebugSQLComponent'
 import OutputShellComponent from './components/system/output/OutputShellComponent'
+import AddAttributeByEntryOrderComponent from './components/system/decorate/AddAttributeByEntryOrderComponent'
 import TransactionByMonthComponent from './components/custom/decorate/TransactionByMonthComponent'
 import EmployeeIsInListComponent from './components/custom/decorate/EmployeeIsInListComponent'
 import DesignatingPeriodsTransactionComponent from './components/custom/decorate/DesignatingPeriodsTransactionComponent'
@@ -47,7 +47,7 @@ const scm = new ShizukuComponentManager({
     {
       label: '属性追加',
       children: [
-        { label: '優先順に定数値追加', constructor: AddAttributeByEntryOrder},
+        { label: '優先順に定数値追加', constructor: AddAttributeByEntryOrderComponent},
         { label: '月毎の取引数追加', constructor: TransactionByMonthComponent},
         { label: '従業員がリストに含まれているか', constructor: EmployeeIsInListComponent},
         { label: '期間内の取引数', constructor: DesignatingPeriodsTransactionComponent},

@@ -1,5 +1,4 @@
 import { createDownloadDataURI } from './utils'
-import ComponentList from './components/ComponentList'
 
 export default class ShizukuComponentManager {
   constructor(options) {

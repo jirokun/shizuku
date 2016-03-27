@@ -73,7 +73,7 @@
       "id": "szk4",
       "x": 1005,
       "y": 150,
-      "type": "AddAttributeByEntryOrder",
+      "type": "AddAttributeByEntryOrderComponent",
       "value": {
         "additionValue": [
           "rank1",
