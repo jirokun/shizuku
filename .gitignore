@@ -1,0 +1,24 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+.DS_Store
+.sass-cache
+
+### Vim ###
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+
+# Dependency directory
+node_modules
+
+dist
+bower_components/
+file/*.csv
+
+sample/*.sql
