@@ -27,7 +27,7 @@
     {
       "sourceId": "szk4",
       "sourceEndpointId": "output-0",
-      "targetId": "szk6",
+      "targetId": "szk5",
       "targetEndpointId": "input-0"
     }
   ],
@@ -82,22 +82,22 @@
       }
     },
     {
-      "id": "szk6",
-      "x": 1392,
-      "y": 265,
-      "type": "OutputCsvComponent",
+      "id": "szk5",
+      "x": 1367,
+      "y": 258,
+      "type": "OutputShellComponent",
       "value": {
-        "outputFile": [
-          "test.csv"
+        "useFields:transactions:user_id": [
+          false
         ],
-        "header": [
-          "on"
+        "useFields:transactions:amount": [
+          false
         ],
-        "useFields": [
-          "transactions:user_id",
-          "transactions:amount",
-          "transactions:created_date",
-          "szk4:szk4_av"
+        "useFields:transactions:created_date": [
+          false
+        ],
+        "useFields:szk4:szk4_av": [
+          false
         ]
       }
     }

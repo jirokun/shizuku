@@ -67,7 +67,7 @@ export default class TableInputComponent extends InputComponent {
     return this._el.querySelector('.target-table').value;
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     const sc = this.getSourceComponents()[0];
     const id = sc.getId();
     const value = this.getValue();

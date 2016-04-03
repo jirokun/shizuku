@@ -119,8 +119,8 @@ export default class AddAttributeByEntryOrderComponent extends DecorateComponent
   }
 
 
-  buildSQL(fields) {
-    const usedFields = Array.from(fields).map(decodeField);
+  buildSQL() {
+    const usedFields = this.getOutputFields();
     const outputFields = this.getOutputFields();
     const sourceComponents = this.getSourceComponents();
     const avField = this.getRuntimeTableName() + '_av';
@@ -137,7 +137,7 @@ export default class AddAttributeByEntryOrderComponent extends DecorateComponent
     sql += sourceComponents.map((c, i) => {
       const id = c.getId();
       let sqlInner = `select `;
-      sqlInner += Array.from(fields).map(decodeField).map((f) => {
+      sqlInner += usedFields.map((f) => {
         if (f.ownerId === this.getRuntimeTableName()) {
           return `${escapeSQL(row[i])} as ${f.field}`;
         } else {

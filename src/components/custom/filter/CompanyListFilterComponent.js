@@ -24,7 +24,7 @@ export default class CompanyListFilterComponent extends FilterComponent {
       </form>`;
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     return "";
   }
 }

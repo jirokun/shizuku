@@ -31,8 +31,8 @@ export default class AndComponent extends LogicalComponent {
     return 5;
   }
 
-  buildSQL(fields) {
-    const usedFields = Array.from(fields).map(decodeField);
+  buildSQL() {
+    const usedFields = this.getOutputFields();
     const sourceComponents = this.getSourceComponents();
     const firstTable = sourceComponents[0].getRuntimeTableName();
     const fieldsSQL = usedFields.map((f) => 'f.' + f.field).join(',');

@@ -24,7 +24,7 @@ export default class EmployeeListFilterComponent extends FilterComponent {
       </form>`;
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     return "";
   }
 }

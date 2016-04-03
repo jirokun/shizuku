@@ -16,8 +16,8 @@ export default class OrComponent extends LogicalComponent {
     return 5;
   }
 
-  buildSQL(fields) {
-    const usedFields = Array.from(fields).map(decodeField);
+  buildSQL() {
+    const usedFields = this.getOutputFields();
     const outputFields = this.getOutputFields();
     const sourceComponents = this.getSourceComponents();
     return sourceComponents.map((c) => {

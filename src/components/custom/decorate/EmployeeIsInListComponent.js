@@ -31,7 +31,7 @@ export default class EmployeeIsInListComponent extends DecorateComponent {
     ];
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     return "";
   }
 }

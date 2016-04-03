@@ -33,7 +33,7 @@ export default class DesignatingPeriodsTransactionComponent extends DecorateComp
     ];
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     return "";
   }
 }

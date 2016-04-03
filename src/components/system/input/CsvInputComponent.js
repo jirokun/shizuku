@@ -122,7 +122,7 @@ export default class CsvInputComponent extends InputComponent {
     return 0;
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     return "";
   }
 

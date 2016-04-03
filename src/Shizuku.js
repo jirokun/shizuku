@@ -1,6 +1,7 @@
 import Panzoom from 'jquery.panzoom'
 import { isElement, decodeField, flatten, findTargetEndpoint, findSourceEndpoint, generateId, isString } from './utils'
 import InputComponent from './components/base/InputComponent'
+import OutputComponent from './components/base/OutputComponent'
 
 export default class Shizuku {
   constructor(el, shizukuComponentManager) {
@@ -206,15 +207,11 @@ export default class Shizuku {
     return this._findComponent('last');
   }
 
-  /** 外部コマンドを実行するコンポーネントを取得する */
-  findExternalComponent() {
-    const externalComponents = [];
-    this.descendingOrderProcess((c, sourceComponents, fieldSet) => {
-      if (c.isExternalCompoent()) {
-        externalComponents.push(c);
-      }
-    });
-    return externalComponents;
+  /** 出力コンポーネントを取得する */
+  findOutputComponents() {
+    const shizukucomponentMap = this._el.querySelectorAll('.shizuku-component-container');
+    const allComponents = Array.prototype.map.call(shizukucomponentMap, (el) => this.getComponent(el) );
+    return allComponents.filter((c) => c instanceof OutputComponent);
   }
 
   /**
@@ -302,36 +299,7 @@ export default class Shizuku {
 
   /** SQLを作成する */
   run() {
-    // TODO ロジックが間違っているので直す必要がある。
-    // OutputComponentが複数あった場合、複数のsqlsが生成される必要があるが
-    // ここではひとつしか生成されていない。明らかな謝り。
-    // SQLを生成 firstからたどる
-    const sqls = [];
-    this.descendingOrderProcess((currentComponent, parentComponents, fieldSet) => {
-      const id = currentComponent.getId();
-      if (currentComponent instanceof InputComponent) {
-        sqls.push({
-          id: id,
-          type: 'input',
-          tableName: currentComponent.getRuntimeTableName()
-        });
-      } else {
-        const sql = currentComponent.buildSQL(fieldSet);
-        if (sql !== null) {
-          sqls.push({
-            id: id,
-            type: 'sql',
-            sql: sql
-          });
-        }
-      }
-    });
-
-    // 終了処理
-    this.findLastComponents().forEach((c) => {
-      const sql = c.conbineSQL(sqls);
-      c.execute(sql, this.findExternalComponent());
-    });
+    this.findOutputComponents().forEach((c) => c.execute());
   }
 
   /** 定義されている情報をdumpする */

@@ -61,7 +61,7 @@ export default class TransactionByMonthComponent extends DecorateComponent {
     return outputFields;
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     const sc = this.getSourceComponents()[0];
     const value = this.getValue();
     let sql = `select `;

@@ -268,6 +268,39 @@ export default class ShizukuComponent {
     return $form.values(value);
   }
 
+  /**
+   * 指定したコンポーネントの親コンポーネントを処理順に並べる
+   */
+  getParentComponentOrderByProcess() {
+    function getParentsAndSelf(c, componentSet = new Set()) {
+      const sources = c.getSourceComponents();
+      if (sources.length !== 0) {
+        sources.forEach((child) => getParentsAndSelf(child, componentSet));
+      }
+      componentSet.add(c);
+      return componentSet;
+    }
+    function orderByProccess(components, list = []) {
+      components.forEach((c) => {
+        // 処理対象じゃないまたは
+        // 処理対象かつ一つでも親がlistに入っていなければ後回し
+        if (!parentsAndSelf.has(c) || (parentsAndSelf.has(c) && c.getSourceComponents().find((pc) => !list.includes(pc)))) {
+          return;
+        }
+        list.push(c);
+        orderByProccess(c.getTargetComponents(), list);
+      });
+      return list;
+    }
+    // 一度全ての親を取得する
+    const parentsAndSelf = getParentsAndSelf(this);
+    // その中で開始コンポーネントを取得する
+    const firstComponents = Array.from(parentsAndSelf).filter((c) => c.getSourceComponents().length === 0);
+    // 降順に並べる
+    const orderdComponent = orderByProccess(firstComponents);
+    return orderdComponent;
+  }
+
   /** SQLを作成する */
   buildSQL() {
     throw 'not impletented yet';

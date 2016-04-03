@@ -102,12 +102,12 @@ export default class GeneralFilterComponent extends FilterComponent {
     return $.map($(this._el).find('select.condition-field'), (el) => $(el).val());
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     const sc = this.getSourceComponents()[0];
     const tableName = sc.getRuntimeTableName();
     const value = this.getValue();
     let sql = 'select ';
-    sql += Array.from(fields).map(decodeField).map((f) => `t1.${f.field}`).join(',');
+    sql += sc.getOutputFields().map((f) => `t1.${f.field}`).join(',');
     sql += ` from ${tableName} t1`;
     sql += ` where `;
     sql += value.map((v) => `t1.${v.field.split(/:/)[1]} ${v.type} '${v.value}'`).join(" and ");

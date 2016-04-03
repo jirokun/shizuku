@@ -40,7 +40,7 @@ export default class DebugSQLComponent extends OutputComponent {
     return OutputCsvComponent.prototype.getUsedFields.call(this);
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     return OutputCsvComponent.prototype.buildSQL.call(this);
   }
 

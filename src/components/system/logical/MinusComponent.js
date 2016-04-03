@@ -31,8 +31,8 @@ export default class MinusComponent extends LogicalComponent {
     return 2;
   }
 
-  buildSQL(fields) {
-    const usedFields = Array.from(fields).map(decodeField);
+  buildSQL() {
+    const usedFields = this.getOutputFields();
     const sourceComponents = this.getSourceComponents();
     const plusTable = sourceComponents[0].getRuntimeTableName();
     const minusTable = sourceComponents[1].getRuntimeTableName();

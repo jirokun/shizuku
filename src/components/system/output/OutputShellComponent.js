@@ -1,3 +1,4 @@
+import InputComponent from '../../base/InputComponent'
 import OutputComponent from '../../base/OutputComponent'
 import OutputCsvComponent from './OutputCsvComponent'
 import { decodeField, encodeField, generateId } from '../../../utils.js'
@@ -40,7 +41,7 @@ export default class OutputShellComponent extends OutputComponent {
     return OutputCsvComponent.prototype.getUsedFields.call(this);
   }
 
-  buildSQL(fields) {
+  buildSQL() {
     return OutputCsvComponent.prototype.buildSQL.call(this);
   }
 
@@ -48,35 +49,36 @@ export default class OutputShellComponent extends OutputComponent {
     return OutputCsvComponent.prototype.allCheck.call(this, e);
   }
 
-  execute(sql, externalComponents) {
-    const commands = externalComponents.map((c) => {
-      const value = c.getValue();
-      const ids = value.cellId;
-      const types = value.cellType;
-      const typeLengths = value.cellTypeLength;
-      const tableName = c.getRuntimeTableName();
-      let command = `psql -d $db_name -U $user_name -c "drop table if exists ${tableName}"
-psql -d $db_name -U $user_name -c "create table ${tableName} (`;
-      command += ids.map((id, i) => `${ids[i]} ${types[i]}` + (typeLengths[i] !== '' ? `(${typeLengths[i]})` : '')).join(',');
-      command += ')"\n';
-      command += `psql -d $db_name -U $user_name -c"\\copy ${tableName} (${ids.join(',')}) from '$filename' with csv"`;
-      return command;
-    });
+  execute() {
+    const components = this.getParentComponentOrderByProcess()
+      .filter((c) => !(c instanceof InputComponent));
+
+    let sql;
+    if (components.length > 1) {
+      const lastComponent = components.pop();
+      sql = 'with ' + components.map((c) => `${c.getRuntimeTableName()} as (${c.buildSQL()})\n`);
+      sql += lastComponent.buildSQL();
+    } else {
+      sql = components[0].buildSQL();
+    }
 
     const script = `#!/bin/bash
 set -eu
 
-filename=$1
+db_host=$\{1:-localhost}
+db_name=$\{2:-test}
+user_name=$\{3:-$(whoami)}
 
-${commands.join('\n')}
 SQL="${sql}"
-echo $SQL | psql -d $db_name -U $user_name
+
+echo $SQL | psql -h $db_host -d $db_name -U $user_name
 `;
-    const dataURI = "data:application/octet-stream," + encodeURIComponent(script);
     let $dlEl = $(this._el).find('a[download]');
     if ($dlEl.length === 0) {
       $dlEl = $('<a download="exec.txt">Shell DL</a>').appendTo($(this._el).find('form'));
     }
-    $dlEl.attr('href', dataURI);
+    var blob = new Blob([script], { "type" : "text/plain" });
+    const URL = window.URL || window.webkitURL;
+    $dlEl.attr("href", URL.createObjectURL(blob));
   }
 }
