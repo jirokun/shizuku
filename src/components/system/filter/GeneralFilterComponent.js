@@ -1,5 +1,5 @@
 import FilterComponent from '../../base/FilterComponent'
-import { decodeField, encodeField } from '../../../utils.js'
+import { decodeField, encodeField, escapeSQL } from '../../../utils.js'
 
 export default class GeneralFilterComponent extends FilterComponent {
   constructor(...args) { super(...args); }
@@ -30,7 +30,7 @@ export default class GeneralFilterComponent extends FilterComponent {
               <td><button type="button" class="close"><span>&times;</span></button></td>
               <td>
                 <select class="condition-field">
-                  ${fields.map((f) => `<option value="${encodeField(f)}">${f.label}</option>`)}
+                  ${fields.map((f) => `<option value="${encodeField(f)}">${f.field}: ${f.label}</option>`)}
                 </select>
               </td>
               <td>
@@ -110,7 +110,15 @@ export default class GeneralFilterComponent extends FilterComponent {
     sql += sc.getOutputFields().map((f) => `t1.${f.field}`).join(',');
     sql += ` from ${tableName} t1`;
     sql += ` where `;
-    sql += value.map((v) => `t1.${v.field.split(/:/)[1]} ${v.type} '${v.value}'`).join(" and ");
+    sql += value.filter((v) => v.field !== null).map((v) => {
+      if (v.type === 'contains') {
+        return `t1.${v.field.split(/:/)[1]} like ${escapeSQL(v.value, '%', '%')}`;
+      } else if (v.type === 'begin_with') {
+        return `t1.${v.field.split(/:/)[1]} like ${escapeSQL(v.value, '%')}`;
+      } else {
+        return `t1.${v.field.split(/:/)[1]} ${v.type} '${v.value}'`;
+      }
+    }).join(" and ");
     return sql;
   }
 }

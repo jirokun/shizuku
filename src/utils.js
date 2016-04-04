@@ -48,7 +48,6 @@ export function generateId() {
   let id;
   do {
     id = 'szk' + sequence++;
-    console.log(document.getElementById(id));
   } while (document.getElementById(id));
   return id;
 }
@@ -76,7 +75,7 @@ export function escapeHTML(content) {
   });
 }
 
-export function escapeSQL(val) {
+export function escapeSQL(val, likePrefix = '', likePostfix= '') {
   if (null == val) return 'NULL';
   if (Array.isArray(val)) {
     var vals = val.map(escapeSQL)
@@ -86,5 +85,5 @@ export function escapeSQL(val) {
   var prefix = backslash ? 'E' : '';
   val = val.replace(/'/g, "''");
   val = val.replace(/\\/g, '\\\\');
-  return prefix + "'" + val + "'";
+  return prefix + `'${likePrefix}${val}${likePostfix}'`;
 }

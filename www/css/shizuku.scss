@@ -52,6 +52,8 @@ html, body {
         .shizuku-body {
           padding: 10px 10px 5px 10px;
           text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+          max-height: 400px;
+          overflow: auto;
           table.table-form {
             th {
               white-space: nowrap;
