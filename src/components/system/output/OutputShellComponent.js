@@ -49,10 +49,7 @@ export default class OutputShellComponent extends OutputComponent {
     return OutputCsvComponent.prototype.allCheck.call(this, e);
   }
 
-  execute() {
-    const components = this.getParentComponentOrderByProcess()
-      .filter((c) => !(c instanceof InputComponent));
-
+  buildPartialSQL(components) {
     let sql;
     if (components.length > 1) {
       const lastComponent = components.pop();
@@ -61,7 +58,33 @@ export default class OutputShellComponent extends OutputComponent {
     } else {
       sql = components[0].buildSQL();
     }
+    return sql;
+  }
 
+  // TODO 外部コマンドを実行するスクリプトを生成する
+  generateExternalCommand() {
+    return "";
+    const components = this.getParentComponentOrderByProcess()
+      .filter((c) => c.isExternalCompoent());
+    const script = components.map((c) => {
+      if (c instanceof InputComponent) {
+        // InputComponentはなにも入力がない
+      } else {
+        // InputComponent以外は前段までのSQLが入力になる
+        const partialComponents = this.getParentComponentOrderByProcess()
+        const sql = this.buildPartialSQL(partialComponents);
+        return `echo "${sql}" | psql -h $db_host -d $db_name -U $user_name | ${c.getExternalCommandName()}`;
+      }
+    }).join('\n');
+    return script;
+  }
+
+  execute() {
+
+    const components = this.getParentComponentOrderByProcess()
+      .filter((c) => !(c instanceof InputComponent));
+
+    const sql = this.buildPartialSQL(components);
     const script = `#!/bin/bash
 set -eu
 
@@ -69,6 +92,7 @@ db_host=$\{1:-localhost}
 db_name=$\{2:-test}
 user_name=$\{3:-$(whoami)}
 
+${this.generateExternalCommand()}
 SQL="${sql}"
 
 echo $SQL | psql -h $db_host -d $db_name -U $user_name
